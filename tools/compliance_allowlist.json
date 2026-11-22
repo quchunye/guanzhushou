@@ -1,0 +1,10 @@
+[
+  {
+    "file": "features/collection.js",
+    "contains": "const BANNED",
+    "kind": "规则定义",
+    "reason": "禁词校验规则自身的字符串常量，不是用户可见文案",
+    "owner": "产品合规",
+    "reviewedAt": "2026-11-09"
+  }
+]

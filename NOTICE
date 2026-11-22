@@ -1,0 +1,31 @@
+管住手了吗（Panji）
+Copyright (C) 2026 上海玄霜纪智能科技有限公司
+
+本仓库的源代码以 GNU Affero General Public License v3.0 或更新版本授权，
+全文见 LICENSE 文件，或 https://www.gnu.org/licenses/agpl-3.0.txt
+
+## 商标
+
+「管住手了吗」「盘纪」「玄霜纪」及本项目 Logo 为上海玄霜纪智能科技有限公司的商标。
+代码许可不授予商标使用权：你可以分发修改后的代码，但需换用你自己的名称与标识，
+不得让下游误认为你的分支是本项目的官方版本。
+
+## 第三方素材
+
+- Noto Serif SC（public/fonts/noto-serif-sc-subset.woff2）
+  授权：SIL Open Font License 1.1
+  来源：https://fonts.google.com/noto/specimen/Noto+Serif+SC
+  按 OFL 要求，保留字体名称，不得单独售卖字体文件。
+
+## 不包含在本仓库的资产
+
+以下内容不属于本仓库的分发范围，也不在 AGPL 的授权对象之内：
+
+- 复盘动画片段（内容库）与其索引
+- 内置历史行情数据包
+- 托管版的账号、支付、短信与授权签发服务
+- 任何真实交割单样本、真实账号数据
+
+## 免责声明
+
+本项目只做记录与统计，不构成投资建议。

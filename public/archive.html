@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#070b16">
+<title>个股档案 · 复盘档案</title>
+<style>
+  :root{
+    --bg:#070b16;--card:#121a2b;--card2:#0e1626;--txt:#e8ecf6;--dim:#8b93a7;
+    --line:rgba(120,140,180,.22);--ok:#5d9fff;--bad:#ff5c7a;--warn:#f2b53a;
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  html,body{margin:0;background:var(--bg);color:var(--txt);
+    font:14px/1.55 -apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif}
+  body{max-width:390px;margin:0 auto;padding:18px 16px 40px;overflow-x:hidden}
+  h1{font-size:17px;margin:6px 0 2px;letter-spacing:.3px}
+  .sub{color:var(--dim);font-size:12px;margin:0 0 14px}
+  /* 只作用于页头；不与画像分组的高亮修饰类 .ac-pgroup.top / .ac-prow.top 撞名 */
+  body>.top{display:flex;justify-content:space-between;align-items:center;font-size:11px}
+  .back{color:#8fa8c8;text-decoration:none;border-bottom:1px solid rgba(143,168,200,.35)}
+  .searchbar{display:flex;gap:8px;margin:0 0 8px}
+  .searchbar input{flex:1;min-width:0;background:var(--card2);color:var(--txt);border:1px solid var(--line);
+    border-radius:10px;padding:10px 11px;font-size:13px}
+  .searchbar input::placeholder{color:#7c889f}
+  .sug{display:flex;flex-direction:column;gap:2px;margin:-4px 0 10px}
+  .ac-hit{display:flex;gap:8px;align-items:baseline;background:var(--card);color:var(--txt);
+    border:1px solid var(--line);border-radius:8px;padding:8px 10px;font-size:12px;text-align:left}
+  .ac-hit b{color:#a9c3e8}
+  .ac-hit span{flex:1;color:#8b93a7}
+  .ac-prof{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 13px;margin:0 0 10px}
+  .ac-id{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap;margin:0 0 12px}
+  .ac-id b{font-size:16px}
+  .ac-id>span{color:#7c889f;font-size:12px}
+  .ac-tier{margin-left:auto;font-size:10px;padding:2px 8px;border-radius:999px;border:1px solid var(--line);color:#8b93a7}
+  .ac-tier.trial{color:var(--warn);border-color:rgba(242,181,58,.35)}
+  .ac-tier.member{color:var(--ok);border-color:rgba(93,159,255,.4)}
+  .ac-stats{display:flex;gap:8px;margin:0 0 10px}
+  .ac-stat{flex:1;min-width:0;background:var(--card2);border:1px solid var(--line);border-radius:10px;padding:8px 9px}
+  .ac-stat span{display:block;font-size:10px;color:#7c889f}
+  .ac-stat b{display:block;font-size:15px;font-weight:600;margin-top:2px}
+  .ac-stat b.ok{color:var(--ok)}.ac-stat b.bad{color:var(--bad)}.ac-stat b.warn{color:var(--warn)}
+  .ac-hits{display:flex;gap:8px;align-items:baseline;font-size:11px;color:#7c889f;margin:0 0 4px}
+  .ac-hits em{font-style:normal;font-size:11px;padding:1px 7px;border-radius:999px}
+  .ac-hits em.ok{color:var(--ok);background:rgba(93,159,255,.1)}
+  .ac-hits em.bad{color:var(--bad);background:rgba(255,92,122,.1)}
+  .ac-hits em.warn{color:var(--warn);background:rgba(242,181,58,.1)}
+  .ac-all{font-size:10px;color:#7c889f}
+  .ac-wins{display:flex;gap:8px;margin:10px 0 0}
+  .ac-win{flex:1;min-width:0;background:var(--card2);border:1px solid var(--line);border-radius:10px;padding:8px 9px}
+  .ac-win span{display:block;font-size:10px;color:#7c889f}
+  .ac-win b{display:block;font-size:12px;color:#a9c3e8;margin-top:2px}
+  .ac-win.off{opacity:.45}
+  .ac-template{background:rgba(93,159,255,.06);border:1px solid rgba(93,159,255,.2);border-radius:10px;
+    padding:10px 11px;font-size:11px;line-height:1.7;color:#a9c3e8;margin:0 0 10px}
+  .ac-template p{margin:2px 0 4px;color:var(--dim)}
+  .ac-shape{display:inline-block;font-size:10px;padding:2px 8px;border-radius:999px;
+    color:var(--ok);border:1px solid rgba(93,159,255,.35);background:rgba(93,159,255,.1)}
+  .ac-sec{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px 13px;margin:0 0 10px}
+  .ac-sec h2{font-size:13px;margin:0 0 8px;font-weight:600}
+  .ac-sec-h{display:flex;justify-content:space-between;align-items:baseline}
+  .ac-sec-h h2{margin:0 0 8px}
+  .ac-sec-h span{font-size:10px;color:#7c889f}
+  .ac-empty{font-size:11px;color:var(--dim);line-height:1.7;margin:4px 0 0}
+  .ac-empty-guide{padding:8px 4px}
+  .ac-empty-guide b{display:block;font-size:14px;margin:0 0 6px}
+  .ac-empty-guide p{font-size:12px;color:var(--dim);line-height:1.7;margin:0 0 6px}
+  .ac-plead{background:rgba(255,92,122,.08);border:1px solid rgba(255,92,122,.28);border-radius:9px;
+    padding:9px 10px;font-size:12px;line-height:1.6;color:#ffd3dc;margin:0 0 6px}
+  .ac-pstate{font-size:11px;color:var(--dim);line-height:1.7;margin:2px 0 6px}
+  .ac-pgroup{margin:10px 0 0}
+  .ac-pgroup.top{background:rgba(255,92,122,.06);border-left:2px solid rgba(255,92,122,.5);
+    border-radius:8px;padding:6px 8px;margin-left:-8px;margin-right:-8px}
+  .ac-pg-h{display:flex;justify-content:space-between;align-items:baseline;font-size:11px}
+  .ac-pg-h b{font-size:12px;color:var(--txt)}
+  .ac-pg-h em{font-style:normal;color:#7c889f;font-size:10px}
+  .ac-pg-h em i,.ac-pn i{font-style:normal;margin-left:3px}
+  .ac-pbar{display:flex;height:6px;border-radius:4px;overflow:hidden;
+    background:rgba(120,140,180,.12);margin:5px 0 6px}
+  .ac-pbar i{display:block;height:100%}
+  .ac-pbar i.bad{background:var(--bad)}.ac-pbar i.ok{background:var(--ok)}.ac-pbar i.warn{background:var(--warn)}
+  .ac-prow{display:flex;align-items:center;gap:7px;font-size:11px;padding:2px 0}
+  .ac-prow .ac-pbar{flex:1;margin:0}
+  .ac-pname{flex:0 0 84px;min-width:0;color:#a9c3e8;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .ac-prow.top .ac-pname{color:#ffd3dc}
+  .ac-pn{flex:0 0 68px;display:flex;justify-content:flex-end;gap:2px;font-size:10px}
+  .ac-pn i{min-width:14px;text-align:right}
+  .ac-pn i.bad{color:var(--bad)}.ac-pn i.ok{color:var(--ok)}.ac-pn i.warn{color:var(--warn)}
+  .ac-pcalm{font-size:11px;color:var(--dim);line-height:1.7;margin:6px 0 0}
+  .ac-pleg{display:flex;align-items:center;gap:4px;font-size:10px;color:#7c889f;margin:10px 0 0}
+  .ac-pleg i{width:8px;height:8px;border-radius:2px;display:inline-block;margin-left:6px}
+  .ac-pleg i.bad{background:var(--bad)}.ac-pleg i.ok{background:var(--ok)}.ac-pleg i.warn{background:var(--warn)}
+  .ac-tl-row{flex-wrap:wrap}
+  .ac-old{flex:0 0 100%;font-size:10px;color:var(--warn);opacity:.8}
+  .ac-acct{flex:0 0 auto;font-size:10px;line-height:1.5;padding:1px 6px;border:1px solid var(--line);border-radius:999px;color:#8b93a7;white-space:nowrap}
+  .ac-note{display:flex;gap:8px;padding:6px 0;border-bottom:1px solid var(--line);font-size:11px}
+  .ac-note:last-child{border-bottom:0}
+  .ac-note span{flex:0 0 88px;font-size:10px;color:#7c889f;white-space:nowrap}
+  .ac-note p{margin:0;flex:1;color:var(--txt);line-height:1.6}
+  .ac-tl-row{display:flex;gap:8px;align-items:baseline;padding:7px 0;border-bottom:1px solid var(--line);font-size:12px}
+  .ac-tl-row:last-child{border-bottom:0}
+  .ac-tl-day{background:none;border:0;padding:0;color:#a9c3e8;font-size:12px;text-align:left;flex:0 0 78px;cursor:pointer}
+  .ac-tl-c{flex:1 1 auto;min-width:172px;display:flex;gap:6px;font-size:10px}
+  .ac-tl-c em{font-style:normal;color:#7c889f;white-space:nowrap}
+  .ac-tl-c em.ok{color:var(--ok)}.ac-tl-c em.bad{color:var(--bad)}.ac-tl-c em.warn{color:var(--warn)}
+  .ac-chip{font-size:10px;padding:1px 7px;border-radius:999px;border:1px solid var(--line);color:#8b93a7}
+  .ac-chip.ok{color:var(--ok);border-color:rgba(93,159,255,.35)}
+  .ac-chip.bad{color:var(--bad);border-color:rgba(255,92,122,.35)}
+  .ac-chip.warn{color:var(--warn);border-color:rgba(242,181,58,.35)}
+  .ac-tl-go{font-size:10px;color:#8fa8c8;text-decoration:none;white-space:nowrap}
+  .ac-lock{background:var(--card2);border:1px solid rgba(242,181,58,.3);border-radius:10px;
+    padding:10px 11px;margin-top:8px;font-size:11px;line-height:1.6}
+  .ac-lock b{display:block;color:var(--warn);font-size:12px;margin-bottom:3px}
+  .ac-lock span{color:var(--dim)}
+  .ac-cmp{width:100%;border-collapse:collapse;font-size:11px}
+  .ac-cmp th{color:#7c889f;font-weight:400;text-align:right;padding:4px 0;border-bottom:1px solid var(--line)}
+  .ac-cmp th:first-child{text-align:left}
+  .ac-cmp td{text-align:right;padding:5px 0;border-bottom:1px solid rgba(120,140,180,.12)}
+  .ac-cmp td:first-child{text-align:left;color:#a9c3e8}
+  .ac-cmp td.ok{color:var(--ok)}.ac-cmp td.bad{color:var(--bad)}.ac-cmp td.warn{color:var(--warn)}
+  /* 表格第一列可能带长账户名（来自交割单）：胶囊整体不拆行，单元格允许整格换行 */
+  .ac-cmp .ac-acct{white-space:nowrap;display:inline-block}
+  .ac-export{width:100%;background:var(--card2);color:#7c889f;border:1px solid var(--line);
+    border-radius:10px;padding:10px;font-size:12px}
+  .ac-claimbox{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px 13px;margin:0 0 10px}
+  .ac-claimbox p{font-size:11px;color:var(--dim);margin:0 0 6px}
+  .ac-claim{width:100%;background:var(--ok);color:#08101f;border:0;border-radius:10px;
+    padding:11px;font-size:13px;font-weight:600}
+  .ac-row{display:flex;gap:8px;align-items:baseline;width:100%;background:var(--card2);color:var(--txt);
+    border:1px solid var(--line);border-radius:10px;padding:9px 10px;margin:0 0 6px;font-size:12px;text-align:left}
+  .ac-row.on{border-color:rgba(93,159,255,.55);background:rgba(93,159,255,.1)}
+  .ac-row-n{flex:1;min-width:0}
+  .ac-row-n b{display:block;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .ac-row-n em{font-style:normal;font-size:10px;color:#7c889f}
+  .ac-row-d{font-size:10px;color:#8b93a7;white-space:nowrap}
+  .ac-row-c{font-size:10px;color:#7c889f;white-space:nowrap}
+  .ac-miss{background:var(--card2);border:1px solid rgba(255,92,122,.35);border-radius:12px;padding:14px;font-size:12px;color:var(--dim)}
+  .ac-miss b{display:block;color:var(--txt);font-size:13px;margin-bottom:5px}
+  .footnote{font-size:10px;color:#7c889f;line-height:1.6;margin:14px 0 0}
+  [hidden]{display:none !important}
+</style>
+<link rel="stylesheet" href="styles/unviewable.css">
+<link rel="stylesheet" href="site_shell.css">
+</head>
+<body>
+<div class="top">
+  <a class="back" id="ac-back" href="replay.html?f=train&tab=d">← 规则复盘</a>
+  <a class="back" href="./">首页</a>
+</div>
+<h1>票档案与批注</h1>
+<p class="sub" id="sub">一只票一个档案 · 同一只票的复盘按交易日倒序</p>
+<div class="searchbar">
+  <input id="ac-q" type="search" autocomplete="off" placeholder="输入代码或名称，打开任意一只票的档案">
+</div>
+<div class="sug" id="ac-sug" hidden></div>
+<div id="ac-body"></div>
+<div id="ac-list"></div>
+<p class="footnote">档案只存交易日、规则版本、判定计数与批注；不存金额、持仓与成交价。不构成投资建议。</p>
+<footer class="pj-shell">
+  <nav class="pj-shell-nav" aria-label="七个容器">
+    <a href="discipline.html">纪律随身卡</a>
+    <a href="discipline.html#check">今日自查</a>
+    <a href="replay_readonly.html">历史回放</a>
+    <a href="records.html">我的记录</a>
+    <a href="archive.html">票档案与批注</a>
+    <a href="guide.html">规则怎么写</a>
+    <a href="price.html">会员</a>
+  </nav>
+  <p class="pj-shell-line">只记录、只统计、只复盘 · 不构成投资建议 · 不展示实时行情</p>
+</footer>
+
+<script src="store.js"></script>
+<script src="features/replay_review.js"></script>
+<script src="features/unviewable.js"></script>
+<script src="features/archive.js"></script>
+<script src="features/archive-unlock.js"></script>
+<script>
+(function () {
+  var Q = {};
+  location.search.replace(/^\?/, '').split('&').filter(Boolean).forEach(function (kv) {
+    var i = kv.indexOf('='); if (i < 0) return;
+    Q[decodeURIComponent(kv.slice(0, i))] = decodeURIComponent(kv.slice(i + 1));
+  });
+  var A = window.PanjiArchive;
+  var body = document.getElementById('ac-body');
+  if (!A) {
+    body.innerHTML = '<div class="ac-miss"><b>档案模块没加载</b>刷新页面再试。</div>';
+    return;
+  }
+  window.__archive = A.mount(body, {
+    listEl: document.getElementById('ac-list'),
+    queryEl: document.getElementById('ac-q'),
+    suggestEl: document.getElementById('ac-sug'),
+    backEl: document.getElementById('ac-back'),
+    query: { symbol: Q.code || Q.symbol || '', name: Q.name || '', day: Q.day || '', acct: Q.acct || '' },
+  });
+  if (Q.code || Q.symbol) {
+    var q = document.getElementById('ac-q');
+    var code = String(Q.code || Q.symbol || '').replace(/\D/g, '').slice(-6);
+    if (q) q.value = code + (Q.name ? ' ' + Q.name : '');
+  }
+})();
+</script>
+</body>
+</html>

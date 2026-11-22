@@ -1,0 +1,316 @@
+{
+ "schema": "panji.builtin.symbols.v1",
+ "generatedAt": "2026-11-07",
+ "rankBy": "buy_amount_desc",
+ "sourceTrades": "nightshift/data/trades_full.csv",
+ "windowA": [
+  "20250701",
+  "20251231"
+ ],
+ "windowB": [
+  "20260401",
+  "20260930"
+ ],
+ "symbols": [
+  {
+   "code": "002169",
+   "name": "智光电气",
+   "buyAmount": 77752,
+   "buyCount": 36
+  },
+  {
+   "code": "002085",
+   "name": "万丰奥威",
+   "buyAmount": 50456,
+   "buyCount": 13
+  },
+  {
+   "code": "001300",
+   "name": "三柏硕",
+   "buyAmount": 47684,
+   "buyCount": 7
+  },
+  {
+   "code": "002849",
+   "name": "威星智能",
+   "buyAmount": 45584,
+   "buyCount": 11
+  },
+  {
+   "code": "002212",
+   "name": "天融信",
+   "buyAmount": 36349,
+   "buyCount": 8
+  },
+  {
+   "code": "002910",
+   "name": "庄园牧场",
+   "buyAmount": 36283,
+   "buyCount": 3
+  },
+  {
+   "code": "600663",
+   "name": "陆家嘴",
+   "buyAmount": 29752,
+   "buyCount": 10
+  },
+  {
+   "code": "600847",
+   "name": "万里股份",
+   "buyAmount": 26886,
+   "buyCount": 9
+  },
+  {
+   "code": "002328",
+   "name": "新朋股份",
+   "buyAmount": 25268,
+   "buyCount": 13
+  },
+  {
+   "code": "002104",
+   "name": "恒宝股份",
+   "buyAmount": 23876,
+   "buyCount": 9
+  },
+  {
+   "code": "600637",
+   "name": "东方明珠",
+   "buyAmount": 23731,
+   "buyCount": 9
+  },
+  {
+   "code": "000090",
+   "name": "天健集团",
+   "buyAmount": 22626,
+   "buyCount": 6
+  },
+  {
+   "code": "002678",
+   "name": "珠江钢琴",
+   "buyAmount": 21382,
+   "buyCount": 19
+  },
+  {
+   "code": "000338",
+   "name": "潍柴动力",
+   "buyAmount": 20971,
+   "buyCount": 5
+  },
+  {
+   "code": "601619",
+   "name": "嘉泽新能",
+   "buyAmount": 20166,
+   "buyCount": 17
+  },
+  {
+   "code": "600816",
+   "name": "建元信托",
+   "buyAmount": 20021,
+   "buyCount": 18
+  },
+  {
+   "code": "000990",
+   "name": "诚志股份",
+   "buyAmount": 19888,
+   "buyCount": 12
+  },
+  {
+   "code": "002314",
+   "name": "南山控股",
+   "buyAmount": 19821,
+   "buyCount": 19
+  },
+  {
+   "code": "000722",
+   "name": "湖南发展",
+   "buyAmount": 18842,
+   "buyCount": 1
+  },
+  {
+   "code": "002594",
+   "name": "比亚迪",
+   "buyAmount": 17304,
+   "buyCount": 2
+  },
+  {
+   "code": "002256",
+   "name": "兆新股份",
+   "buyAmount": 16809,
+   "buyCount": 18
+  },
+  {
+   "code": "002330",
+   "name": "得利斯",
+   "buyAmount": 14754,
+   "buyCount": 8
+  },
+  {
+   "code": "002909",
+   "name": "集泰股份",
+   "buyAmount": 14565,
+   "buyCount": 10
+  },
+  {
+   "code": "002471",
+   "name": "中超控股",
+   "buyAmount": 14428,
+   "buyCount": 12
+  },
+  {
+   "code": "601929",
+   "name": "吉视传媒",
+   "buyAmount": 14245,
+   "buyCount": 5
+  },
+  {
+   "code": "603727",
+   "name": "博迈科",
+   "buyAmount": 14122,
+   "buyCount": 1
+  },
+  {
+   "code": "002490",
+   "name": "山东墨龙",
+   "buyAmount": 13441,
+   "buyCount": 5
+  },
+  {
+   "code": "603169",
+   "name": "兰石重装",
+   "buyAmount": 13178,
+   "buyCount": 8
+  },
+  {
+   "code": "002004",
+   "name": "华邦健康",
+   "buyAmount": 13025,
+   "buyCount": 8
+  },
+  {
+   "code": "600783",
+   "name": "鲁信创投",
+   "buyAmount": 12712,
+   "buyCount": 5
+  },
+  {
+   "code": "002790",
+   "name": "瑞尔特",
+   "buyAmount": 12453,
+   "buyCount": 3
+  },
+  {
+   "code": "002465",
+   "name": "海格通信",
+   "buyAmount": 12295,
+   "buyCount": 4
+  },
+  {
+   "code": "000917",
+   "name": "电广传媒",
+   "buyAmount": 12211,
+   "buyCount": 7
+  },
+  {
+   "code": "000035",
+   "name": "中国天楹",
+   "buyAmount": 12002,
+   "buyCount": 8
+  },
+  {
+   "code": "002440",
+   "name": "闰土股份",
+   "buyAmount": 11940,
+   "buyCount": 6
+  },
+  {
+   "code": "000936",
+   "name": "华西股份",
+   "buyAmount": 11878,
+   "buyCount": 9
+  },
+  {
+   "code": "603918",
+   "name": "金桥信息",
+   "buyAmount": 11540,
+   "buyCount": 9
+  },
+  {
+   "code": "600172",
+   "name": "黄河旋风",
+   "buyAmount": 10491,
+   "buyCount": 5
+  },
+  {
+   "code": "000981",
+   "name": "山子高科",
+   "buyAmount": 10408,
+   "buyCount": 10
+  },
+  {
+   "code": "000592",
+   "name": "平潭发展",
+   "buyAmount": 9999,
+   "buyCount": 4
+  },
+  {
+   "code": "603335",
+   "name": "迪生力",
+   "buyAmount": 9982,
+   "buyCount": 12
+  },
+  {
+   "code": "000635",
+   "name": "英 力 特",
+   "buyAmount": 9728,
+   "buyCount": 5
+  },
+  {
+   "code": "601399",
+   "name": "国机重装",
+   "buyAmount": 9720,
+   "buyCount": 3
+  },
+  {
+   "code": "603709",
+   "name": "中源家居",
+   "buyAmount": 9677,
+   "buyCount": 6
+  },
+  {
+   "code": "000620",
+   "name": "盈新发展",
+   "buyAmount": 9342,
+   "buyCount": 11
+  },
+  {
+   "code": "002361",
+   "name": "神剑股份",
+   "buyAmount": 9282,
+   "buyCount": 3
+  },
+  {
+   "code": "002632",
+   "name": "道明光学",
+   "buyAmount": 9271,
+   "buyCount": 4
+  },
+  {
+   "code": "600158",
+   "name": "中体产业",
+   "buyAmount": 9060,
+   "buyCount": 6
+  },
+  {
+   "code": "002255",
+   "name": "海陆重工",
+   "buyAmount": 9011,
+   "buyCount": 5
+  },
+  {
+   "code": "600167",
+   "name": "联美控股",
+   "buyAmount": 8851,
+   "buyCount": 5
+  }
+ ]
+}

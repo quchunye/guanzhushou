@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#070b16">
+<title>规则怎么写 · 管住手了吗复盘</title>
+<meta name="description" content="给第一次用的人：这张卡怎么用、七个槽位分别填什么、一条规则写成什么样才能被判定、悬浮窗怎么开、数据存在哪里。">
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="site_shell.css">
+<style>
+  /* 本页只复用 style.css / site_shell.css，下面仅补本页版式，不改全局 */
+  .doc .g-note {
+    margin: 0 0 20px; padding: 12px 14px;
+    border: 1px solid var(--brd2); border-left: 2px solid var(--acc);
+    background: rgba(255, 255, 255, 0.03);
+  }
+  .doc .g-note p { margin: 0; }
+  .doc .g-note p + p { margin-top: 6px; }
+  .doc h3 { font-size: 13.5px; font-weight: 700; color: var(--txt); margin: 14px 0 4px; }
+  .doc ol { padding-left: 20px; }
+  .doc ol li { font-size: 13.5px; color: var(--sub); }
+  .doc .g-cmp { margin: 10px 0 0; }
+  .doc .g-ok, .doc .g-bad {
+    padding: 10px 12px; border: 1px dashed var(--brd2); border-radius: var(--r-sm);
+  }
+  .doc .g-ok { border-color: rgba(52, 211, 153, 0.45); }
+  .doc .g-bad { border-color: rgba(248, 113, 113, 0.4); }
+  .doc .g-ok + .g-bad, .doc .g-bad + .g-bad { margin-top: 8px; }
+  .doc .g-ok > b, .doc .g-bad > b { display: block; font-size: 12.5px; margin-bottom: 4px; }
+  .doc .g-ok > b { color: var(--ok); }
+  .doc .g-bad > b { color: var(--bad); }
+  .doc .g-ok p, .doc .g-bad p { margin: 0; line-height: 1.75; }
+  .doc .g-ok p + p, .doc .g-bad p + p { margin-top: 4px; }
+</style>
+</head>
+<body>
+<div class="aurora"><div class="orb a"></div><div class="orb b"></div><div class="orb c"></div></div>
+<div class="wrap">
+  <div class="doc">
+    <a class="back" href="index.html">← 返回</a>
+    <h1>规则怎么写</h1>
+    <p class="upd">给第一次用的人 · 一页看完 · 卡上的字全部由你自己写</p>
+
+    <div class="g-note">
+      <p><b>本产品只记录你自己写的规则和你的执行情况。</b></p>
+      <p>这张卡上没有方法，也没有答案。你写什么，它就记什么；你没写，它就空着。本产品不提供任何投资建议。</p>
+    </div>
+
+    <section>
+      <h2>一、这张卡是干什么的</h2>
+      <p>它是给<b>你自己</b>看的一张卡。你把平时最想守住的那几句话写上去，开盘前、点下去之前、收盘后，把它翻出来读一遍。</p>
+      <ul>
+        <li><b>你自己写</b>：每一条都是你的原话。产品不给模板，也不替你补一句。</li>
+        <li><b>你自己看</b>：卡不对外分享，没有别人能看到。</li>
+        <li><b>只存这台手机</b>：写上去的字留在本机，不上传，不进云端。</li>
+      </ul>
+      <p>它不看行情，也不评价你做得对不对。它只做一件事：把你写过的话，在你需要的时候放回你眼前。</p>
+    </section>
+
+    <section>
+      <h2>二、七个槽位分别填什么</h2>
+      <p>卡上有七个可以写字的槽位，分成三组；下面还有一个可选的时间设置。空着的槽位就是空着的，不会自动长出内容。</p>
+
+      <h3>三条禁止 · 三个槽位</h3>
+      <p>写你自己最想守住的三条。每条一个短标题，加一句你自己的话；标题也归你起。想不出三条就先空着。</p>
+
+      <h3>下单前三问 · 三个槽位</h3>
+      <p>点下去之前，先答完这三句。问什么由你定；答不上来的时候怎么处理，也由你定。</p>
+
+      <h3>一句话边界 · 一个槽位</h3>
+      <p>一句话就够：什么情况算在你自己的规矩之外。写清楚这句，回看的时候就不用再猜。</p>
+
+      <h3>读卡时点 · 可选</h3>
+      <p>卡页上有两个时间格，你自己填想看卡的时刻。产品不发通知，到点靠你自己点开；不填也不影响使用。</p>
+    </section>
+
+    <section>
+      <h2>三、一条规则要写成什么样才能被判定</h2>
+      <p>能被判定的规则，读起来像一句别人也能替你核对的话。它通常包含四样东西：</p>
+      <ul>
+        <li><b>对象</b>：这条管的是你自己的哪个动作。写你做的事，不写某一类东西。</li>
+        <li><b>时点</b>：你会在什么时候回头看这条。时间由你自己定，产品不替你设。</li>
+        <li><b>判定条件</b>：一句能回答「是 / 否」的话。「要小心」这种程度词判不了。</li>
+        <li><b>你自己的口径</b>：同一条里，关键的那个词在你这里具体指什么。你自己定义，产品不替你定义。</li>
+      </ul>
+
+      <div class="g-cmp">
+        <div class="g-ok">
+          <b>能判的写法</b>
+          <p>对象：我的每一次动手<br>时点：收盘后<br>判定条件：这次动手之前，我已经把自己定的理由写下来<br>口径：「写下来」＝动手之前已经落过字。</p>
+        </div>
+        <div class="g-bad">
+          <b>判不了的写法</b>
+          <p>「不要太贪」</p>
+          <p>为什么判不了：没有对象（不知道管的是哪个动作），没有时点（不知道什么时候看），也没有是 / 否（不知道做到算什么）；「贪」在你这里指什么，也没写。</p>
+        </div>
+        <div class="g-bad">
+          <b>还是判不了</b>
+          <p>「少做没把握的事」「别做太多」</p>
+          <p>为什么判不了：「没把握」「太多」都是程度词，没有你的口径；同一句话换个人读，结论就不一样。</p>
+        </div>
+      </div>
+
+      <p>把程度词换成一个能回答「是 / 否」的动作，就能判了。比如把「别做太多」改成「这次动手之前，我有没有先写下理由」。</p>
+    </section>
+
+    <section>
+      <h2>四、什么时候读这张卡</h2>
+      <p>三个时候读：</p>
+      <ul>
+        <li><b>开盘前</b>：把卡从头看一遍，把当天最想守的那条记住。</li>
+        <li><b>下单前</b>：手指放上去之前，把「下单前三问」过一遍；答不上来时怎么处理，按你自己写好的来。</li>
+        <li><b>复盘时</b>：收盘后回看今天的动作，对着卡上自己写的句子，看有没有按自己的话做。</li>
+      </ul>
+      <p>具体什么时候读，由你自己安排；卡页上的两个时间格只是给你自己记的，开不开定时浮出也由你自己决定。</p>
+    </section>
+
+    <section>
+      <h2>五、悬浮窗怎么开</h2>
+      <p>悬浮窗是安卓 App 里的功能：把卡浮在看盘软件旁边。窗里只有你自己写的内容，不接行情，也不显示任何标的。</p>
+      <ol>
+        <li>先在卡上写一两句。空卡不会浮出来。</li>
+        <li>进「纪律随身卡」，往下找到「桌面悬浮」，点「开启悬浮窗」。</li>
+        <li>如果系统还没允许「显示在其他应用上层」，页面会带你去系统设置。找到本应用，把这一项打开。</li>
+        <li>按返回键回到 App，再点一次「开启悬浮窗」。</li>
+      </ol>
+      <p><b>为什么必须回来再点一次：</b>安卓不允许 App 自己在后台把浮窗弹出来。权限是你在系统设置里给的，App 只有回到前台、由你再点一次，才能拿着新权限去创建窗口。这一步不是开失败了。</p>
+      <p><b>为什么在系统设置页看不到卡片：</b>设置页、授权页这类系统界面会主动隐藏悬浮窗，防止浮层盖住授权按钮。这是系统的安全策略，不是卡片坏了，也没法绕过；回到 App 就正常了。</p>
+      <p><b>还有两件系统行为：</b>App 被系统清掉、被你从最近任务里划掉，或者设备重启后，悬浮卡不会自己回来，重开 App 再点一次就好；悬浮窗开着时通知栏会常驻一条，这是系统对后台长驻的要求，关掉悬浮窗后它同时消失。</p>
+    </section>
+
+    <section>
+      <h2>六、数据在哪、怎么导出、换手机会不会丢</h2>
+      <ul>
+        <li><b>在哪</b>：卡上的字存在这台手机的本机存储里，不上传服务器，也没有云端副本。</li>
+        <li><b>怎么导出</b>：在「纪律随身卡」页底部点「导出这张卡」，会得到一份 JSON 文件，存在你自己的设备上。账本、案例、规则等整机数据，走「备份本机数据」页导出。</li>
+        <li><b>换手机会不会丢</b>：会。换手机、换浏览器、清理浏览器数据、卸载 App、清应用数据，本机这一份都会没掉，不会自动跟过去。换之前先导出，到新设备再导入。</li>
+        <li><b>清空</b>：卡页的「清空这张卡」没有挽回，本机没有第二份。</li>
+      </ul>
+      <p>上面这些只是把卡怎么用说清楚，不构成投资建议。</p>
+    </section>
+
+    <section>
+      <h2>七、这些数字是怎么算出来的</h2>
+      <p>下面这组数字来自一份真实的账户成交记录：<b>1766 笔</b>成交，统计区间 <b>2025-08-27 至 2026-10-16</b>。它不是示例数据，也不预测任何行情，只是这个账户过去一年多的历史统计。</p>
+
+      <h3>算法</h3>
+      <ul>
+        <li><b>看 5 个交易日</b>：每笔成交从成交日往后数 5 个交易日，看这 5 天的价格变化。</li>
+        <li><b>对中证 1000 比</b>：把成交价到第 5 个交易日收盘价的变化，减去同期中证 1000 的变化，剩下的就是「超额点数」。</li>
+        <li><b>含分红、买卖同口径</b>：价格用前复权（含分红送转），买入端和卖出端用同一套算法，不挑对自己有利的那一种。</li>
+      </ul>
+      <p>能算满 5 个交易日的成交里，买入 560 笔、卖出 553 笔。</p>
+
+      <h3>买入端</h3>
+      <p>买入后 5 日，平均跑输中证 1000 <b>1.97 点</b>；其中 <b>66%</b> 的买入，5 天后是跑输的。</p>
+      <p>按买入前 3 个交易日的涨幅分组（只统计能算出前 3 日涨幅的那部分），追涨的差得更明显：</p>
+      <ul>
+        <li>买入前 3 日涨 <b>&gt;7%</b>：5 日超额 <b>−1.85 点</b>（200 笔）</li>
+        <li>买入前 3 日涨 <b>≤0%</b>：5 日超额 <b>−1.38 点</b>（133 笔）</li>
+        <li>涨 <b>&gt;7%</b> 且 <b>9:30–9:35</b> 买入：5 日超额 <b>−3.55 点</b>（44 笔）</li>
+      </ul>
+
+      <h3>卖出端</h3>
+      <p>卖出后 5 日，平均超额 <b>−1.06 点</b>；<b>64%</b> 的卖出，5 天后价格确实更低。也就是说，卖出端多数是卖对的，这里不拿卖出做冲突。</p>
+
+      <h3>怎么用这组数字</h3>
+      <p>它只说明一件事：在这份账户里，「涨完再追」这类动作的代价，比不追要大。它不告诉你某只票明天会怎么走，也套不到别人身上；你自己的账，要传你自己的交割单来算。</p>
+      <p>历史统计，不构成投资建议。</p>
+    </section>
+
+    <div class="foot"><p><a href="index.html">开始复盘</a> · <a href="discipline.html">去写卡</a> · <a href="privacy.html">隐私政策</a><br><a href="https://xuanshuangji.com/" target="_blank" rel="noopener">上海玄霜纪智能科技有限公司 · 官网</a> · <a href="about.html">关于我们</a><br>上海玄霜纪智能科技 · 管住手了吗复盘<br>上海玄霜纪智能科技有限公司 · 91310115MAKQDXHU15 · <a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener">沪ICP备2026058085号-1</a></p></div>
+    <footer class="pj-shell">
+      <nav class="pj-shell-nav" aria-label="七个容器">
+        <a href="discipline.html">纪律随身卡</a>
+        <a href="discipline.html#check">今日自查</a>
+        <a href="replay_readonly.html">历史回放</a>
+        <a href="records.html">我的记录</a>
+        <a href="archive.html">票档案与批注</a>
+        <a href="guide.html" aria-current="page">规则怎么写</a>
+        <a href="price.html">会员</a>
+      </nav>
+      <p class="pj-shell-line">只记录、只统计、只复盘 · 不构成投资建议 · 不展示实时行情</p>
+    </footer>
+  </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,283 @@
+/* features/replay_readonly.css —— 组3 只读回放（移动优先，390px 基准）
+   色值全部取自 styles/hplus-tokens.css 的 --pal-*，本文件不新增色值。 */
+
+.rr-page {
+  margin: 0;
+  background: var(--pal-bg-page, #f1f1f1);
+  color: var(--pal-text-strong, #141414);
+  font: 14px/1.55 var(--font-ui, -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif);
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum" 1;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.rr-shell {
+  max-width: 390px;
+  margin: 0 auto;
+  padding: 18px 16px 40px;
+  box-sizing: border-box;
+}
+
+.rr-head h1 {
+  margin: 0 0 2px;
+  font-size: 17px;
+  letter-spacing: .3px;
+}
+
+.rr-sub {
+  margin: 0 0 10px;
+  color: var(--pal-text-weak, #666);
+  font-size: 12px;
+}
+
+.rr-meta {
+  margin: 0 0 12px;
+  color: var(--pal-text-weak, #666);
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+.rr-status {
+  margin: 0 0 14px;
+  padding: 12px;
+  border-radius: var(--r-block, 12px);
+  border: 1px solid var(--pal-rule, #d6d6d6);
+  background: var(--pal-bg-panel, #fff);
+}
+
+.rr-status-main {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.rr-status-detail {
+  margin: 4px 0 0;
+  font-size: 11px;
+  color: var(--pal-text-weak, #666);
+  word-break: break-all;
+}
+
+.rr-picker {
+  display: flex;
+  gap: 8px;
+  margin: 0 0 14px;
+}
+
+.rr-picker label {
+  flex: 1;
+  min-width: 0;
+  display: block;
+  color: var(--pal-text-weak, #666);
+  font-size: 11px;
+}
+
+.rr-picker select {
+  display: block;
+  width: 100%;
+  margin-top: 3px;
+  padding: 9px 8px;
+  border-radius: var(--r-ctl, 8px);
+  border: 1px solid var(--pal-rule, #d6d6d6);
+  background: var(--pal-bg-inset, #e8e8e8);
+  color: var(--pal-text-strong, #141414);
+  font-size: 13px;
+}
+
+.rr-block {
+  margin: 0 0 14px;
+  padding: 14px 12px;
+  border-radius: var(--r-card, 16px);
+  border: 1px solid var(--pal-rule, #d6d6d6);
+  background: var(--pal-bg-panel, #fff);
+  box-shadow: inset 0 1px 0 var(--edge-hi, #fff),
+    inset 0 -1px 0 var(--edge-lo, rgba(0, 0, 0, .06)),
+    var(--edge-shadow, 0 1px 2px rgba(0, 0, 0, .05));
+}
+
+.rr-block h2 {
+  margin: 0 0 2px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.rr-hint {
+  margin: 0 0 10px;
+  color: var(--pal-text-weak, #666);
+  font-size: 11px;
+}
+
+.rr-canvas {
+  display: block;
+  width: 100%;
+  height: 200px;
+  border-radius: var(--r-ctl, 8px);
+  background: var(--pal-bg-chart, #fafafa);
+}
+
+.rr-fact-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px;
+}
+
+.rr-fact {
+  padding: 7px 8px;
+  border-radius: var(--r-ctl, 8px);
+  background: var(--pal-bg-chart, #fafafa);
+}
+
+.rr-fact-k {
+  display: block;
+  color: var(--pal-text-weak, #666);
+  font-size: 10px;
+}
+
+.rr-fact-v {
+  display: block;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.rr-fact-note {
+  margin: 8px 0 0;
+  color: var(--pal-text-weak, #666);
+  font-size: 11px;
+  line-height: 1.55;
+}
+
+.rr-settings {
+  margin: 0 0 10px;
+}
+
+.rr-set {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 0 0 6px;
+  font-size: 11px;
+  color: var(--pal-text-secondary, #4a4a4a);
+}
+
+.rr-set-k {
+  flex: 0 0 56px;
+  color: var(--pal-text-strong, #141414);
+}
+
+.rr-set-mid {
+  flex: 1;
+  min-width: 0;
+  color: var(--pal-text-weak, #666);
+}
+
+.rr-set-in {
+  flex: 0 0 56px;
+  width: 56px;
+  padding: 5px 6px;
+  border-radius: 6px;
+  border: 1px solid var(--pal-rule, #d6d6d6);
+  background: var(--pal-bg-chart, #fafafa);
+  color: var(--pal-text-strong, #141414);
+  font-size: 12px;
+  text-align: right;
+}
+
+.rr-set-unit {
+  flex: 0 0 34px;
+  color: var(--pal-text-weak, #666);
+}
+
+.rr-count {
+  margin: 4px 0 10px;
+  padding: 9px 10px;
+  border-radius: var(--r-ctl, 8px);
+  background: var(--pal-bg-inset, #e8e8e8);
+  color: var(--pal-text-strong, #141414);
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.rr-rows {
+  border-top: 1px solid var(--pal-rule, #d6d6d6);
+}
+
+.rr-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px 8px;
+  padding: 9px 0;
+  border-bottom: 1px solid var(--pal-grid-major, #e3e3e3);
+}
+
+.rr-row-mark {
+  flex: 0 0 auto;
+  padding: 1px 6px;
+  border-radius: 4px;
+  font-size: 10px;
+  line-height: 1.6;
+  border: 1px solid var(--pal-rule, #d6d6d6);
+  color: var(--pal-text-weak, #666);
+}
+
+.rr-row[data-state="hit"] .rr-row-mark {
+  border-color: var(--pal-accent, #0a6b7c);
+  color: var(--pal-accent, #0a6b7c);
+}
+
+.rr-row-label {
+  flex: 0 0 auto;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.rr-row-actual {
+  flex: 1;
+  min-width: 90px;
+  font-size: 12px;
+  text-align: right;
+  color: var(--pal-text-strong, #141414);
+}
+
+.rr-row-setting {
+  flex: 0 0 auto;
+  font-size: 11px;
+  color: var(--pal-text-weak, #666);
+}
+
+.rr-row-detail {
+  flex: 1 0 100%;
+  font-size: 10px;
+  color: var(--pal-text-weak, #666);
+  line-height: 1.5;
+}
+
+.rr-foot {
+  margin: 18px 0 0;
+  color: var(--pal-text-weak, #666);
+  font-size: 11px;
+  text-align: center;
+  line-height: 1.6;
+}
+
+.rr-foot a {
+  color: var(--pal-text-strong, #141414);
+  text-decoration: none;
+  border-bottom: 1px solid var(--pal-rule, #d6d6d6);
+}
+
+.rr-foot a + a {
+  margin-left: 16px;
+}
+
+@media (max-width: 340px) {
+  .rr-picker {
+    flex-wrap: wrap;
+  }
+  .rr-picker label {
+    flex: 1 0 46%;
+  }
+  .rr-set-k {
+    flex-basis: 48px;
+  }
+}

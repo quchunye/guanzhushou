@@ -1,0 +1,1203 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="hplus">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#f1f1f1">
+<title>管住手了吗复盘 · 逐笔回放</title>
+<link rel="stylesheet" href="styles/hplus-tokens.css">
+<link rel="stylesheet" href="styles/rv-theme.css">
+<link rel="stylesheet" href="styles/unviewable.css">
+<style>
+  :root{
+    --bg:var(--color-bg-page);--card:var(--color-bg-panel);--card2:var(--color-bg-inset);
+    --txt:var(--color-text);--dim:var(--color-text-weak);
+    --line:var(--color-panel-border);--up:var(--color-up);--dn:var(--color-down);
+    /* 色值只在 styles/rv-theme.css 的 --color-* 里定义；本页不新增色值。
+       状态/涨跌的区分不只靠色相：另有线型、线宽、空心实心与图标冗余。 */
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  html,body{margin:0;background:var(--bg);color:var(--txt);
+    font:14px/1.55 -apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;
+    /* 全站等宽数字：比例数字换列会左右跳，金额/百分比/时间列一律按数字位对齐 */
+    font-variant-numeric:tabular-nums;font-feature-settings:"tnum" 1}
+  body{max-width:390px;margin:0 auto;padding:18px 16px 40px;overflow-x:hidden}
+  h1{font-size:17px;margin:0 0 2px;letter-spacing:.3px}
+  .sub{color:var(--dim);font-size:12px;margin:0 0 14px}
+  .tabs{display:flex;gap:8px;margin:0 0 14px}
+  .tabs button{flex:1;background:var(--card2);color:var(--dim);border:1px solid var(--line);
+    border-radius:8px;padding:9px 0;font-size:12px}
+  .tabs button.on{color:var(--txt);border-color:var(--color-panel-border-strong);background:var(--color-accent-bg)}
+  .picker{display:flex;gap:8px;margin:0 0 12px}
+  .picker select{flex:1;min-width:0;background:var(--card2);color:var(--txt);border:1px solid var(--line);
+    border-radius:8px;padding:9px 8px;font-size:13px}
+  .days{display:flex;gap:8px;margin:0 0 14px}
+  .days button{flex:1;background:var(--card2);color:var(--dim);border:1px solid var(--line);
+    border-radius:8px;padding:8px 0;font-size:12px}
+  .days button.on{color:var(--txt);border-color:var(--color-panel-border-strong);background:var(--color-accent-bg)}
+  #stage{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 12px 16px;
+    /* H+ 玻璃 = 边缘折射，四层，无 blur：
+       上缘 1px 纯白 / 下缘 1px 暗线 / 内侧 18px 墨青淡晕 / 贴地 1px 影 */
+    box-shadow:inset 0 1px 0 var(--edge-hi, #fff), inset 0 -1px 0 var(--edge-lo, rgba(0,0,0,.06)),
+      inset 0 0 18px var(--edge-halo, rgba(10,107,124,.04)), var(--edge-shadow, 0 1px 2px rgba(0,0,0,.05))}
+  #chart{display:block;width:100%;height:220px;border-radius:8px;background:var(--card2)}
+  /* 十字光标 overlay：与主画布同框绝对定位，拖动时只重画这一层 */
+  .chart-box{position:relative;touch-action:pan-y;user-select:none;-webkit-user-select:none}
+  .chart-box canvas.chart-cross{position:absolute;left:0;top:0;width:100%;height:100%;pointer-events:none}
+  .picker #sel-day{flex:0 0 34%}
+  /* 手势引导：首次进复盘弹一次，关掉后不再出现 */
+  .tip-guide{position:relative;margin:0 0 10px;padding:10px 54px 10px 12px;border-radius:10px;
+    font-size:12px;line-height:1.6;color:var(--dim);background:var(--card2);
+    border:1px solid var(--color-panel-border-strong)}
+  .tip-guide b{display:block;color:var(--txt);font-size:12px;margin-bottom:1px}
+  .tip-guide button{position:absolute;right:8px;top:8px;border:1px solid var(--line);border-radius:6px;
+    background:none;color:var(--dim);font-size:11px;padding:2px 8px}
+  .cps{list-style:none;margin:12px 0 12px;padding:0;display:flex;gap:6px;overflow-x:auto}
+  .cps li{flex:0 0 auto;background:var(--card2);border:1px solid var(--line);border-radius:8px;
+    padding:6px 8px;font-size:11px;color:var(--dim);white-space:nowrap}
+  .cps li b{color:var(--txt);font-weight:600;margin-right:2px}
+  .cps li.on{border-color:var(--color-panel-border-strong);background:var(--color-accent-bg);color:var(--txt)}
+  .cps li span{display:block;color:var(--color-text-weak);font-size:10px}
+  .ask{margin:4px 0 10px}
+  .ask .q{font-size:13px;margin:0 0 8px;color:var(--txt)}
+  .btns{display:flex;gap:10px}
+  .btns button{flex:1;border:0;border-radius:8px;padding:11px 0;font-size:14px;font-weight:600;
+    color:var(--color-text-inverse);background:var(--color-accent)}
+  .btns button[data-choice="buy"],.btns button[data-choice="add"]{background:var(--color-accent)}
+  .btns button[data-choice="cut"]{background:var(--color-up)}
+  .btns button[data-choice="hold"],.btns button[data-choice="wait"]{background:var(--color-accent-weak)}
+  .spds{display:flex;gap:8px;margin-top:8px}
+  .spds button{flex:1;border:1px solid var(--line);border-radius:8px;padding:7px 0;font-size:12px;
+    font-weight:500;background:var(--card2);color:var(--dim)}
+  .spds button.on{border-color:var(--color-panel-border-strong);background:var(--color-accent-bg);
+    color:var(--txt);font-weight:600}
+  #btn-play[disabled]{opacity:1;background:var(--color-disabled-bg);color:var(--color-disabled-text)}
+  #btn-do{background:var(--color-accent)}
+  #btn-wait{background:var(--color-accent-weak);color:var(--color-text-inverse)}
+  #btn-next{background:var(--card2);color:var(--txt);border:1px solid var(--line);font-weight:500}
+  #btn-next[disabled]{opacity:1;background:var(--color-disabled-bg);color:var(--color-disabled-text);border-color:var(--color-disabled-border)}
+  .reveal{margin-top:10px;padding:10px;border-radius:8px;background:var(--card2);
+    border:1px solid var(--line);font-size:12px;color:var(--dim)}
+  .reveal p{margin:0 0 4px}
+  .reveal p:last-child{margin:0;color:var(--txt)}
+  .miss{margin:14px 0 0;padding:14px;border-radius:12px;background:var(--card2);
+    border:1px solid var(--color-panel-border-strong);color:var(--dim);font-size:12px}
+  .miss b{color:var(--txt);display:block;margin-bottom:6px;font-size:13px}
+  .tag{margin-top:14px;color:var(--color-text-weak);font-size:11px;text-align:center}
+  .navfoot{margin-top:10px;text-align:center;font-size:11px}
+  .navfoot a{color:var(--color-text);text-decoration:none;border-bottom:1px solid var(--color-panel-border-strong)}
+  .navfoot a + a{margin-left:16px}
+  .level{margin:0 0 10px;padding:7px 9px;border-radius:8px;font-size:11px;line-height:1.45;
+    color:var(--color-text);background:var(--color-accent-bg);border:1px solid var(--color-panel-border-strong)}
+  #kimport{margin-top:18px}
+  .ki-card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 12px}
+  .ki-title{font-size:13px;font-weight:600;margin:0 0 5px;line-height:1.45}
+  .ki-note{font-size:11px;color:var(--dim);margin:0 0 10px;line-height:1.55}
+  .ki-drop{display:block;background:var(--card2);border:1px solid var(--color-accent-weak);
+    border-radius:8px;padding:11px 10px;font-size:12px;color:var(--color-text);text-align:center}
+  .ki-drop input{display:block;width:100%;margin-top:8px;font-size:11px;color:var(--dim)}
+  .ki-msg{font-size:11px;line-height:1.55;margin:8px 0 0;color:var(--dim);white-space:pre-wrap}
+  .ki-msg.good{color:var(--color-accent)}
+  .ki-msg.bad{color:var(--color-text-strong)}
+  .ki-list{margin-top:10px}
+  .ki-empty{font-size:11px;color:var(--color-text-weak);margin:4px 0 0}
+  .ki-item{display:flex;align-items:stretch;gap:6px;margin-top:6px}
+  .ki-pick{flex:1;min-width:0;text-align:left;background:var(--card2);border:1px solid var(--line);
+    border-radius:8px;padding:8px;color:var(--txt);font-size:12px;line-height:1.4}
+  .ki-pick span{display:block;color:var(--color-text-weak);font-size:10px;margin-top:2px}
+  .ki-item.on .ki-pick{border-color:var(--color-panel-border-strong);background:var(--color-accent-bg)}
+  .ki-del{flex:0 0 32px;background:var(--card2);border:1px solid var(--line);border-radius:8px;
+    color:var(--dim);font-size:14px}
+  .ki-view{margin-top:10px}
+  .ki-canvas{display:block;width:100%;height:240px;border-radius:8px;background:var(--card2)}
+  .ki-meta{font-size:10px;color:var(--color-text-weak);margin:6px 0 0;line-height:1.5;word-break:break-all}
+  .ki-align{margin-top:6px}
+  .ki-row{font-size:10px;color:var(--color-text);margin:2px 0 0;line-height:1.5;word-break:break-all}
+  .ki-bad{font-size:11px;color:var(--color-text-strong);margin:6px 0 0;line-height:1.55}
+  .ki-sub{font-size:10px;color:var(--color-text-weak);margin:10px 0 0;line-height:1.55}
+  .srcbadge{display:inline-block;margin:0 0 12px;padding:4px 9px;border-radius:999px;
+    font-size:11px;line-height:1.4;color:var(--color-text);border:1px solid var(--line);
+    background:var(--color-accent-bg)}
+  .srcbadge.real{color:var(--color-accent);border-color:var(--color-panel-border-strong);background:var(--color-accent-bg)}
+  .srcbadge.degraded{color:var(--color-text-strong);border-color:var(--color-panel-border-strong);background:var(--color-bg-inset)}
+  .empty-archive{text-align:center;padding:26px 8px 14px}
+  .empty-archive b{display:block;font-size:15px;margin:0 0 8px}
+  .empty-archive p{color:var(--dim);font-size:12px;line-height:1.6;margin:0 0 10px}
+  .empty-acts{display:flex;gap:10px;margin:14px 0 10px}
+  .empty-acts>button,.empty-acts>a{flex:1;text-align:center;border-radius:8px;padding:11px 0;
+    font-size:13px;text-decoration:none}
+  #empty-demo{background:var(--color-accent);color:var(--color-text-inverse);border:0;font-weight:600}
+  #empty-upload{background:var(--card2);color:var(--txt);border:1px solid var(--line)}
+  .empty-note{font-size:10px;color:var(--color-text-weak);margin:0;line-height:1.5}
+  /* 规则复盘（第 4 个 tab） */
+  /* 标的 22px / 日期 11px：默认无底无边，点击编辑才出底线 */
+  .rv-bar{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin:0 0 6px}
+  .rv-title{display:flex;align-items:baseline;gap:8px;min-width:0;flex:1 1 auto}
+  .rv-name{font-size:22px;font-weight:600;letter-spacing:-.01em;color:var(--color-text-strong);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .rv-search{flex:0 1 auto;width:9ch;min-width:0;background:transparent;border:0;border-radius:0;padding:0 0 2px;color:var(--color-text-strong);font-size:22px;font-weight:600;letter-spacing:-.01em;-webkit-appearance:none;appearance:none;box-shadow:inset 0 -1px 0 transparent}
+  .rv-search::placeholder{color:var(--color-text-weak);font-weight:500}
+  .rv-day{flex:0 0 auto;background:transparent;border:0;border-radius:0;padding:0 0 2px;color:var(--color-text-weak);font-size:11px;font-weight:500;text-align:right;-webkit-appearance:none;appearance:none;box-shadow:inset 0 -1px 0 transparent}
+  .rv-search:focus,.rv-day:focus{outline:0;box-shadow:inset 0 -1.5px 0 var(--color-accent)}
+  .rv-sug{display:flex;flex-direction:column;gap:2px;margin:-4px 0 10px}
+  .rv-hit{display:flex;gap:8px;align-items:baseline;background:var(--card);color:var(--txt);border:1px solid var(--line);border-radius:8px;padding:7px 9px;font-size:12px;text-align:left}
+  .rv-hit b{color:var(--color-text)}
+  .rv-hit span{flex:1;color:var(--color-text-weak)}
+  .rv-hit em{font-style:normal;font-size:10px;color:var(--color-accent)}
+  .rv-hit em.no{color:var(--color-text-strong)}
+  /* hero：全屏唯一 34px 数值（当日已实现），位置固定；0 走中性色 */
+  .rv-hero{font-size:34px;font-weight:700;letter-spacing:-.02em;line-height:1.05;color:var(--pal-hero-neutral,#0a0a0a);margin:10px 0 0;font-variant-numeric:tabular-nums}
+  .rv-hero.is-up{color:var(--pal-hero-up,#e8324a)}
+  .rv-hero.is-down{color:var(--pal-hero-down,#00915f)}
+  .rv-hero-sub{font-size:11px;font-weight:500;color:var(--color-text-weak);margin:4px 0 10px}
+  /* 三态：实底 + 6px 圆点 + 文字；零边框、不用 999px */
+  .rv-badge{display:inline-flex;align-items:center;gap:6px;height:24px;padding:0 10px;border:0;border-radius:var(--r-badge,8px);font-size:13px;font-weight:600;line-height:1}
+  .rv-badge::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor;flex:0 0 auto}
+  .rv-badge.rv-ok{color:var(--pal-badge-ok-fg,#1d6b35);background:var(--pal-badge-ok-bg,#e8f0eb)}
+  .rv-badge.rv-bad{color:var(--pal-badge-bad-fg,#b23e07);background:var(--pal-badge-bad-bg,#f7ece6)}
+  .rv-badge.rv-warn{color:var(--color-text-secondary,#4a4a4a);background:var(--pal-bg-inset,#e8e8e8)}
+  .rv-badge.rv-na{color:var(--color-text-weak);background:var(--pal-bg-inset,#e8e8e8)}
+  .rv-verdict-note{font-size:11px;color:var(--color-text-weak);margin:6px 0 10px}
+  /* 白底面板：8px 内衬 + 四层折射；画布自身不再投影 */
+  .rv-chart-wrap{position:relative;margin:0 0 8px;background:var(--color-bg-panel);border:1px solid var(--color-rule,var(--pal-rule));border-radius:16px;padding:8px;
+    box-shadow:inset 0 1px 0 var(--edge-hi,#fff),inset 0 -1px 0 var(--edge-lo,rgba(0,0,0,.06)),var(--shadow-card,0 1px 2px rgba(0,0,0,.05))}
+  .rv-chart{display:block;width:100%;height:300px;background:var(--color-bg-chart);border-radius:4px;margin:0}
+  /* 资金槽分段：占用 / 亏损，槽内切换不改槽高（390 固定 57） */
+  .rv-seg{position:absolute;left:30px;display:flex;gap:12px;z-index:1;padding:0 4px;border-radius:2px;background:var(--color-bg-chart)}
+  .rv-seg[hidden]{display:none}
+  .rv-seg button{position:relative;padding:0 0 3px;border:0;background:transparent;color:var(--color-text-weak);font:inherit;font-size:10px;line-height:1;cursor:pointer;transition:color 120ms linear}
+  .rv-seg button[aria-pressed="true"]{color:var(--color-text-strong)}
+  .rv-seg button[aria-pressed="true"]::after{content:"";position:absolute;left:0;right:0;bottom:0;height:2px;background:var(--color-accent)}
+  .rv-seg-dot{display:none;width:4px;height:4px;border-radius:50%;background:var(--color-text-strong);margin-left:4px;vertical-align:2px}
+  .rv-seg button[aria-pressed="true"].has-badge .rv-seg-dot{display:inline-block}
+  /* 底边规则入口：常驻一行；点开浮层，不再平铺罗列标注 */
+  .rv-entry{display:flex;align-items:center;gap:6px;width:100%;height:24px;padding:0 8px;border:0;border-top:1px solid var(--color-panel-border);background:var(--color-bg-chart);color:var(--color-text-weak);font:inherit;font-size:10px;line-height:1;text-align:left;cursor:pointer;transition:color 120ms linear}
+  .rv-entry[hidden]{display:none}
+  .rv-entry:hover{color:var(--color-text)}
+  .rv-entry-txt{flex:1 1 auto;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .rv-entry.has-bad{color:var(--color-text-strong)}
+  .rv-entry-arrow{flex:0 0 auto;color:var(--color-accent);transition:transform 200ms linear}
+  .rv-entry[aria-expanded="true"] .rv-entry-arrow{transform:rotate(90deg)}
+  /* 遮罩只盖画布区（不盖入口行），浮层从入口上方升起 */
+  .rv-mask{position:absolute;left:0;right:0;top:0;bottom:24px;background:var(--color-bg-overlay);opacity:0;transition:opacity 200ms linear}
+  .rv-mask.on{opacity:.72}
+  .rv-mask[hidden]{display:none}
+  .rv-sheet{position:absolute;left:0;right:0;bottom:24px;z-index:2;display:flex;flex-direction:column;min-height:0;border-top:1px solid var(--color-panel-border-strong);background:var(--color-bg-panel);transform:translateY(100%);opacity:0;transition:transform 200ms linear,opacity 200ms linear}
+  .rv-sheet.on{transform:translateY(0);opacity:1}
+  .rv-sheet[hidden]{display:none}
+  .rv-sheet-grip{flex:0 0 auto;height:10px;cursor:grab;touch-action:none}
+  .rv-sheet-grip::before{content:"";display:block;width:36px;height:2px;margin:4px auto 0;background:var(--color-panel-border-strong)}
+  .rv-sheet-h{flex:0 0 auto;display:flex;align-items:baseline;gap:6px;padding:0 10px 6px;font-size:10px;color:var(--color-text-weak)}
+  .rv-sheet-h b{font-size:11px;font-weight:500;color:var(--color-text-strong)}
+  .rv-sheet-body{flex:1 1 auto;min-height:0;overflow-y:auto;padding:0 6px 6px}
+  .rv-sheet-body::-webkit-scrollbar{width:4px}
+  .rv-sheet-body::-webkit-scrollbar-thumb{background:var(--color-scrollbar)}
+  .rv-grp{margin:0 0 6px}
+  .rv-grp h4{margin:0 0 2px;padding:0 4px;font-size:10px;font-weight:400;letter-spacing:.08em;color:var(--color-text-weak)}
+  .rv-row{display:flex;align-items:center;gap:6px;width:100%;padding:5px 4px;border:0;background:transparent;color:var(--color-text);font:inherit;font-size:10px;line-height:1.2;text-align:left;cursor:pointer;transition:background 120ms linear}
+  .rv-row:hover{background:var(--color-hover-bg)}
+  .rv-row-n{flex:0 1 auto;white-space:nowrap}
+  .rv-row-p{flex:1 1 auto;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--color-text-weak)}
+  .rv-dot{flex:0 0 auto;width:6px;height:6px;border-radius:50%;background:var(--color-rule-undetermined)}
+  .rv-dot.ok{background:var(--color-rule-consistent)}
+  .rv-dot.bad{background:var(--color-text-strong)}
+  .rv-dot.na{background:var(--color-rule-undetermined)}
+  /* 点画布元素弹的小浮窗：右优先、放不下翻左，不压住被标注的那个元素 */
+  .rv-pop{position:absolute;z-index:3;max-width:62%;padding:5px 8px 5px;border:1px solid var(--color-tooltip-border);background:var(--color-tooltip-bg);color:var(--color-text);font-size:10px;line-height:1.35;pointer-events:none;transition:opacity 120ms linear}
+  .rv-pop[hidden]{display:none}
+  .rv-pop b{display:block;font-weight:500;color:var(--color-text-strong)}
+  .rv-pop-p{display:block;color:var(--color-text-weak)}
+  .rv-pop .rv-dot{position:absolute;right:7px;top:6px}
+  @media (min-width:768px){.rv-chart{height:380px}}
+  .rv-acct{display:flex;align-items:center;gap:8px;margin:0 0 8px;font-size:11px;color:var(--color-text-weak)}
+  .rv-acct select{flex:0 1 140px}
+  /* 数据覆盖：左侧 2px 实条，不做虚线框；与画布留 32px */
+  .rv-cover{background:transparent;border:0;border-left:2px solid var(--color-rule,var(--pal-rule,#d6d6d6));border-radius:0;padding:0 0 0 12px;margin:32px 0 0;font-size:13px;color:var(--color-text-secondary,#4a4a4a)}
+  .rv-cover b{display:block;font-size:11px;font-weight:500;color:var(--color-text-weak);margin:0 0 4px}
+  .rv-cover p{margin:4px 0 0;font-size:13px;line-height:1.4}
+  .rv-cover.is-warn{border-left-color:var(--color-accent-2)}
+  .rv-rules{margin:0 0 8px}
+  .rv-rules>b{font-size:12px;color:var(--color-text-weak)}
+  .rv-rule{display:flex;gap:8px;align-items:baseline;padding:6px 0;border-bottom:1px solid var(--line);font-size:12px}
+  .rv-rule b{color:var(--color-text)}
+  .rv-rule .rv-rn{flex:1}
+  .rv-rule .rv-rt{font-size:11px;color:var(--color-text-weak)}
+  .rv-rule.off{opacity:.45}
+  .rv-other{font-size:11px;color:var(--color-text-weak);margin:0 0 10px}
+  .rv-acts b{font-size:12px;color:var(--color-text-weak)}
+  .rv-act{position:relative;display:flex;gap:8px;align-items:baseline;padding:5px 0;border-bottom:1px solid var(--line);font-size:12px}
+  /* 数字五档（H+）：表格数值 13 / 注脚数值 11；字重只用 500，全站禁用 800 */
+  .rv-act .rv-time{width:48px;text-align:right;font-size:11px;font-weight:500;color:var(--color-text)}
+  /* 价格列固定宽 + 右对齐：四位以上价格（如 1234.56）不溢出、不挤压后两列 */
+  .rv-act .rv-price{width:62px;text-align:right;white-space:nowrap;font-size:13px;font-weight:500}
+  .rv-act .rv-st{width:56px;text-align:right;font-size:11px;font-weight:500}
+  .rv-act .rv-why{flex:1;font-size:11px;color:var(--color-text-weak)}
+  /* 赭橙只给「违规笔左条」：状态文字回归中性，靠图标 + 左条识别，不再整列染色 */
+  .rv-act.mismatch::before{content:"";position:absolute;left:-8px;top:4px;bottom:4px;width:2px;background:var(--color-accent-2);border-radius:1px}
+  .rv-act.mismatch .rv-st{color:var(--color-text-strong)}
+  .rv-act.consistent .rv-st{color:var(--color-rule-consistent)}
+  .rv-act.unknown .rv-st{color:var(--color-rule-undetermined)}
+  .rv-act.na .rv-st{color:var(--color-disabled-text)}
+  .rv-miss,.rv-app{border:1px solid var(--line);background:var(--card2);border-radius:8px;padding:12px;font-size:12px;line-height:1.7;margin:0 0 10px}
+  .rv-foot{font-size:10px;color:var(--color-text-weak);margin:10px 0 0;line-height:1.6}
+  .rv-store{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:12px;margin:10px 0 0}
+  .rv-store-h{display:flex;justify-content:space-between;align-items:baseline;font-size:12px;margin:0 0 8px}
+  .rv-store-h span{color:var(--color-text-weak);font-size:10px}
+  .rv-save-row{display:flex;gap:8px}
+  .rv-note{flex:1;min-width:0;background:var(--card2);color:var(--txt);border:1px solid var(--line);border-radius:8px;padding:8px 9px;font-size:12px}
+  .rv-note::placeholder{color:var(--color-text-weak)}
+  .rv-save-row button{flex:0 0 auto;background:var(--color-accent);color:var(--color-text-inverse);border:0;border-radius:8px;padding:8px 12px;font-size:12px;font-weight:600}
+  .rv-save-row button:disabled{background:var(--color-disabled-bg);color:var(--color-disabled-text)}
+  .rv-store-note{font-size:10px;color:var(--color-text-weak);margin:7px 0 0;line-height:1.6}
+  .rv-store-note.good{color:var(--color-rule-consistent)}
+  .rv-store-note.bad{color:var(--color-text-strong)}
+  .rv-archive{display:inline-block;font-size:11px;color:var(--color-text);margin:7px 0 0;text-decoration:none;border-bottom:1px solid var(--color-panel-border-strong)}
+  [hidden]{display:none !important}
+</style>
+</head>
+<body>
+<h1 id="title">逐笔回放</h1>
+<p class="sub" id="sub">该笔成交时刻之前的数据才可见 · 不构成投资建议</p>
+<div class="srcbadge" id="src-badge" hidden aria-live="polite"></div>
+<div class="tabs" id="tabs" hidden>
+  <button type="button" data-tab="a">规则对照</button>
+  <button type="button" data-tab="b">逐根揭示</button>
+  <button type="button" data-tab="c">我的单子</button>
+  <button type="button" data-tab="d">规则复盘</button>
+</div>
+<div class="picker" id="picker" hidden>
+  <select id="sel-symbol" aria-label="选择股票"></select>
+  <select id="sel-month" aria-label="选择月份"></select>
+  <select id="sel-day" aria-label="选择交易日" hidden></select>
+</div>
+<div class="days" id="windows" hidden aria-label="选择回放窗口"></div>
+<div class="days" id="days"></div>
+<div class="tip-guide" id="tip-guide" hidden>
+  <b>图上能这样用</b>
+  长按看十字（拖动跟着走，松手消失）· 双击回到起始视角<br>
+  逐根揭示时，按住「下一根」可以连续往后放，松手停。
+  <button type="button" id="tip-close" aria-label="关闭提示">知道了</button>
+</div>
+<div id="uv-note" hidden></div>
+<div id="stage" aria-live="polite"></div>
+<p class="tag" id="tag">回放数据随应用提供，仅回放用；训练只显示成交时刻之前的数据。</p>
+<nav class="navfoot" aria-label="页面出口">
+  <a href="./learn.html">去科普</a>
+  <a href="./">去复盘</a>
+  </nav>
+<section id="kimport" hidden aria-label="用户自带行情导入">
+  <div class="ki-card">
+    <p class="ki-title">导入你自己导出的行情文件（5 分钟 / 1 分钟 / 日线）</p>
+    <p class="ki-note">数据由你自己导入。文件只在本机解析和存储，不上传、不发请求。</p>
+    <div id="ki-body"></div>
+    <p class="ki-sub">支持：通达信 .day / .lc5 / .lc1；同花顺、东方财富、通达信导出的 CSV / TXT。Excel 请先在客户端另存为 CSV。</p>
+  </div>
+</section>
+
+<script src="build_flags.js"></script>
+<script src="store.js"></script>
+<script src="ext.js"></script>
+<script src="features/unviewable.js"></script>
+<script src="features/replay.js"></script>
+<script src="features/kline_import.js"></script>
+<script src="features/replay_review.js"></script>
+<script>
+(function () {
+  var R = window.PanjiReplay;
+  var Q = {};
+  location.search.replace(/^\?/, '').split('&').filter(Boolean).forEach(function (kv) {
+    var i = kv.indexOf('='); if (i < 0) return;
+    Q[decodeURIComponent(kv.slice(0, i))] = decodeURIComponent(kv.slice(i + 1));
+  });
+  var TRAIN = !!(window.PanjiFlag && window.PanjiFlag('train'));
+  var stage = document.getElementById('stage');
+  var daysBox = document.getElementById('days');
+  var windowsBox = document.getElementById('windows');
+  var picker = document.getElementById('picker');
+  var tabs = document.getElementById('tabs');
+  var title = document.getElementById('title');
+  var sub = document.getElementById('sub');
+  var tag = document.getElementById('tag');
+  var badge = document.getElementById('src-badge');
+  var curTab = (Q.tab === 'b' || Q.tab === 'c' || Q.tab === 'd') ? Q.tab : 'a';
+  var packIndex = null;
+  var selSym = Q.symbol || '';
+  var selMonth = Q.month || '';
+  // 默认：只放合成示意走势；真实包需显式打开。
+  // 研发要看真实全市场包，加 f=real（走现有 PanjiFlag 机制）。
+  var STORE = !!window.PANJI_STORE_BUILD;   // 商店包：真实入口恒关（构建级常量，不信 URL）
+  var REAL = !!(window.PanjiFlag && window.PanjiFlag('real'));
+  var SYNTH_FALLBACK = false;       // ledger 模式无令牌/令牌失效 → 明确降级合成，不空白、不拿旧缓存冒充真实
+  var DEMO = false;                 // 无档案空态里点了「先看示例档案」才画合成走势
+  var SRC = 'empty';                // 来源角标：empty | synth | demo | real | degraded
+  var HAS_ARCHIVE = false;
+  var BIDX = null;      // 内置历史回放目录（builtin/index.json）
+  var BWIN = '';        // 当前窗口 id（2025h2 / 2026q2q3）
+  var BSYM = '';        // 当前标的（6 位裸代码）
+  var BPACK = null;     // 最近一次加载的分片（只缓存一只）
+  var BPACK_KEY = '';   // 缓存键 code|window
+  var RUNSEQ = 0;       // 丢弃过期的分片请求
+  var S, symbol, days, cur, api;
+
+  function setSource(kind, note) {
+    SRC = kind;
+    if (!badge) return;
+    var text = '';
+    if (kind === 'real') text = '本机档案回放';
+    else if (kind === 'builtin') text = '内置历史回放 · ' + windowLabelOf(BWIN);
+    else if (kind === 'degraded') text = '降级为示意 · ' + R.SYNTH_TAG + (note ? ' · ' + note : '');
+    else if (kind === 'synth' || kind === 'demo') text = '示例 · ' + R.SYNTH_TAG;
+    badge.hidden = !text;
+    badge.className = 'srcbadge' + ((kind === 'real' || kind === 'builtin') ? ' real' : (kind === 'degraded' ? ' degraded' : ''));
+    badge.textContent = text;
+  }
+
+  function fallbackSynth(reason) {
+    SYNTH_FALLBACK = true;
+    setSource('degraded', reason);
+    if (tag) tag.textContent = R.SYNTH_TAG + '：' + reason + '，已切换为合成走势（不含任何真实数据）。';
+    if (sub && TRAIN) sub.textContent = '三个板块 · 合成走势（固定种子可复现） · 不构成投资建议';
+    stage.innerHTML = '';
+    packIndex = R.synthIndex();
+    bindPicker();
+    runPack(curTab);
+  }
+
+  function miss(reason) {
+    clearUV();
+    stage.innerHTML = '<div class="miss"><b>这段回放打不开</b>' + reason
+      + '<br>没有对应日期的成交记录，或该日期没有回放数据。'
+      + '<br>可选：① 手动导入 CSV ② 用券商导出的历史数据 ③ 换一个日期。</div>';
+  }
+
+  /* ---------------- 无档案空态：不直接画合成 K 线 ---------------- */
+  function showEmpty() {
+    clearUV();
+    daysBox.hidden = true;
+    picker.hidden = true;
+    tabs.hidden = true;
+    setSource('empty');
+    title.textContent = '逐笔回放';
+    sub.textContent = '该笔成交时刻之前的数据才可见 · 不构成投资建议';
+    if (tag) tag.textContent = '未载入数据：示例为合成走势，非真实数据；真实回放需先上传你自己的交割单。';
+    stage.innerHTML = '<div class="empty-archive"><b>还没有你自己的档案</b>'
+      + '<p>这一页只放你自己的成交。没有档案时，不拿合成走势冒充真实数据。</p>'
+      + '<div class="empty-acts">'
+      + '<button type="button" id="empty-demo">先看示例档案 →</button>'
+      + '<a id="empty-upload" href="./">上传交割单 →</a>'
+      + '</div>'
+      + '<p class="empty-note">示例：合成走势 · 非真实数据，不对应任何真实票号与真实日期。</p></div>';
+    var btn = document.getElementById('empty-demo');
+    if (btn) btn.addEventListener('click', function () { DEMO = true; start(); });
+  }
+
+  /* ---------------- 原逐笔回放（tab c；flag 关时也走这里） ---------------- */
+  function paintTrades() {
+    daysBox.querySelectorAll('button').forEach(function (b) {
+      b.classList.toggle('on', b.getAttribute('data-day') === cur);
+    });
+    var useReal = REAL && !DEMO && !SYNTH_FALLBACK;
+    var r = useReal ? R.load(symbol, cur) : R.loadSynth(symbol, cur);
+    if (!r) { api = null; miss(''); return; }
+    setSource(useReal ? 'real' : (DEMO ? 'demo' : 'synth'));
+    sub.textContent = (r.name ? r.name + ' ' : '') + r.symbol
+      + ' · ' + R.d10(cur).slice(5)
+      + ' · ' + r.checkpoints.length + ' 笔 · ' + r.timeframe
+      + (useReal ? '' : ' · 合成走势');
+    api = R.mount(stage, r);
+  }
+
+  function bindDays() {
+    daysBox.innerHTML = '';
+    days.forEach(function (d) {
+      var b = document.createElement('button');
+      b.type = 'button';
+      b.setAttribute('data-day', d);
+      b.textContent = d.slice(4, 6) + '-' + d.slice(6, 8);
+      b.addEventListener('click', function () { cur = d; paintTrades(); });
+      daysBox.appendChild(b);
+    });
+  }
+
+  function start() {
+    SYNTH_FALLBACK = false;
+    S = (REAL && !DEMO) ? R.SAMPLE : { symbol: 'syn001', name: '合成样本甲', days: R.SYNTH_DAYS.slice() };
+    symbol = Q.symbol || S.symbol;
+    days = S.days;
+    cur = Q.date || days[0];
+    setSource(DEMO ? 'demo' : (REAL ? 'real' : 'synth'));
+    bindDays();
+
+    /* flag 关：与改动前一致，只是无档案时不再进来 */
+    if (!TRAIN) {
+      daysBox.hidden = false;
+      picker.hidden = true;
+      tabs.hidden = true;
+      paintTrades();
+      return;
+    }
+
+    /* flag 开：三 tab */
+    tabs.hidden = false;
+    title.textContent = '回放训练';
+    sub.textContent = (REAL && !DEMO)
+      ? '三个板块共用同一份内置 5 分钟数据 · 不构成投资建议'
+      : '三个板块 · 合成走势（固定种子可复现） · 不构成投资建议';
+    tag.textContent = (REAL && !DEMO)
+      ? '数据经服务端只读接口读取。'
+      : R.SYNTH_TAG + '：走势由页面按固定种子生成，不含任何真实数据，也不对应真实票号与日期。';
+    setTab(curTab);
+  }
+
+  function setTab(t) {
+    stopStepPlay();          // 切走时先停掉逐根自动播放，避免后台还在推进
+    curTab = t;
+    tabs.querySelectorAll('button').forEach(function (b) {
+      b.classList.toggle('on', b.getAttribute('data-tab') === t);
+    });
+    daysBox.hidden = true;
+    picker.hidden = true;
+    if (t === 'd') {
+      title.textContent = '规则复盘';
+      sub.textContent = '单票单日 · 只看 T01–T04 这四条形态规则';
+      if (tag) tag.textContent = '回放数据随应用提供 · 1 分钟聚合 5 分钟 · 不构成投资建议';
+      mountReview();
+      return;
+    }
+    if (t === 'c') {
+      title.textContent = '我的单子当题';
+      sub.textContent = '选一笔成交，只看成交时刻之前的走势';
+      if (!REAL && !DEMO && !BIDX) {
+        /* STORE-STRIP-START */
+        var imported = window.PanjiKlineImport && window.PanjiFlag && window.PanjiFlag('kimport')
+          && window.PanjiKlineImport.listItems().length > 0;
+        if (!imported) {
+          stage.innerHTML = '<div class="miss"><b>还没有可用的回放数据</b>'
+            + '这一块要把你的成交点放回当时的价格轴，需要真实的分钟数据。'
+            + '<br>请在页面下方「导入你自己导出的行情文件（5 分钟 / 1 分钟 / 日线）」选择券商软件导出的数据文件；数据只在本机解析，不上传。'
+            + '<br>研发开关：地址后加 <b>f=real</b> 再打开（不走用户自带）。</div>';
+          return;
+        }
+        /* STORE-STRIP-END */
+      }
+      mountLedgerC();
+      return;
+    }
+    if (t === 'a') title.textContent = '规则对照';
+    if (t === 'b') title.textContent = '逐根揭示';
+    // 内置分片模式：商店包与本地/研发版都走这里（BIDX 为目录对象才进入）
+    if (BIDX) {
+      bindBuiltinPicker();
+      if (BPACK && BPACK_KEY === BSYM + '|' + BWIN) paintBuiltinPack(BPACK, t);
+      else builtinIdle();
+      return;
+    }
+    if (!packIndex) { loadIndex(); return; }
+    bindPicker();
+    runPack(t);
+  }
+
+  tabs.querySelectorAll('button').forEach(function (b) {
+    b.addEventListener('click', function () { setTab(b.getAttribute('data-tab')); });
+  });
+
+  /* ---------------- 内置历史回放分片（商店包与本地/研发版共用） ---------------- */
+  // 数据随包内置；商店包只屏蔽 f=real / 研发导入入口，不影响 builtin 回放。
+  function windowLabelOf(id) {
+    if (!BIDX) return '';
+    for (var i = 0; i < BIDX.windows.length; i++) {
+      if (BIDX.windows[i].id === id) return BIDX.windows[i].label;
+    }
+    return id;
+  }
+
+  function bindBuiltinPicker() {
+    picker.hidden = false;
+    windowsBox.hidden = false;
+    var ss = document.getElementById('sel-symbol');
+    var ms = document.getElementById('sel-month');
+    var ds = document.getElementById('sel-day');
+    ms.hidden = true;
+    ms.innerHTML = '';
+    if (ds) { ds.hidden = true; ds.innerHTML = ''; }
+    var syms = BIDX.symbols || [];
+    if (!BSYM) BSYM = syms[0] ? syms[0].code : '';
+    ss.innerHTML = syms.map(function (s) {
+      var label = (s.name && s.name !== s.code) ? s.name + ' ' + s.code : s.code;
+      return '<option value="' + s.code + '"' + (s.code === BSYM ? ' selected' : '') + '>'
+        + label + '</option>';
+    }).join('');
+    ss.onchange = function () { BSYM = ss.value; runBuiltin(curTab); };
+    windowsBox.innerHTML = BIDX.windows.map(function (w) {
+      return '<button type="button" data-window="' + w.id + '"'
+        + (w.id === BWIN ? ' class="on"' : '') + '>' + w.label + '</button>';
+    }).join('');
+    windowsBox.querySelectorAll('button').forEach(function (b) {
+      b.addEventListener('click', function () {
+        BWIN = b.getAttribute('data-window');
+        bindBuiltinPicker();
+        runBuiltin(curTab);
+      });
+    });
+  }
+
+  // 首屏只读 index（10 KB）；不预加载任何分片
+  function builtinIdle() {
+    clearUV();
+    setSource('empty');
+    stage.innerHTML = '<p class="sub">在上方选择标的与窗口，才会加载对应的单片回放数据（约 200 KB）。</p>';
+  }
+
+  // 交易日选择：默认落在窗口内最后一个交易日，用户选过就记住（tab a / tab b 共用）
+  var DAY_KEY = 'panji_replay_day_v1';
+  function savedDay() {
+    try { return localStorage.getItem(DAY_KEY) || ''; } catch (e) { return ''; }
+  }
+  function saveDay(d) {
+    try { if (d) localStorage.setItem(DAY_KEY, d); } catch (e) {}
+  }
+  function dshort(d) {
+    d = String(d || '');
+    return d.length === 8 ? d.slice(4, 6) + '-' + d.slice(6, 8) : d;
+  }
+  function bindDayPicker(days, day) {
+    var ds = document.getElementById('sel-day');
+    if (!ds) return;
+    ds.hidden = false;
+    ds.innerHTML = days.map(function (d) {
+      return '<option value="' + d + '"' + (d === day ? ' selected' : '') + '>' + dshort(d) + '</option>';
+    }).join('');
+    ds.value = day;
+    ds.onchange = function () {
+      saveDay(ds.value);
+      if (BPACK && BPACK_KEY === (BSYM + '|' + BWIN)) paintBuiltinPack(BPACK, curTab);
+    };
+  }
+
+  // 持仓成本线：只用用户自己在「资产管理」里填过的期初持仓（{code,qty,cost}）
+  // 没有这条记录就返回 0，drawChart 会整段跳过，绝不拿均价/首根收盘造一个假成本
+  function costOf(symbol) {
+    var key = 'guanzhu_pos_v1';
+    try {
+      if (window.PanjiStore && PanjiStore.KEYS && PanjiStore.KEYS.pos) key = PanjiStore.KEYS.pos;
+    } catch (e) {}
+    var code = String(symbol || '').replace(/[^0-9A-Za-z]/g, '').toUpperCase();
+    if (!code) return 0;
+    try {
+      var list = JSON.parse(localStorage.getItem(key) || '[]');
+      if (!Array.isArray(list)) return 0;
+      for (var i = 0; i < list.length; i++) {
+        var p = list[i] || {};
+        var c = String(p.code || '').replace(/[^0-9A-Za-z]/g, '').toUpperCase();
+        var cost = +p.cost;
+        if (c && c === code && cost > 0) return cost;
+      }
+    } catch (e) {}
+    return 0;
+  }
+
+  // 手势引导：只弹一次；用户点「知道了」后再也不出现
+  var TIP_KEY = 'panji_replay_tip_v1';
+  var tipWired = false;
+  function showTipOnce() {
+    var box = document.getElementById('tip-guide');
+    if (!box) return;
+    if (!tipWired) {
+      tipWired = true;
+      var btn = document.getElementById('tip-close');
+      if (btn) btn.addEventListener('click', function () {
+        box.hidden = true;
+        try { localStorage.setItem(TIP_KEY, '1'); } catch (e) {}
+      });
+    }
+    var seen = '';
+    try { seen = localStorage.getItem(TIP_KEY) || ''; } catch (e) {}
+    if (!seen) box.hidden = false;
+  }
+
+  function paintBuiltinPack(pack, t) {
+    // 日期改为用户可选：上次选的那天在窗口里就用它，否则落到窗口内最后一个交易日
+    var days = R.daysOf(pack, 60);
+    if (!days.length) { builtinFailed(); return; }
+    var want = savedDay();
+    var day = days.indexOf(want) >= 0 ? want : days[days.length - 1];
+    var dp = R.dayPackOf(pack, day);
+    if (!dp) { builtinFailed(); return; }
+    bindDayPicker(days, day);
+    clearUV();
+    showTipOnce();
+    var head = (dp.name ? dp.name + ' ' : '') + dp.symbol;
+    setSource('builtin');
+    if (tag) tag.textContent = '内置历史回放数据 · ' + windowLabelOf(BWIN) + ' · 1 分钟 · 不构成投资建议';
+    if (t === 'a') {
+      var drill = R.buildDrill(dp, { count: 8 });
+      if (!drill) { builtinFailed(); return; }
+      sub.textContent = head + ' · ' + R.d10(dp.day) + ' · 1 分钟 · 共 '
+        + drill.checkpoints.length + ' 题 · 不构成投资建议';
+      window.__drill = R.mountDrill(stage, drill, { cost: costOf(dp.symbol) });
+      return;
+    }
+    sub.textContent = head + ' · ' + R.d10(dp.day) + ' · 一根一根往后放，未来不可见';
+    mountStep(stage, dp);
+  }
+
+  function runBuiltin(t) {
+    if (!BSYM || !BWIN) { miss('内置回放目录里没有可用的标的'); return; }
+    if (!window.PanjiReplay) { builtinUnavailable(); return; }
+    var key = BSYM + '|' + BWIN;
+    if (BPACK && BPACK_KEY === key) { paintBuiltinPack(BPACK, t); return; }
+    var seq = ++RUNSEQ;
+    stage.innerHTML = '<p class="sub">正在读取 ' + BSYM + ' · ' + windowLabelOf(BWIN) + '…</p>';
+    R.loadBuiltinPackEx(BSYM, BWIN, { ticket: builtinTicketOpt() }).then(function (r) {
+      if (seq !== RUNSEQ) return;
+      if (!r || !r.pack) { builtinFailed(r && r.error && r.error.code); return; }
+      BPACK = r.pack; BPACK_KEY = key;
+      paintBuiltinPack(r.pack, curTab);
+    }).catch(function () { if (seq === RUNSEQ) builtinFailed(); });
+  }
+
+  // 失败码 → 徽标/空态短标签；整句走 R.builtinFailCopy(code)，未知码回落 load
+  var FAIL_SHORT = {
+    load: '分片没读到',
+    timeout: '网络超时',
+    forbidden: '通行证过期',
+    no_shard: '这段没数据'
+  };
+
+  // 只有 forbidden / no_shard 的原文没提画面是假的；load / timeout 原文已自带示意说明，不追加。
+  // SYNTH_TAG 已含「合成走势 · 非真实数据」，补充句避开这两个词，避免一屏说两遍。
+  var FAIL_SYNTH_NOTE = {
+    forbidden: '图上画的是示意，不是这只票当天的走势。',
+    no_shard: '图上画的是示意，不是这只票当天的走势。'
+  };
+
+  // 看不了态：B/C 的图形挂在 stage 上方独立提示卡里，stage 仍保留合成示意，不白屏
+  function clearUV() {
+    var n = document.getElementById('uv-note');
+    if (!n) return;
+    n.hidden = true;
+    n.innerHTML = '';
+  }
+  function showUV(code) {
+    var n = document.getElementById('uv-note');
+    if (!n || !window.PanjiUnviewable) { clearUV(); return; }
+    n.innerHTML = window.PanjiUnviewable.fail(code);
+    n.hidden = false;
+  }
+
+  // 片缺失 / gz 损坏 / 解压失败 / 403 / 404：回落合成示意 + 一句可见提示，不白屏
+  function builtinFailed(code) {
+    var c = (code && FAIL_SHORT[code]) ? code : 'load';
+    var short = FAIL_SHORT[c];
+    setSource('degraded', short);
+    if (!window.PanjiReplay) { miss('回放模块没加载'); return; }
+    showUV(c);
+    if (tag) tag.textContent = R.SYNTH_TAG + '：' + R.builtinFailCopy(c) + (FAIL_SYNTH_NOTE[c] || '');
+    var dp = R.pickDayPack(R.synthPack('syn001', '0001-01'), 'syn|builtin-fallback', 30);
+    if (!dp) { miss('：' + short); return; }
+    sub.textContent = '合成走势 · 非真实数据 · ' + R.d10(dp.day) + ' · 不构成投资建议';
+    if (curTab === 'a') {
+      var drill = R.buildDrill(dp, { count: 8 });
+      if (drill) { window.__drill = R.mountDrill(stage, drill); return; }
+      miss('：' + short);
+      return;
+    }
+    mountStep(stage, dp);
+  }
+
+  /* STORE-STRIP-START */
+  // 线上才取指纹票据：exp 60 秒，前端在 exp-5s 前复用，不对每片重复换票。
+  // 商店包读应用内本地资源，整段被 STORE-STRIP 删除，不会出现 /api/builtin 请求。
+  var BTICKET = null;
+  function getBuiltinTicket() {
+    var now = Math.floor(Date.now() / 1000);
+    if (BTICKET && BTICKET.exp - 5 > now) return Promise.resolve(BTICKET);
+    return fetch('/api/builtin/ticket', { cache: 'no-store' })
+      .then(function (r) { return r && r.ok ? r.json() : null; })
+      .then(function (t) {
+        if (!t || !t.exp || !t.sig) return null;
+        BTICKET = t;
+        return t;
+      }).catch(function () { return null; });
+  }
+  /* STORE-STRIP-END */
+
+  // 商店包/本地资源分支：getBuiltinTicket 已被剥离，这里自然拿到 null（不带 e/s）
+  function builtinTicketOpt() {
+    return (typeof getBuiltinTicket === 'function') ? getBuiltinTicket : null;
+  }
+
+  // 环境自检：内置行情的读取只受浏览器内核能力影响，读不到时把关键能力打在一行里，
+  // 方便真机上直接看出是「内核缺 API」还是「资源没进包」，不用再接远程调试。
+  function envDiagText() {
+    try {
+      var ua = navigator.userAgent || '';
+      var m = ua.match(/Chrome\/[\d.]+/);
+      return '环境：' + (m ? m[0] : '未知内核')
+        + ' · DecompressionStream=' + (typeof DecompressionStream === 'function' ? '有' : '无')
+        + ' · Response=' + (typeof Response === 'function' ? '有' : '无')
+        + ' · TextDecoder=' + (typeof TextDecoder === 'function' ? '有' : '无');
+    } catch (e) { return ''; }
+  }
+
+  // 目录读取失败（含 ticket 拿不到 / 403）：落可用空态 + 一句可见提示，不白屏
+  function builtinUnavailable() {
+    clearUV();
+    if (!window.PanjiReplay) {
+      if (tag) tag.textContent = '回放模块没加载：刷新页面再试。';
+      stage.innerHTML = '<div class="miss"><b>回放模块没加载</b>刷新页面再试。</div>';
+      return;
+    }
+    legacyStart();
+    if (tag) tag.textContent = '内置回放目录没读到：暂时看不了内置回放，可先看示例或上传交割单。';
+    if (!HAS_ARCHIVE && !DEMO) {
+      stage.innerHTML = '<div class="miss"><b>内置回放数据暂时不可用</b>'
+        + '回放目录没读到。可以点下面的「先看示例档案」用合成走势；要回放自己的单子，点「上传交割单」回首页导入。'
+        + '<br><span style="color:#7d8590;font-size:11px">' + envDiagText() + '</span>'
+        + '</div>' + stage.innerHTML;
+    }
+  }
+
+  /* ---------------- 规则复盘（第 4 个 tab · 单票单日叠层） ---------------- */
+  function mountReview() {
+    if (!BIDX) {
+      stage.innerHTML = '<p class="sub">回放目录还没就绪，稍后再进本页。</p>';
+      return;
+    }
+    var RR = window.PanjiReplayReview;
+    if (!RR) {
+      stage.innerHTML = '<div class="miss"><b>规则复盘模块没加载</b>刷新页面再试。</div>';
+      return;
+    }
+    if (tag) tag.textContent = '回放数据随应用提供 · 1 分钟聚合 5 分钟 · 不构成投资建议';
+    RR.mount(stage, {
+      idx: BIDX,
+      replay: R,
+      ticket: builtinTicketOpt(),
+      query: { symbol: Q.symbol || BSYM, date: Q.date || '' },
+      onState: function (s) { if (s && s.text) sub.textContent = s.text; },
+    });
+  }
+
+  function bootBuiltin() {
+    if (!window.PanjiReplay) { builtinUnavailable(); return; }
+    stage.innerHTML = '<p class="sub">正在读取回放目录…</p>';
+    R.loadBuiltinIndex({ ticket: builtinTicketOpt() }).then(function (idx) {
+      if (!idx) { builtinUnavailable(); return; }
+      BIDX = idx;
+      BWIN = idx.windows[idx.windows.length - 1].id;   // 默认最新窗口（2026Q2–Q3）
+      var want = R.normSym(Q.symbol || '');
+      want = want.slice(-6);
+      BSYM = '';
+      idx.symbols.some(function (s) { if (s.code === want) { BSYM = want; return true; } return false; });
+      if (!BSYM) BSYM = idx.symbols[0].code;
+      HAS_ARCHIVE = R.hasArchive(readLedgerTrades());
+      tabs.hidden = false;
+      daysBox.hidden = true;
+      title.textContent = '回放训练';
+      sub.textContent = '内置历史回放数据 · 1 分钟 · 不构成投资建议';
+      if (tag) tag.textContent = '内置历史回放数据 · ' + windowLabelOf(BWIN) + ' · 1 分钟 · 不构成投资建议';
+      tabs.querySelectorAll('button').forEach(function (b) {
+        b.classList.toggle('on', b.getAttribute('data-tab') === curTab);
+      });
+      if (curTab === 'c') {
+        title.textContent = '我的单子当题';
+        sub.textContent = '选一笔成交，只看成交时刻之前的走势';
+        mountLedgerC();
+        return;
+      }
+      if (curTab === 'd') {
+        mountReview();
+        window.__builtinReady = true;
+        return;
+      }
+      bindBuiltinPicker();
+      // 首屏直接加载默认标的 + 最新窗口，不再要求用户先动手选；真读不到才退回提示
+      if (BSYM && BWIN) runBuiltin(curTab); else builtinIdle();
+      window.__builtinReady = true;
+    }).catch(function () { builtinUnavailable(); });
+  }
+
+  function legacyStart() {
+    HAS_ARCHIVE = R.hasArchive(readLedgerTrades());
+    if (!HAS_ARCHIVE && !DEMO) showEmpty(); else start();
+  }
+
+  function loadIndex() {
+    if (!REAL || DEMO) {               // 合成模式：索引本地生成，不发任何请求
+      packIndex = R.synthIndex();
+      bindPicker();
+      runPack(curTab);
+      return;
+    }
+    /* STORE-STRIP-START */
+    // 以下真实分支在商店包里整段删除（REAL 恒 false，走不到这里）
+    stage.innerHTML = '<p class="sub">正在读取档案令牌…</p>';
+    R.ensureToken().then(function (tok) {
+      if (!tok) { fallbackSynth('未检测到可用档案令牌'); throw { degraded: true }; }
+      return fetch('api/kline/index?v=' + encodeURIComponent(R.PACK_VERSION), {
+        headers: { 'x-kline-token': tok },
+      }).then(function (r) {
+        if (r.status === 401) { R.clearToken(); fallbackSynth('档案令牌已失效或不在白名单'); throw { degraded: true }; }
+        if (!r.ok) throw new Error('index');
+        return r.json();
+      });
+    }).then(function (idx) {
+      if (!idx || (idx.schema !== R.PACK_SCHEMA && idx.schema !== 'panji.kline.index.v1')) throw new Error('schema');
+      packIndex = idx;
+      if (idx.symbols) return idx;
+      // 新的顶层索引只登记到「月」，票池从该月 manifest 取（只在真实模式下载一次）
+      var months = Object.keys(idx.months || {}).sort();
+      var last = months[months.length - 1];
+      if (!last) throw new Error('months');
+      return R.loadManifest(last).then(function (entries) {
+        var sy = {};
+        (entries || []).forEach(function (e) {
+          var it = sy[e.symbol] || (sy[e.symbol] = { name: e.name || '', months: [] });
+          if (it.months.indexOf(e.month) < 0) it.months.push(e.month);
+        });
+        idx.symbols = sy;
+        return idx;
+      });
+    }).then(function () {
+      bindPicker();
+      runPack(curTab);
+    }).catch(function (e) {
+      if (e && e.degraded) return;
+      stage.innerHTML = '<div class="miss"><b>数据包读不到</b>'
+        + '确认数据包已发布、服务端只读接口可用。'
+        + '<br>也可以先用「我的单子」看内置样本。</div>';
+    });
+    /* STORE-STRIP-END */
+  }
+
+  function bindPicker() {
+    picker.hidden = false;
+    windowsBox.hidden = true;
+    var ss = document.getElementById('sel-symbol');
+    var ms = document.getElementById('sel-month');
+    ms.hidden = false;
+    var syms = Object.keys(packIndex.symbols || {});
+    if (!selSym || syms.indexOf(selSym) < 0) selSym = syms[0];
+    ss.innerHTML = syms.map(function (s) {
+      var it = packIndex.symbols[s];
+      var label = (it.name && it.name !== s) ? (it.name + ' ' + s) : s;
+      return '<option value="' + s + '"' + (s === selSym ? ' selected' : '') + '>'
+        + label + '</option>';
+    }).join('');
+    var months = (packIndex.symbols[selSym] && packIndex.symbols[selSym].months) || [];
+    if (months.indexOf(selMonth) < 0) selMonth = months[months.length - 1] || '';
+    ms.innerHTML = months.map(function (m) {
+      return '<option value="' + m + '"' + (m === selMonth ? ' selected' : '') + '>' + m + '</option>';
+    }).join('');
+    ss.onchange = function () {
+      selSym = ss.value;
+      var mm = (packIndex.symbols[selSym] && packIndex.symbols[selSym].months) || [];
+      selMonth = mm[mm.length - 1] || '';
+      bindPicker();
+      runPack(curTab);
+    };
+    ms.onchange = function () { selMonth = ms.value; runPack(curTab); };
+  }
+
+  function runPack(t) {
+    if (!selSym || !selMonth) { miss('数据包里没有可用的月份'); return; }
+    stage.innerHTML = '<p class="sub">正在读取 ' + selSym + ' ' + selMonth + '…</p>';
+    var p = (REAL && !DEMO && !SYNTH_FALLBACK) ? R.loadPack(selSym, selMonth) : Promise.resolve(R.synthPack(selSym, selMonth));
+    p.then(function (pack) {
+      if (!pack) {
+        miss('缺少 ' + selMonth + ' 这只票的数据包。可换一个月份或换一只票。');
+        return;
+      }
+      if (t === 'a') {
+        var drill = R.buildDrill(pack, { count: 8 });
+        if (!drill) { miss('这个月没有可出题的走势段（数据太短）。'); return; }
+        sub.textContent = (pack.name ? pack.name + ' ' : '') + pack.symbol + ' · ' + pack.month + ' · 5m · 共 '
+          + drill.checkpoints.length + ' 题 · 不构成投资建议';
+        window.__drill = R.mountDrill(stage, drill);
+        return;
+      }
+      if (t === 'b') {
+        sub.textContent = (pack.name ? pack.name + ' ' : '') + pack.symbol + ' · ' + pack.month
+          + ' · 一根一根往后放，未来不可见';
+        mountStep(stage, pack);
+      }
+    });
+  }
+
+  /* tab b：逐根揭示，可随时切走；切回时从第 1 根重新开始 */
+  var STEP_SPEEDS = [1, 2, 3, 4, 6, 8];
+  var stepTimer = null;
+  var stepHolder = null;        // 长按连播的收尾函数（切 tab / 收起时统一调用）
+  function stopStepPlay() {
+    if (stepTimer) { clearInterval(stepTimer); stepTimer = null; }
+    if (stepHolder) { var f = stepHolder; stepHolder = null; f(); }
+  }
+
+  function mountStep(el, pack) {
+    stopStepPlay();              // 换日期/换标的时先把上一份播放器停掉，避免两个定时器同时刷同一块画布
+    var step = R.buildStep(pack, { base: 30 });
+    if (!step) { miss('这个月的走势太短，放不起来。'); return; }
+    var steps = R.resetStep();
+    var speed = 2;                 // 默认 2×：1× 1.5s/根，8× 0.19s/根
+    var unit = 1500;
+    var cost = costOf(pack.symbol);
+
+    // 双击复位：回到「刚进 tab b」的初始视角（第 1 根），并收起十字
+    function resetAll() {
+      stopStepPlay();
+      steps = R.resetStep();
+      paint();
+    }
+
+    function paint() {
+      var v = R.stepView(step, steps);
+      var playing = !!stepTimer;
+      el.innerHTML = '<canvas id="chart" data-shown="' + v.shown + '" data-steps="' + v.steps
+        + '" data-remain="' + (v.total - v.steps) + '" data-total="' + v.total
+        + '" data-max-visible-t="' + v.maxVisibleT + '"></canvas>'
+        + '<div class="ask"><p class="q">第 ' + (v.steps + 1) + ' 根 / 共 ' + v.total + ' 根 · 还剩 '
+        + (v.total - v.steps) + ' 根</p>'
+        + '<div class="btns"><button type="button" id="btn-step"'
+        + (v.canNext ? '' : ' disabled') + '>下一根</button>'
+        + '<button type="button" id="btn-play"'
+        + (v.canNext || playing ? '' : ' disabled') + '>' + (playing ? '暂停' : '播放') + '</button></div>'
+        + '<div class="spds">' + STEP_SPEEDS.map(function (s) {
+          return '<button type="button" data-speed="' + s + '"'
+            + (s === speed ? ' class="on"' : '') + '>' + s + '×</button>';
+        }).join('') + '</div></div>';
+      R.drawChart(el.querySelector('#chart'), v.visible, [], { cost: cost, onReset: resetAll });
+      var b = el.querySelector('#btn-step');
+      if (b) {
+        b.addEventListener('click', function () {
+          if (holdOn || Date.now() - holdEndedAt < 400) return;   // 长按松手后的补一次 click 不算
+          steps = R.advanceStep(step, steps);   // 一次点击只多一根
+          paint();
+        });
+        bindHold(b);
+      }
+      var pb = el.querySelector('#btn-play');
+      if (pb) pb.addEventListener('click', function () {
+        if (stepTimer) stopStepPlay(); else startPlay();
+        paint();
+      });
+      Array.prototype.forEach.call(el.querySelectorAll('[data-speed]'), function (sb) {
+        sb.addEventListener('click', function () {
+          var wasPlaying = !!stepTimer;
+          speed = +sb.getAttribute('data-speed') || 2;
+          if (wasPlaying) { stopStepPlay(); startPlay(); }
+          paint();
+        });
+      });
+    }
+
+    /* 长按「下一根」= 按住连播、松手停；短按仍是一次一根 */
+    var holdTimer = null, holdOn = false, holdEndedAt = 0, holdUp = null;
+    function releaseHold() {
+      if (holdUp) {
+        document.removeEventListener('pointerup', holdUp);
+        holdUp = null;
+      }
+      stepHolder = null;
+      if (holdOn) {
+        holdOn = false;
+        holdEndedAt = Date.now();
+        stopStepPlay();
+        paint();
+      }
+    }
+    function bindHold(btn) {
+      btn.addEventListener('pointerdown', function (e) {
+        if (btn.disabled) return;
+        if (e && e.pointerType === 'mouse' && e.button !== 0) return;
+        if (holdTimer) clearTimeout(holdTimer);
+        holdTimer = setTimeout(function () {
+          holdTimer = null;
+          if (!R.stepView(step, steps).canNext) return;
+          holdOn = true;
+          holdUp = function () { releaseHold(); };
+          document.addEventListener('pointerup', holdUp);
+          stepHolder = function () { releaseHold(); };
+          startPlay();
+          paint();
+        }, 380);
+      });
+      ['pointerup', 'pointercancel', 'pointerleave'].forEach(function (ev) {
+        btn.addEventListener(ev, function () {
+          if (holdTimer) { clearTimeout(holdTimer); holdTimer = null; }
+        });
+      });
+    }
+
+    // 底部自动停在最后一根；切 tab / 离开页面由 stopStepPlay 收尾
+    function startPlay() {
+      if (stepTimer) return;
+      if (!R.stepView(step, steps).canNext) return;
+      stepTimer = setInterval(function () {
+        if (!R.stepView(step, steps).canNext) { stopStepPlay(); paint(); return; }
+        steps = R.advanceStep(step, steps);
+        if (!R.stepView(step, steps).canNext) stopStepPlay();
+        paint();
+      }, unit / speed);
+    }
+
+    paint();
+  }
+
+  /* ---------------- tab c：我的单子当题（只做分钟级，命中不了就诚实空态） ---------------- */
+  function readLedgerTrades() {
+    try {
+      var led = JSON.parse(localStorage.getItem('guanzhu_ledger') || 'null');
+      return (led && led.trades) || [];
+    } catch (e) { return []; }
+  }
+
+  function tradeKey(t) { return (t.code || '') + '|' + String(t.date || '').slice(0, 10); }
+
+  function mountLedgerC() {
+    var all = readLedgerTrades();
+    var seen = {};
+    var picks = [];
+    all.forEach(function (t) {
+      var k = tradeKey(t);
+      if (!t.code || !t.date || seen[k]) return;
+      seen[k] = 1;
+      picks.push(t);
+    });
+    // 默认给用户真实那笔（?symbol&date 深链优先），其余按日期倒序
+    var deep = (Q.symbol && Q.date) ? { code: Q.symbol, date: Q.date } : null;
+    if (deep) {
+      picks = picks.filter(function (t) { return tradeKey(t) === tradeKey(deep); }).concat(picks);
+      seen = {}; var ded = [];
+      picks.forEach(function (t) { var k = tradeKey(t); if (seen[k]) return; seen[k] = 1; ded.push(t); });
+      picks = ded;
+    }
+    picks.sort(function (a, b) {
+      var x = String(a.date).slice(0, 10), y = String(b.date).slice(0, 10);
+      return x === y ? 0 : (x < y ? 1 : -1);
+    });
+
+    if (!picks.length) {
+      daysBox.hidden = true;
+      picker.hidden = true;
+      var noCode = all.some(function (t) { return t && t.date && !t.code; });
+      stage.innerHTML = noCode
+        ? '<div class="miss"><b>账本里的成交没有股票代码</b>'
+          + 'C 需要按票定位走势，只有名称对不上代码。<br>重新导入带代码的交割单即可。'
+          + '<br>数据只在本地浏览器里，不上传。</div>'
+        : '<div class="miss"><b>账本里还没有成交</b>'
+          + '这一块用你自己导入的成交当题。<br>先去导入交割单，再回来选一笔。'
+          + '<br>数据只在本地浏览器里，不上传。</div>';
+      return;
+    }
+
+    var curSym = picks[0].code;
+    var curDate = String(picks[0].date).slice(0, 10).replace(/-/g, '');
+    var ss = document.getElementById('sel-symbol');
+    var ms = document.getElementById('sel-month');
+    picker.hidden = false;
+    windowsBox.hidden = true;
+    ms.hidden = false;
+    // 复用两个下拉：左选票、右选日期
+    var syms = [];
+    picks.forEach(function (t) { if (syms.indexOf(t.code) < 0) syms.push(t.code); });
+    ss.innerHTML = syms.map(function (s) {
+      var nm = '';
+      picks.some(function (t) { if (t.code === s && t.name) { nm = t.name; return true; } return false; });
+      return '<option value="' + s + '"' + (s === curSym ? ' selected' : '') + '>' + ((nm && nm !== s) ? nm + ' ' + s : s) + '</option>';
+    }).join('');
+    function datesOf(s) {
+      var out = [];
+      picks.forEach(function (t) {
+        var d = String(t.date).slice(0, 10).replace(/-/g, '');
+        if (t.code === s && out.indexOf(d) < 0) out.push(d);
+      });
+      return out.sort().reverse();
+    }
+    function fillDates() {
+      var ds = datesOf(curSym);
+      if (ds.indexOf(curDate) < 0) curDate = ds[0] || '';
+      ms.innerHTML = ds.map(function (d) {
+        return '<option value="' + d + '"' + (d === curDate ? ' selected' : '') + '>'
+          + d.slice(4, 6) + '-' + d.slice(6, 8) + '</option>';
+      }).join('');
+    }
+    fillDates();
+    ss.onchange = function () { curSym = ss.value; curDate = ''; fillDates(); renderTrade(curSym, curDate); };
+    ms.onchange = function () { curDate = ms.value; renderTrade(curSym, curDate); };
+    renderTrade(curSym, curDate);
+  }
+
+  function renderTrade(sym, day) {
+    stage.innerHTML = '<p class="sub">正在读本地数据…</p>';
+    R.loadTradeReplay(sym, day, { ticket: builtinTicketOpt() }).then(function (res) {
+      if (res.status === 'ok') {
+        sub.textContent = (res.replay.name ? res.replay.name + ' ' : '') + sym + ' · ' + R.d10(res.replay.date)
+          + ' · ' + (res.replay.timeframe === '1m' ? '1 分钟' : '5 分钟') + ' · 不构成投资建议';
+        stage.innerHTML = '<div id="trade-stage"></div>';
+        R.mount(stage.querySelector('#trade-stage'), res.replay);
+        return;
+      }
+      if (res.status === 'no-trades') {
+        stage.innerHTML = '<div class="miss"><b>' + R.d10(day) + ' 没有这笔成交</b>换一笔或先导入交割单。</div>';
+        return;
+      }
+      var d = res.detail;
+      if (!d) {
+        stage.innerHTML = '<div class="miss"><b>这笔成交缺股票代码或日期</b>换一笔，或重新导入带代码的交割单。</div>';
+        return;
+      }
+      var need = d.month ? d.month.slice(0, 4) + ' 年 ' + d.month.slice(5, 7) + ' 月' : '当月';
+      var cm = d.coveredMonths || [];
+      var covered = cm.length
+        ? (cm.length > 2 ? cm[0] + ' ~ ' + cm[cm.length - 1] : cm.join('、'))
+        : '';
+      stage.innerHTML = '<div class="miss"><b>该票该月未覆盖</b>'
+        + R.d10(res.date) + ' 这只票的分钟数据不在本地库里；'
+        + (covered ? '当前已覆盖 ' + covered + '。' : '')
+        + '补上 ' + need + ' 的分钟数据、跑一次构建脚本即可回放。'
+        + '<br>也可以换一天、换一只票，或先用「规则对照」。</div>';
+    });
+  }
+
+  window.__replay = {
+    get api() { return api; },
+    get view() { return api ? api.view() : null; },
+    get stage() { return stage; },
+    symbol: function () { return symbol; },
+    date: function () { return cur; },
+    tab: function () { return curTab; },
+    source: function () { return SRC; },
+    badge: function () { return badge ? String(badge.textContent || '') : ''; },
+    hasArchive: function () { return HAS_ARCHIVE; },
+    showDemo: function () { DEMO = true; start(); },
+    /* STORE-STRIP-START */
+    builtinReady: function () { return !!window.__builtinReady; },
+    builtinWindows: function () { return BIDX ? BIDX.windows.map(function (w) { return w.id; }) : []; },
+    builtinWindow: function () { return BWIN; },
+    builtinSymbol: function () { return BSYM; },
+    selectSymbol: function (code) { BSYM = code; bindBuiltinPicker(); runBuiltin(curTab); },
+    selectWindow: function (id) { BWIN = id; bindBuiltinPicker(); runBuiltin(curTab); },
+    /* STORE-STRIP-END */
+  };
+
+  // 商店包与本地/研发版都走内置历史回放（数据随安装包）；
+  // 商店包只屏蔽 f=real / 研发导入等入口，回放本身不退回纯合成。
+  // DEMO 例外：用户点了合成示例。
+  if (!DEMO && (TRAIN || STORE)) { bootBuiltin(); return; }
+  // 无档案时不直接画合成 K 线：先给「示例 / 上传」两个入口
+  HAS_ARCHIVE = R.hasArchive(readLedgerTrades());
+  if (!HAS_ARCHIVE && !DEMO) showEmpty(); else start();
+})();
+</script>
+<script>
+(function () {
+  var box = document.getElementById('kimport');
+  if (!box) return;
+  var on = !!(window.PanjiFlag && window.PanjiFlag('kimport'));
+  if (!on || !window.PanjiKlineImport) return;
+  box.hidden = false;
+  window.PanjiKlineImport.mount(document.getElementById('ki-body'), {});
+})();
+</script>
+</body>
+</html>

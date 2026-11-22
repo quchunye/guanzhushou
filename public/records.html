@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#070b16">
+<title>记录与复盘 · 管住手了吗</title>
+<style>
+  :root{
+    --bg:#070b16;--card:#121a2b;--card2:#0e1626;--txt:#e8ecf6;--dim:#8b93a7;
+    --line:rgba(120,140,180,.22);--ok:#5d9fff;--bad:#ff5c7a;--warn:#f2b53a;
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  html,body{margin:0;background:var(--bg);color:var(--txt);
+    font:14px/1.55 -apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif}
+  body{max-width:390px;margin:0 auto;padding:18px 16px 40px;overflow-x:hidden}
+  .top{display:flex;justify-content:space-between;align-items:center;font-size:11px}
+  .back{color:#8fa8c8;text-decoration:none;border-bottom:1px solid rgba(143,168,200,.35)}
+  h1{font-size:17px;margin:6px 0 2px;letter-spacing:.3px}
+  .sub{color:var(--dim);font-size:12px;margin:0 0 14px}
+  .stats{display:flex;gap:8px;margin:0 0 12px}
+  .stat{flex:1;min-width:0;background:var(--card2);border:1px solid var(--line);border-radius:10px;padding:9px 10px}
+  .stat span{display:block;font-size:10px;color:#7c889f}
+  .stat b{display:block;font-size:18px;font-weight:600;margin-top:2px;font-variant-numeric:tabular-nums}
+  .stat em{display:block;font-style:normal;font-size:10px;color:#7c889f;margin-top:2px}
+  .searchbar{margin:0 0 10px}
+  .searchbar input{width:100%;background:var(--card2);color:var(--txt);border:1px solid var(--line);
+    border-radius:10px;padding:10px 11px;font-size:13px}
+  .searchbar input::placeholder{color:#7c889f}
+  .filter-note{font-size:11px;color:#7c889f;margin:0 0 10px}
+  .sec{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px 13px;margin:0 0 10px}
+  .sec-h{display:flex;justify-content:space-between;align-items:baseline;margin:0 0 8px}
+  .sec-h h2{font-size:13px;margin:0;font-weight:600}
+  .sec-h span{font-size:10px;color:#7c889f}
+  .rec{display:block;width:100%;text-align:left;background:var(--card2);color:var(--txt);
+    border:1px solid var(--line);border-radius:10px;padding:9px 10px;margin:0 0 6px;text-decoration:none}
+  .rec:last-child{margin-bottom:0}
+  .rec-top{display:flex;align-items:baseline;gap:8px}
+  .rec-name{flex:1;min-width:0}
+  .rec-name b{display:block;font-weight:600;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .rec-name em{font-style:normal;font-size:10px;color:#7c889f}
+  .rec-c{font-size:10px;color:#8b93a7;white-space:nowrap}
+  .rec-c b{color:var(--txt);font-weight:600;font-variant-numeric:tabular-nums}
+  .rec-ar{font-size:10px;color:#8fa8c8;white-space:nowrap}
+  .rec-counts{display:flex;gap:10px;font-size:10px;color:#7c889f;margin:5px 0 0}
+  .rec-counts i{font-style:normal;font-variant-numeric:tabular-nums}
+  .rec-counts i.bad{color:var(--bad)}.rec-counts i.ok{color:var(--ok)}.rec-counts i.warn{color:var(--warn)}
+  .rec-note{font-size:11px;line-height:1.6;color:#a9c3e8;margin:6px 0 0;
+    padding-top:6px;border-top:1px solid var(--line);word-break:break-word}
+  .due-row{background:var(--card2);border:1px solid var(--line);border-radius:10px;padding:10px 11px;margin:0 0 6px}
+  .due-row:last-child{margin-bottom:0}
+  .due-meta{font-size:10px;color:#7c889f;margin:0 0 4px;font-variant-numeric:tabular-nums}
+  .due-q{font-size:13px;margin:0 0 8px}
+  .due-acts{display:flex;gap:6px}
+  .due-acts button{flex:1;min-height:38px;background:var(--card);color:var(--txt);
+    border:1px solid var(--line);border-radius:9px;font:inherit;font-size:12px;cursor:pointer}
+  .due-acts button:active{border-color:rgba(93,159,255,.55);background:rgba(93,159,255,.1)}
+  .due-empty{font-size:11px;color:var(--dim);line-height:1.7;margin:0}
+  .empty-guide{padding:6px 2px}
+  .empty-guide b{display:block;font-size:14px;margin:0 0 6px}
+  .empty-guide p{font-size:12px;color:var(--dim);line-height:1.7;margin:0}
+  .foot{font-size:10px;color:#7c889f;line-height:1.6;margin:14px 0 0}
+  [hidden]{display:none !important}
+</style>
+<link rel="stylesheet" href="site_shell.css">
+</head>
+<body>
+<div class="top">
+  <a class="back" href="./">← 首页</a>
+  <a class="back" href="archive.html">个股档案 →</a>
+</div>
+<h1>记录与复盘</h1>
+<p class="sub">按交易日倒序 · 只列记录时间、条数与判定计数</p>
+
+<div class="stats">
+  <div class="stat"><span>记录条数</span><b id="n-records">0</b><em>存进档案的复盘</em></div>
+  <div class="stat"><span>涉及天数</span><b id="n-days">0</b><em>不同交易日</em></div>
+  <div class="stat"><span>命中规则条数</span><b id="n-hits">0</b><em>逐条判定为不一致</em></div>
+</div>
+
+<div class="searchbar">
+  <input id="q" type="search" autocomplete="off" placeholder="搜代码、名称、日期或批注">
+</div>
+<p class="filter-note" id="filter-note" hidden></p>
+
+<div class="sec" id="due-sec">
+  <div class="sec-h"><h2>到期回看</h2><span id="due-n">0 条到期</span></div>
+  <div id="due-body"></div>
+</div>
+
+<div id="list"></div>
+
+<p class="foot">这里只记你自己的记录与规则判定；档案本体和批注在个股档案页。记录保存在本机，换设备不会自动同步。</p>
+<footer class="pj-shell">
+  <nav class="pj-shell-nav" aria-label="七个容器">
+    <a href="discipline.html">纪律随身卡</a>
+    <a href="discipline.html#check">今日自查</a>
+    <a href="replay_readonly.html">历史回放</a>
+    <a href="records.html">我的记录</a>
+    <a href="archive.html">票档案与批注</a>
+    <a href="guide.html">规则怎么写</a>
+    <a href="price.html">会员</a>
+  </nav>
+  <p class="pj-shell-line">只记录、只统计、只复盘 · 不构成投资建议 · 不展示实时行情</p>
+</footer>
+
+<script src="store.js"></script>
+<script>
+(function () {
+  'use strict';
+
+  // 本页专用：到期回看的回答只存本机，不进 store.js 键表，也不参与任何计数。
+  var DUE_KEY = 'guanzhu_dueback_v1';
+  var OBSERVE_DAYS = 3;      // 记录日 + 3 天 = 到期日
+
+  var S = window.PanjiStore;
+  var qEl = document.getElementById('q');
+  var listEl = document.getElementById('list');
+  var dueBody = document.getElementById('due-body');
+  var dueN = document.getElementById('due-n');
+  var noteEl = document.getElementById('filter-note');
+
+  function esc(v) {
+    return String(v == null ? '' : v).replace(/[&<>"']/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+    });
+  }
+  function digits(v) { return String(v == null ? '' : v).replace(/\D/g, ''); }
+  function day8(v) { return digits(v).slice(0, 8); }
+  function d10(day) {
+    var d = day8(day);
+    return d.length === 8 ? d.slice(0, 4) + '-' + d.slice(4, 6) + '-' + d.slice(6, 8) : '';
+  }
+  function num(v) { var n = +v; return isFinite(n) && n > 0 ? n : 0; }
+  function accountOf(r) { return String((r && r.account) == null ? '' : r.account).trim(); }
+  function accountLabel(a) { return a || '默认账户'; }
+  function code6(v) {
+    var s = digits(v);
+    return s.length >= 6 ? s.slice(-6) : '';
+  }
+  function dateOf(day) {
+    var d = day8(day);
+    if (d.length !== 8) return null;
+    return new Date(+d.slice(0, 4), +d.slice(4, 6) - 1, +d.slice(6, 8));
+  }
+  function addDays(dt, n) {
+    if (!dt) return null;
+    return new Date(dt.getFullYear(), dt.getMonth(), dt.getDate() + n);
+  }
+  function ymd(dt) {
+    if (!dt) return '';
+    var y = String(dt.getFullYear());
+    var m = String(dt.getMonth() + 1).padStart(2, '0');
+    var d = String(dt.getDate()).padStart(2, '0');
+    return y + '-' + m + '-' + d;
+  }
+  function today() {
+    var n = new Date();
+    return new Date(n.getFullYear(), n.getMonth(), n.getDate());
+  }
+  function dueKey(r) {
+    return code6(r.code) + '|' + day8(r.day) + '|' + accountOf(r);
+  }
+
+  function readDue() {
+    try {
+      var raw = localStorage.getItem(DUE_KEY);
+      var o = raw ? JSON.parse(raw) : null;
+      return (o && typeof o === 'object') ? o : {};
+    } catch (e) { return {}; }
+  }
+  function saveDue(map) {
+    try { localStorage.setItem(DUE_KEY, JSON.stringify(map)); return true; }
+    catch (e) { return false; }
+  }
+  var dueMap = readDue();
+  function dueLabel(v) {
+    return v === 'held' ? '守住了' : v === 'missed' ? '没守住' : v === 'none' ? '没记录' : '';
+  }
+
+  // 档案记录里没有价格字段；这里只取日期、代码、名称、账户、判定计数与用户批注。
+  function readRows() {
+    if (!S || typeof S.listReviews !== 'function') return [];
+    var rows = S.listReviews() || [];
+    var cache = {};
+    rows.forEach(function (r) {
+      var c = code6(r.code);
+      if (!c) return;
+      if (!cache[c] && typeof S.readArchive === 'function') cache[c] = S.readArchive(c);
+      var a = cache[c];
+      var rec = null;
+      if (a && Array.isArray(a.reviews)) {
+        for (var i = 0; i < a.reviews.length; i++) {
+          var x = a.reviews[i] || {};
+          if (day8(x.day) === day8(r.day) && accountOf(x) === accountOf(r)) { rec = x; break; }
+        }
+      }
+      r.note = rec ? String(rec.note || '') : '';
+      r.counts = r.counts || { consistent: 0, inconsistent: 0, undetermined: 0 };
+    });
+    return rows.filter(function (r) { return !!code6(r.code); });
+  }
+
+  function groupByDay(rows) {
+    var map = {};
+    rows.forEach(function (r) {
+      var d = day8(r.day);
+      if (!d) return;
+      if (!map[d]) map[d] = [];
+      map[d].push(r);
+    });
+    var days = Object.keys(map).sort(function (a, b) { return a < b ? 1 : -1; });
+    days.forEach(function (d) {
+      map[d].sort(function (a, b) {
+        var ra = String(a.reviewedAt || ''), rb = String(b.reviewedAt || '');
+        if (ra !== rb) return ra < rb ? 1 : -1;
+        var ca = code6(a.code), cb = code6(b.code);
+        if (ca !== cb) return ca < cb ? -1 : 1;
+        var aa = accountOf(a), ab = accountOf(b);
+        return aa < ab ? -1 : aa > ab ? 1 : 0;
+      });
+    });
+    return { map: map, days: days };
+  }
+
+  function matches(r, q) {
+    if (!q) return true;
+    var s = String(q).toLowerCase();
+    var hay = [code6(r.code), r.name || '', day8(r.day), d10(r.day), accountOf(r), r.note || ''].join(' ').toLowerCase();
+    return hay.indexOf(s) >= 0;
+  }
+
+  function renderStats(rows, days) {
+    var hits = rows.reduce(function (n, r) { return n + num(r.counts && r.counts.inconsistent); }, 0);
+    document.getElementById('n-records').textContent = String(rows.length);
+    document.getElementById('n-days').textContent = String(days);
+    document.getElementById('n-hits').textContent = String(hits);
+  }
+
+  function dueItems(rows) {
+    var now = today();
+    var out = [];
+    rows.forEach(function (r) {
+      var base = dateOf(r.day);
+      if (!base) return;
+      var due = addDays(base, OBSERVE_DAYS);
+      if (!due || due > now) return;
+      if (dueMap[dueKey(r)]) return;
+      out.push({ row: r, due: due });
+    });
+    out.sort(function (a, b) { return a.due < b.due ? -1 : a.due > b.due ? 1 : 0; });
+    return out;
+  }
+
+  function renderDue(rows) {
+    var items = dueItems(rows);
+    dueN.textContent = items.length ? items.length + ' 条到期' : '0 条到期';
+    if (!items.length) {
+      dueBody.innerHTML = '<p class="due-empty">现在没有到期的回看。记录满 ' + OBSERVE_DAYS
+        + ' 天后，这里只问一句：那天守住了吗。';
+      return;
+    }
+    var MAX = 20;
+    var show = items.slice(0, MAX);
+    dueBody.innerHTML = show.map(function (it) {
+      var r = it.row;
+      var name = r.name ? ' · ' + esc(r.name) : '';
+      return '<div class="due-row" data-key="' + esc(dueKey(r)) + '">'
+        + '<div class="due-meta">到期日 ' + esc(ymd(it.due)) + ' · ' + esc(code6(r.code)) + name + '</div>'
+        + '<p class="due-q">那天守住了吗？</p>'
+        + '<div class="due-acts">'
+        + '<button type="button" data-ans="held">守住了</button>'
+        + '<button type="button" data-ans="missed">没守住</button>'
+        + '<button type="button" data-ans="none">没记录</button>'
+        + '</div></div>';
+    }).join('')
+      + (items.length > MAX ? '<p class="due-empty">另有 ' + (items.length - MAX) + ' 条到期，回答后再显示。</p>' : '');
+
+    Array.prototype.forEach.call(dueBody.querySelectorAll('.due-row'), function (box) {
+      var key = box.getAttribute('data-key');
+      Array.prototype.forEach.call(box.querySelectorAll('button[data-ans]'), function (btn) {
+        btn.addEventListener('click', function () {
+          dueMap[key] = { answer: btn.getAttribute('data-ans'), at: new Date().toISOString() };
+          if (!saveDue(dueMap)) return;
+          render();
+        });
+      });
+    });
+  }
+
+  function recHtml(r) {
+    var c = r.counts || {};
+    var d = day8(r.day);
+    var name = r.name || '未命名';
+    var acct = accountOf(r);
+    var seen = dueMap[dueKey(r)];
+    return '<a class="rec" href="archive.html?code=' + encodeURIComponent(code6(r.code))
+      + (r.name ? '&name=' + encodeURIComponent(r.name) : '')
+      + '&day=' + encodeURIComponent(d) + '&acct=' + encodeURIComponent(acct) + '">'
+      + '<span class="rec-top">'
+      + '<span class="rec-name"><b>' + esc(name) + '</b><em>' + esc(code6(r.code))
+      + (acct ? ' · ' + esc(accountLabel(acct)) : '') + '</em></span>'
+      + '<span class="rec-c">命中 <b>' + num(c.inconsistent) + '</b> 条</span>'
+      + '<span class="rec-ar">→</span></span>'
+      + '<span class="rec-counts">'
+      + '<i class="bad">不一致 ' + num(c.inconsistent) + '</i>'
+      + '<i class="ok">符合 ' + num(c.consistent) + '</i>'
+      + '<i class="warn">未定 ' + num(c.undetermined) + '</i>'
+      + (seen ? '<i>回看：' + esc(dueLabel(seen.answer)) + '</i>' : '')
+      + '</span>'
+      + (r.note ? '<p class="rec-note">' + esc(r.note) + '</p>' : '')
+      + '</a>';
+  }
+
+  function renderList(rows) {
+    var q = qEl ? qEl.value.trim() : '';
+    var hit = rows.filter(function (r) { return matches(r, q); });
+    if (noteEl) {
+      noteEl.hidden = !q;
+      noteEl.textContent = q ? ('筛选到 ' + hit.length + ' 条') : '';
+    }
+    if (!hit.length) {
+      listEl.innerHTML = '<div class="sec"><div class="empty-guide"><b>'
+        + (rows.length ? '没有匹配的记录' : '还没有记录')
+        + '</b><p>'
+        + (rows.length ? '换一个代码、名称或日期试试。' : '完成一次复盘并「存进档案」后，这里会按日列出。没有记录时，三张计数卡都显示 0。')
+        + '</p></div></div>';
+      return;
+    }
+    var g = groupByDay(hit);
+    listEl.innerHTML = g.days.map(function (d) {
+      var list = g.map[d];
+      return '<div class="sec"><div class="sec-h"><h2>' + esc(d10(d)) + '</h2><span>' + list.length + ' 条</span></div>'
+        + list.map(recHtml).join('') + '</div>';
+    }).join('');
+  }
+
+  function render() {
+    var rows = readRows();
+    var days = Object.keys(groupByDay(rows).map).length;
+    renderStats(rows, days);
+    renderDue(rows);
+    renderList(rows);
+  }
+
+  if (qEl) qEl.addEventListener('input', function () { renderList(readRows()); });
+  render();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,118 @@
+/* features/intent.css —— 批次 B：7–11 日频动作（只在本批文件内，不改 features.css） */
+
+.pi-wrap { display: flex; flex-direction: column; gap: 12px; margin: 12px 0; }
+
+.pi-block { padding: 16px 16px 14px; border-radius: var(--r-lg); }
+.pi-head { font-size: 15px; font-weight: 800; color: var(--txt); line-height: 1.35; }
+.pi-sub { font-size: 12px; color: var(--sub); line-height: 1.6; margin-top: 4px; }
+.pi-empty { font-size: 13px; color: var(--dim); margin-top: 10px; }
+.pi-line { font-size: 13.5px; color: var(--txt); line-height: 1.7; margin-top: 8px; }
+.pi-line b { color: var(--acc); font-weight: 700; }
+.pi-note { font-size: 13.5px; color: var(--txt); line-height: 1.7; margin-top: 8px; }
+.pi-status { font-size: 12px; color: var(--dim); margin-top: 8px; }
+.pi-dim { font-size: 12px; color: var(--dim); }
+.pi-quote {
+  margin-top: 10px; padding: 8px 10px; font-size: 13px; color: var(--txt);
+  line-height: 1.65; background: rgba(110, 231, 255, 0.06);
+  border-left: 2px solid rgba(110, 231, 255, 0.45); border-radius: 0 8px 8px 0;
+  word-break: break-word;
+}
+.pi-line-extra { font-size: 12px; color: var(--sub); margin-top: 6px; }
+
+/* ---- 明日一规：单选 ---- */
+.pi-picks { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+.pi-pick {
+  min-height: 44px; min-width: 44px; padding: 10px 12px;
+  border-radius: 12px; border: 1px solid var(--brd2);
+  background: var(--glass); color: var(--txt);
+  font-family: inherit; font-size: 13px; font-weight: 600; line-height: 1.4;
+  cursor: pointer; -webkit-tap-highlight-color: transparent;
+}
+.pi-pick.on { border-color: transparent; color: #071021; background: var(--grad); font-weight: 800; }
+.pi-pick.ghost { color: var(--sub); }
+.pi-pick:active { transform: scale(.97); }
+
+/* ---- 8 盘前一句话 ---- */
+.pi-note-input {
+  width: 100%; margin-top: 10px; padding: 10px 12px; min-height: 44px;
+  background: rgba(255, 255, 255, 0.05); border: 1px solid var(--brd2);
+  border-radius: 12px; color: var(--txt); font-family: inherit; font-size: 14px;
+  line-height: 1.6; resize: none; outline: none;
+}
+.pi-note-input::placeholder { color: var(--dim); }
+.pi-note-input:focus { border-color: rgba(110, 231, 255, 0.5); }
+.pi-note-foot { display: flex; align-items: center; justify-content: space-between; margin-top: 8px; }
+
+/* ---- 11 情绪打卡（★ 点击区域 ≥44px） ---- */
+.pi-moods { display: flex; gap: 10px; margin-top: 10px; }
+.pi-mood-btn {
+  flex: 1 1 0; min-height: 48px; min-width: 44px; padding: 12px 8px;
+  border-radius: 14px; border: 1px solid var(--brd2);
+  background: var(--glass); color: var(--txt);
+  font-family: inherit; font-size: 15px; font-weight: 700;
+  cursor: pointer; -webkit-tap-highlight-color: transparent;
+}
+.pi-mood-btn.on { border-color: transparent; color: #071021; background: var(--grad); }
+.pi-mood-btn:disabled { opacity: .85; cursor: default; }
+.pi-mood-btn:active:not(:disabled) { transform: scale(.97); }
+
+/* ---- 通用小按钮 ---- */
+.pi-mini {
+  min-height: 44px; padding: 8px 14px; border-radius: 11px;
+  border: 1px solid var(--brd2); background: var(--glass);
+  color: var(--txt); font-family: inherit; font-size: 13px; font-weight: 700;
+  cursor: pointer; -webkit-tap-highlight-color: transparent;
+}
+.pi-mini.ghost { color: var(--sub); }
+.pi-mini:active { transform: scale(.97); }
+
+/* ---- 9/10 确认后登记弹层 ---- */
+.pi-mask {
+  position: fixed; inset: 0; z-index: 60;
+  background: rgba(4, 7, 15, 0.74); backdrop-filter: blur(6px);
+  display: flex; align-items: flex-end; justify-content: center;
+}
+.pi-modal {
+  width: 100%; max-width: 480px; max-height: 86dvh; overflow-y: auto;
+  background: linear-gradient(180deg, #101a36, #0a1124);
+  border: 1px solid var(--brd2); border-bottom: none;
+  border-radius: 24px 24px 0 0;
+  padding: 20px 18px calc(20px + env(safe-area-inset-bottom));
+}
+.pi-buy { margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--brd); }
+.pi-buy-info { font-size: 13.5px; font-weight: 700; color: var(--txt); line-height: 1.55; }
+.pi-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+.pi-tag {
+  min-height: 44px; min-width: 44px; padding: 10px 14px;
+  border-radius: 12px; border: 1px solid var(--brd2);
+  background: var(--glass); color: var(--txt);
+  font-family: inherit; font-size: 14px; font-weight: 600;
+  cursor: pointer; -webkit-tap-highlight-color: transparent;
+}
+.pi-tag.on { border-color: transparent; color: #071021; background: var(--grad); font-weight: 800; }
+.pi-tag.ghost { color: var(--dim); }
+.pi-tag:active { transform: scale(.97); }
+.pi-stop-row { display: flex; align-items: center; gap: 8px; margin-top: 10px; }
+.pi-stop-row .pi-mini { flex: 0 0 auto; white-space: nowrap; }
+.pi-stop-input {
+  flex: 1 1 0%; min-width: 0; min-height: 44px; padding: 8px 12px;
+  background: rgba(255, 255, 255, 0.05); border: 1px solid var(--brd2);
+  border-radius: 11px; color: var(--txt); font-family: inherit; font-size: 14px; outline: none;
+}
+.pi-stop-input::placeholder { color: var(--dim); font-size: 13px; }
+.pi-modal-foot { display: flex; justify-content: flex-end; margin-top: 16px; }
+.pi-modal-foot .pi-mini { min-width: 96px; }
+
+/* ---- 越线认下 + 改法（图鉴 U-007） ---- */
+.pi-ack { margin-top: 10px; padding: 10px 12px; border-radius: 12px; border: 1px solid var(--brd2); background: rgba(255, 255, 255, 0.03); }
+.pi-ack-q { font-size: 13px; font-weight: 700; color: var(--txt); line-height: 1.5; }
+.pi-ack-q .pi-dim { margin-left: 6px; font-weight: 400; }
+.pi-ack-input {
+  display: block; width: 100%; box-sizing: border-box; margin-top: 8px; min-height: 60px;
+  padding: 8px 10px; resize: vertical;
+  background: rgba(255, 255, 255, 0.05); border: 1px solid var(--brd2); border-radius: 10px;
+  color: var(--txt); font-family: inherit; font-size: 13.5px; line-height: 1.6; outline: none;
+}
+.pi-ack-input::placeholder { color: var(--dim); font-size: 12.5px; }
+.pi-ack-foot { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
+.pi-ack-msg { font-size: 12px; color: var(--dim); line-height: 1.5; }

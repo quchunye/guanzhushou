@@ -1,0 +1,36 @@
+# 依赖与构建产物
+node_modules/
+dist/
+build/
+*.log
+
+# 密钥与配置（.env.example 是唯一允许入库的配置文件）
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.jks
+keystore.properties
+
+# 服务端运行数据（账号、订单、埋点、日志）
+server/data/
+server/log/
+server/*.log
+
+# 行情数据：不随仓分发
+public/data/
+public/builtin/
+public/media/
+public/clips/
+
+# 真实交割单样本：任何情况下都不入库
+test/real_failed/
+test/real_*/
+*.bak_*
+hs_err_pid*.log
+replay_pid*.log
+
+# 系统垃圾
+.DS_Store
+Thumbs.db

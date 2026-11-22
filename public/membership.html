@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0D0B0D">
+<title>会员与档位 · 管住手了吗复盘</title>
+<meta name="description" content="管住手了吗复盘的会员与档位页：免费 / 基础 / 高级三档按累计口径只差在容量、历史长度、回看深度与导出方式；判定标准由你自己勾选。不构成投资建议。">
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="features/paywall.css">
+<link rel="stylesheet" href="site_shell.css">
+</head>
+<body>
+<div class="pw-wrap" id="pw-root">
+  <div class="pw-top"><a href="./">← 回首页</a><span class="pw-mono">MEMBERSHIP</span></div>
+
+  <nav class="pw-nav" aria-label="七个容器">
+    <a href="discipline.html">纪律随身卡</a>
+    <a href="discipline.html#check">今日自查</a>
+    <a href="replay_readonly.html">历史回放</a>
+    <a href="records.html">我的记录</a>
+    <a href="archive.html">票档案与批注</a>
+    <a href="guide.html">规则怎么写</a>
+    <a class="on" href="membership.html" aria-current="page">会员</a>
+  </nav>
+
+  <h1>会员与档位</h1>
+  <p class="pw-lede">三档按累计口径排：基础档含免费档全部，高级档含基础档全部。差异只在容量、历史长度、回看深度与导出方式；判定标准始终是你自己勾选的规则。产品不产出任何分析、预测或选择建议。</p>
+
+  <div class="pw-status">
+    <span>当前档位</span><b id="pw-current">免费档</b>
+    <span class="pw-status-avail" id="pw-avail">本档可用 9 / 9 项</span>
+    <span class="pw-status-note">本机开关 · 不锁功能</span>
+  </div>
+  <div id="pw-switch" class="pw-switch" hidden></div>
+
+  <div class="pw-notice">
+    <p><b>自托管版免费</b>：本仓以 AGPL-3.0 开源，不接支付、不做登录、不做退款，也不因档位拦截任何功能。托管版与内容库不在本仓，见线上站点。</p>
+    <p>容量与设备数为设计上限，当前版本不校验；标注「工具位 · 未接线」的条目属于后续构建项，不作为在售权益。</p>
+  </div>
+
+  <section aria-label="三档对比">
+    <div class="pw-section-h">
+      <h2>三档权益</h2>
+      <p>每档末尾都写明同一条边界：只描述记录与统计工具能力。</p>
+    </div>
+    <div id="pw-cards" class="pw-tiers"></div>
+  </section>
+
+  <section class="pw-section">
+    <div class="pw-section-h">
+      <h2>三档怎么分</h2>
+      <p>只在用量与深度上分差，不在结论上分差。</p>
+    </div>
+    <ul class="pw-free-list">
+      <li><b>免费</b><span>传一份交割单，生成只存在本机的纪律档案；写你自己的规则，逐日自查。</span></li>
+      <li><b>基础</b><span>时间维度工具：把你的规则对到历史某一天，看条件成立几条；按票做跨日对比；导出你的记录。</span></li>
+      <li><b>高级</b><span>规模维度工具：多日并排回放、跨年记录计数、批量导出；工具处理的对象都是你自己写下的内容。</span></li>
+    </ul>
+    <p class="pw-note">以上均为记录与统计工具能力，不构成投资建议。</p>
+  </section>
+
+  <section class="pw-section">
+    <div class="pw-section-h">
+      <h2>本页边界</h2>
+      <p>三档都不产出结论，只提供记录与统计工具。</p>
+    </div>
+    <ul class="pw-free-list">
+      <li><b>不卖</b><span>不卖任何证券、价格或方向类内容。</span></li>
+      <li><b>不锁</b><span>自托管版包含完整记录闭环：传、写、看、答、回、存全部可用，核心判定能力不放付费档。</span></li>
+      <li><b>不收</b><span>自托管版不接支付、不做登录、不做退款，也没有需要付费才能用的判定能力。</span></li>
+    </ul>
+  </section>
+
+  <section class="pw-section">
+    <div class="pw-section-h">
+      <h2>三档 × 17 项矩阵</h2>
+      <p>17 项里 9 项进产品，本页只列这 9 项；档位按累计口径显示。</p>
+    </div>
+    <div id="pw-matrix"></div>
+    <p class="pw-matrix-note" id="pw-matrix-note"></p>
+  </section>
+
+  <section class="pw-section">
+    <div class="pw-section-h">
+      <h2>自托管版功能完整</h2>
+      <p>自己部署 = 完整产品。开源版包含传、写、看、答、回、存全流程；托管版只在它之上加云存档、多设备与内置行情包。</p>
+    </div>
+    <ul class="pw-free-list">
+      <li><b>传</b><span>交割单导入、手工补录、账本合并与去重。</span></li>
+      <li><b>写</b><span>判定标准与规则内容由你自己勾选、自己写。</span></li>
+      <li><b>看</b><span>我的记录（列表 + 搜索 + 三计数）、票档案与批注。</span></li>
+      <li><b>答</b><span>今日自查、我的检查时点、纪律随身卡。</span></li>
+      <li><b>回</b><span>单日 K 与分时、到期日自查。</span></li>
+      <li><b>存</b><span>本机备份导出 / 导入。</span></li>
+    </ul>
+    <p class="pw-note">9 项已进产品的能力在免费档都有基础用法；付费档只增加时间维度与规模维度工具，不把核心功能留给付费档。</p>
+  </section>
+
+  <section class="pw-section pw-paywall-demo">
+    <div class="pw-section-h">
+      <h2>单条能力分布</h2>
+      <p>只做说明，不拦截。点开可看单条能力在三档里的分布。</p>
+    </div>
+    <button type="button" class="pw-btn" data-paywall-preview="R-03">预览：历史回放</button>
+    <button type="button" class="pw-btn pw-btn--ghost" data-paywall-preview="R-07">预览：票档案与批注</button>
+  </section>
+
+  <footer class="pw-foot">
+    <p>本页只描述工具能力与用量差异。所有判定标准由你自己勾选；产品不提供证券分析、预测或选择建议。不构成投资建议。</p>
+    <p class="pj-shell-nav" aria-label="七个容器">
+      <a href="discipline.html">纪律随身卡</a>
+      <a href="discipline.html#check">今日自查</a>
+      <a href="replay_readonly.html">历史回放</a>
+      <a href="records.html">我的记录</a>
+      <a href="archive.html">票档案与批注</a>
+      <a href="guide.html">规则怎么写</a>
+      <a href="membership.html">会员</a>
+    </p>
+    <p class="pj-shell-line">只记录、只统计、只复盘 · 不构成投资建议 · 不展示实时行情</p>
+  </footer>
+</div>
+<noscript>
+  <div class="pw-wrap">
+    <p class="pw-disclaimer">本页需要浏览器启用脚本才能显示三档卡片与矩阵。三档都只描述记录与统计工具能力：免费档包含传、写、看、答、回、存的完整闭环；基础档与高级档只增加时间维度与规模维度工具。不构成投资建议。</p>
+  </div>
+</noscript>
+<script src="compat.js"></script>
+<script src="features/registry.js"></script>
+<script src="features/paywall.js"></script>
+<script>
+(function () {
+  if (window.PanjiPaywall) window.PanjiPaywall.mountPage();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,36 @@
+/* 站点外壳统一页脚（组 1 · 20261109）
+   七个容器入口 + 固定页脚口径。独立样式，不依赖各页主题；
+   全站共用同一段 .pj-shell 标记，改这里即改全站。 */
+.pj-shell{
+  max-width:720px;
+  margin:26px auto 0;
+  padding:16px 0 6px;
+  border-top:1px solid rgba(214,226,238,.16);
+  font:11.5px/1.9 -apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;
+  color:#8F8983;
+  text-align:center;
+}
+.pj-shell a{color:#B8B2AB;text-decoration:none}
+.pj-shell a:hover{color:#EDE9E3}
+.pj-shell-nav{margin:0 0 8px}
+.pj-shell-nav a{display:inline-block;margin:0 6px 2px;color:#B8B2AB;text-decoration:none}
+.pj-shell-nav a:hover{color:#EDE9E3}
+.pj-shell-line{margin:0;color:#8F8983}
+
+/* ===== 版式统一（20261109）：状态栏安全区 + 标题呼吸位 =====
+   四页共用这一份，不改各页行内样式；env() 一律在前叠加，0 安全区时退回基准值。 */
+/* records / archive：body 本身是容器（行内 padding-top:18px），这里覆盖为 12px + 安全区 */
+body:has(> .top){padding-top:calc(env(safe-area-inset-top) + 12px)}
+/* 两页标题与顶部导航之间原来只有 6px，抬到 10px，落在 8–20px 区间 */
+body:has(> .top) > .top + h1{margin-top:10px}
+/* discipline：容器 .dw 行内 padding-top:28px 偏大，改为 14px + 安全区 */
+body > .dw{padding-top:calc(env(safe-area-inset-top) + 14px)}
+/* 标题上方与导航的间距 24px → 16px */
+body > .dw .dw-nav{margin-bottom:16px}
+@media (max-height:520px){
+  body > .dw{padding-top:calc(env(safe-area-inset-top) + 10px)}
+  body > .dw .dw-nav{margin-bottom:12px}
+}
+@media (min-width:1024px){
+  body > .dw{padding-top:calc(env(safe-area-inset-top) + 44px)}
+}

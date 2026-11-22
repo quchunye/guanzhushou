@@ -1,0 +1,1007 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0D0B0D">
+<title>管住手了吗复盘｜交割单纪律复盘</title>
+<meta name="description" content="管住手了吗复盘：上传交割单截图，AI识别预填，你逐笔复核，生成带编号的纪律档案。判定标准是你自己的规则——不预测涨跌，不构成任何投资建议。">
+<!-- og:微信/社交转发卡片（不引用仓外图片，转发时只显示标题与描述） -->
+<meta property="og:title" content="管住手了吗复盘｜交割单纪律复盘">
+<meta property="og:description" content="管住手了吗复盘：上传交割单截图，AI识别预填，逐笔复核，生成带编号的纪律档案。判定标准是你自己的规则——不预测涨跌，不构成任何投资建议。">
+<meta name="twitter:card" content="summary">
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="features.css">
+<link rel="stylesheet" href="site_shell.css">
+<style>
+  /* ===== 玄霜纪皮肤（20261105）：只覆盖取值，不改任何逻辑 ===== */
+  :root {
+    --bg0: #0D0B0D; --bg1: #141116;
+    --glass: #141116; --glass2: #1A171C;
+    --brd: rgba(214,226,238,.16); --brd2: rgba(214,226,238,.32);
+    --txt: #EDE9E3; --sub: #B8B2AB; --dim: #8F8983;
+    --acc: #9DB8CE; --acc2: #9DB8CE; --ok: #9DB8CE;
+    --warn: #CBB894; --bad: #C08C8C;
+    --grad: #EDE9E3;
+    --r-lg: 2px; --r-md: 2px; --r-sm: 2px;
+    --x-accent-ink: #0B0A0C;
+    --x-serif: "Songti SC","STSong","Noto Serif CJK SC","SimSun",serif;
+    --x-mono: ui-monospace,"SF Mono","Cascadia Mono",Consolas,monospace;
+  }
+  body { background: #0D0B0D; }
+  .aurora { background: #0D0B0D; }
+  .aurora::before {
+    background-image:
+      linear-gradient(rgba(214,226,238,.035) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(214,226,238,.035) 1px, transparent 1px);
+    background-size: 44px 44px;
+    mask-image: linear-gradient(180deg, rgba(0,0,0,.85), rgba(0,0,0,.22) 55%, rgba(0,0,0,.04));
+    -webkit-mask-image: linear-gradient(180deg, rgba(0,0,0,.85), rgba(0,0,0,.22) 55%, rgba(0,0,0,.04));
+  }
+  .orb { display: none; }
+  .card {
+    background: #141116; border: 1px solid rgba(214,226,238,.16);
+    box-shadow: none; backdrop-filter: none; -webkit-backdrop-filter: none;
+  }
+  .card::before { display: none; }
+  .brand { padding: 30px 0 20px; }
+  .logo {
+    width: 64px; height: 64px; border-radius: 2px; margin-bottom: 16px;
+    background: #EDE9E3; box-shadow: none; animation: none;
+  }
+  .logo svg { width: 34px; height: 34px; }
+  .logo svg path { stroke: #0B0A0C; }
+  h1.title {
+    font-family: var(--x-serif); font-size: clamp(27px, 8vw, 32px); font-weight: 600;
+    letter-spacing: .04em; line-height: 1.24;
+    background: none; -webkit-background-clip: border-box; background-clip: border-box;
+    -webkit-text-fill-color: #EDE9E3; color: #EDE9E3;
+  }
+  .brand .subtitle { font-size: 15px; line-height: 1.85; color: #B8B2AB; margin-top: 12px; }
+  .brand .subtitle b { color: #EDE9E3; font-weight: 600; }
+  .steps { gap: 6px; margin: 20px 0 18px; }
+  .step { padding: 13px 8px 12px; }
+  .step .n {
+    width: 24px; height: 24px; border-radius: 2px;
+    background: transparent; border: 1px solid rgba(214,226,238,.32);
+    color: #9DB8CE; font-family: var(--x-mono); font-size: 11px; font-weight: 400; letter-spacing: .06em;
+  }
+  .step p { font-size: 11.5px; line-height: 1.6; color: #8F8983; }
+  .step p b { font-size: 12.5px; color: #EDE9E3; }
+  .btn {
+    background: #EDE9E3; color: #0B0A0C; border-radius: 2px;
+    font-family: inherit; font-size: 16px; font-weight: 600; letter-spacing: .06em;
+    min-height: 52px; padding: 14px 20px; box-shadow: none;
+    transition: background .18s ease, border-color .18s ease, color .18s ease;
+  }
+  .btn:active { transform: none; box-shadow: none; background: #FFFFFF; }
+  .btn.ghost {
+    background: transparent; color: #EDE9E3;
+    border: 1px solid rgba(214,226,238,.32); backdrop-filter: none;
+  }
+  .btn.ghost:active { background: #1A171C; }
+  .btn:disabled, .btn[aria-disabled="true"] { opacity: 1; background: #2A272E; color: #C9C3BB; box-shadow: none; pointer-events: none; }
+  .btn.ghost:disabled, .btn.ghost[aria-disabled="true"] { background: transparent; color: #9A948D; }
+  .help-btn {
+    font-family: var(--x-mono); font-size: 11px; letter-spacing: .06em;
+    border: 1px solid rgba(214,226,238,.16); border-radius: 2px; background: transparent;
+    color: #B8B2AB; box-shadow: none;
+  }
+  .help-btn:active { transform: none; background: #1A171C; }
+  .rule-entry {
+    border-radius: 2px; background: #141116; border: 1px solid rgba(214,226,238,.16); box-shadow: none;
+  }
+  .rule-entry:active { transform: none; background: #1A171C; }
+  .done-ico {
+    width: 76px; height: 76px; border-radius: 2px;
+    background: transparent; border: 1px solid rgba(214,226,238,.32); box-shadow: none; animation: none;
+  }
+  .done-ico svg path { stroke: #9DB8CE; }
+  .case-no {
+    border-radius: 2px; font-family: var(--x-mono); font-weight: 400;
+    letter-spacing: .22em; background: transparent; border-color: rgba(214,226,238,.32); color: #9DB8CE;
+  }
+  .mode-tag { border-radius: 2px; font-weight: 400; letter-spacing: .16em; background: transparent; color: #8F8983; }
+  .done-box h2 { font-family: var(--x-serif); font-weight: 600; letter-spacing: .03em; }
+  .done-stats .v { font-weight: 600; }
+  .quote { border-radius: 2px; font-weight: 600; }
+
+  /* ===== 三块入口 ===== */
+  .site-nav {
+    margin: 18px 0 4px; display: grid; grid-template-columns: 1fr; gap: 0;
+    border-top: 1px solid rgba(214,226,238,.16); font-size: 16px; line-height: 1.5;
+  }
+  .site-nav a {
+    display: flex; align-items: center; justify-content: space-between; gap: 10px;
+    min-height: 44px; padding: 10px 2px; color: #EDE9E3; text-decoration: none;
+    border-bottom: 1px solid rgba(214,226,238,.16); letter-spacing: .02em;
+    transition: color .18s ease, border-color .18s ease;
+  }
+  .site-nav a:hover { color: #9DB8CE; }
+  .site-nav a.on { color: #9DB8CE; }
+  .site-nav a.on::after { content: "本页"; font: 10.5px/1 var(--x-mono); letter-spacing: .12em; color: #8F8983; }
+  .site-nav i { display: none; }
+  .demo-note { margin: 8px 0 0; font-size: 11.5px; line-height: 1.7; color: #8F8983; opacity: 1; }
+
+  /* ===== 新手向导卡（首次访问一次） ===== */
+  .xj-guide {
+    position: relative; margin: 16px 0 2px; padding: 16px 16px 6px;
+    border: 1px solid rgba(214,226,238,.32); border-radius: 2px; background: #141116;
+  }
+  .xj-guide .xj-kicker { font: 10.5px/1 var(--x-mono); letter-spacing: .3em; color: #8F8983; }
+  .xj-guide h2 {
+    font-family: var(--x-serif); font-size: 19px; font-weight: 600; letter-spacing: .03em;
+    color: #EDE9E3; margin: 10px 0 4px;
+  }
+  .xj-guide .xj-sub { font-size: 12.5px; line-height: 1.7; color: #B8B2AB; margin-bottom: 10px; }
+  .xj-rows { display: grid; gap: 0; border-top: 1px solid rgba(214,226,238,.16); }
+  .xj-row {
+    display: flex; align-items: center; gap: 12px; min-height: 56px; padding: 11px 0;
+    border-bottom: 1px solid rgba(214,226,238,.16); text-decoration: none; color: #EDE9E3;
+    transition: color .18s ease;
+  }
+  .xj-row:hover { color: #9DB8CE; }
+  .xj-row .xj-no { flex: 0 0 34px; font: 11px/1 var(--x-mono); letter-spacing: .14em; color: #9DB8CE; }
+  .xj-row .xj-txt { min-width: 0; display: block; }
+  .xj-row .xj-txt b { display: block; font-size: 15px; font-weight: 600; line-height: 1.5; }
+  .xj-row .xj-txt small { display: block; font-size: 11.5px; line-height: 1.6; color: #8F8983; }
+  .xj-row .xj-ar { flex: 0 0 auto; color: #8F8983; font-size: 14px; }
+  .xj-guide-x {
+    position: absolute; top: 6px; right: 6px; width: 44px; height: 44px;
+    background: transparent; border: 0; color: #8F8983; font-size: 18px; line-height: 1;
+    cursor: pointer; font-family: inherit;
+  }
+  .xj-guide-x:hover { color: #EDE9E3; }
+  .site-foot-sign { font-family: var(--x-serif); letter-spacing: .26em; font-size: 11px; color: #8F8983; }
+  @media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
+</style>
+<style id="skin-b">
+  /* ===== 官网风 v2（r22 落码）：底 #04070e / 霜蓝 #8fd8ff / 渐变主按钮 ===== */
+  @font-face {
+    font-family: "Noto Serif SC";
+    src: url("fonts/noto-serif-sc-subset.woff2") format("woff2");
+    font-weight: 200 900; font-style: normal; font-display: swap;
+  }
+  :root {
+    --bg0: #04070e; --bg1: #081020;
+    --glass: rgba(11,24,44,.55); --glass2: rgba(15,32,58,.72);
+    --brd: rgba(143,216,255,.14); --brd2: rgba(143,216,255,.28);
+    --txt: #eaf4ff; --sub: #b7c9dd; --dim: #7d90a4;
+    --meta: rgba(214,233,252,.54);
+    --acc: #8fd8ff; --acc2: #9f8cff; --ok: #8fd8ff;
+    --warn: #e3c58f; --bad: #e09aa0;
+    --grad: linear-gradient(180deg,#bfeaff,#7dd4ff 52%,#9f8cff);
+    --r-lg: 22px; --r-md: 16px; --r-sm: 18px;
+    --x-serif: "Noto Serif SC","Songti SC",STSong,serif;
+    --x-mono: ui-monospace,"SF Mono","Cascadia Mono",Consolas,monospace;
+  }
+  body {
+    background: var(--bg0); color: var(--txt);
+    font-family: -apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;
+    font-variant-numeric: tabular-nums; text-wrap: pretty; overflow-wrap: anywhere;
+  }
+  .aurora { background: var(--bg0); }
+  .aurora::before {
+    background-image:
+      linear-gradient(rgba(143,216,255,.045) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(143,216,255,.045) 1px, transparent 1px);
+    background-size: 44px 44px;
+    mask-image: radial-gradient(120% 80% at 50% 0%, rgba(0,0,0,.9), rgba(0,0,0,.12) 60%, transparent);
+    -webkit-mask-image: radial-gradient(120% 80% at 50% 0%, rgba(0,0,0,.9), rgba(0,0,0,.12) 60%, transparent);
+  }
+  .orb.a { display: block; background: radial-gradient(circle, rgba(143,216,255,.18), transparent 62%); }
+  .orb.b { display: block; background: radial-gradient(circle, rgba(159,140,255,.14), transparent 62%); }
+  .orb.c { display: none; }
+  .card {
+    background: var(--glass); border: 1px solid var(--brd); border-radius: var(--r-lg);
+    box-shadow: 0 20px 60px rgba(0,0,0,.35); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+  }
+  .card::before { display: none; }
+  .brand { padding: 8px 0 0; }
+  .brand-row { display: flex; align-items: center; gap: 8px; margin-bottom: 22px; }
+  .logo {
+    width: 30px; height: 30px; border-radius: 10px; margin: 0;
+    background: linear-gradient(180deg,#bfeaff,#7dd4ff 52%,#9f8cff);
+    box-shadow: 0 0 0 1px rgba(143,216,255,.28); animation: none;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .logo svg { width: 16px; height: 16px; }
+  .logo svg path { stroke: #071021; }
+  .brand-name { font-family: var(--x-serif); font-size: 15px; font-weight: 600; letter-spacing: .08em; color: var(--txt); }
+  .brand-en { margin-left: auto; font-family: var(--x-mono); font-size: 10.5px; letter-spacing: .18em; color: var(--meta); }
+  .kicker { font: 11px/1 var(--x-mono); letter-spacing: .22em; color: var(--meta); margin: 0 0 14px; }
+  h1.title {
+    font-family: var(--x-serif); font-size: clamp(34px, 10.4vw, 44px); font-weight: 300;
+    letter-spacing: .01em; line-height: 1.2; color: var(--txt);
+    background: none; -webkit-text-fill-color: currentColor; margin: 0;
+  }
+  h1.title em {
+    display: block; font-style: normal; font-weight: 600;
+    background: linear-gradient(180deg,#eaf4ff 20%,#8fd8ff 70%,#9f8cff);
+    -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; color: transparent;
+  }
+  .brand .subtitle { font-size: 15px; line-height: 1.75; color: var(--sub); margin-top: 14px; }
+  .brand .subtitle b { color: var(--txt); font-weight: 600; }
+  .btn {
+    background: var(--grad); color: #071021; border: 0; border-radius: 22px;
+    font-family: inherit; font-size: 16px; font-weight: 700; letter-spacing: .02em;
+    min-height: 52px; padding: 14px 22px; box-shadow: 0 10px 30px rgba(125,212,255,.22);
+    transition: filter .18s ease, transform .18s cubic-bezier(.2,.8,.2,1);
+  }
+  .btn:active { transform: translateY(1px); box-shadow: 0 6px 18px rgba(125,212,255,.18); background: var(--grad); }
+  .btn.ghost { background: transparent; color: var(--txt); border: 1px solid var(--brd2); box-shadow: none; }
+  .btn.ghost:active { background: rgba(143,216,255,.08); }
+  .btn:disabled, .btn[aria-disabled="true"] { opacity: 1; background: #18263c; color: #93a0bd; box-shadow: none; pointer-events: none; }
+  .btn.ghost:disabled, .btn.ghost[aria-disabled="true"] { background: transparent; color: #8598ad; }
+  .help-btn {
+    font-family: inherit; font-size: 12px; letter-spacing: 0; border: 1px solid var(--brd);
+    border-radius: 100px; background: rgba(8,16,32,.6); color: var(--sub); box-shadow: none; backdrop-filter: blur(8px);
+  }
+  .help-btn:active { transform: none; background: rgba(15,32,58,.8); }
+  /* 「不知道传什么」入口：与副标题同一行，整组在标题列中轴居中，文字与按钮垂直坐齐 */
+  .sub-row { display: flex; align-items: center; justify-content: center; gap: 10px; height: 48px; margin-top: 14px; }
+  .sub-row .subtitle { margin: 0; flex: 0 1 auto; min-width: 0; font-size: 14px; line-height: 1.75; color: var(--sub); }
+  .sub-row .help-btn {
+    position: static; z-index: auto; flex: none; width: 132px; height: 44px; padding: 0;
+    display: inline-flex; align-items: center; justify-content: center;
+    border-radius: 100px; font-size: 12px; line-height: 1; letter-spacing: 0; white-space: nowrap;
+    background: rgba(8,16,32,.6); border: 1px solid var(--brd); color: var(--sub);
+    backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); cursor: pointer;
+  }
+  .sub-row .help-btn:hover { color: var(--txt); }
+  .upload-wrap { margin-top: 10px; }
+  .sub-link {
+    display: inline-flex; align-items: center; gap: 6px; min-height: 44px; margin-top: 2px;
+    background: none; border: 0; color: var(--sub); font: inherit; font-size: 14px; cursor: pointer; padding: 0 2px;
+  }
+  .sub-link span { color: var(--acc); transition: transform .18s ease; }
+  .sub-link:hover { color: var(--txt); }
+  .sub-link:hover span { transform: translateX(3px); }
+  /* 示例预览（点「先看示例」进来这一屏）：文件已选好的状态 */
+  .pick { margin: 18px 0 0; padding: 14px; border: 1px solid var(--brd); border-radius: var(--r-lg); background: var(--glass); }
+  .pick-file { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
+  .pick-ic { width: 40px; height: 34px; flex: none; display: grid; place-items: center; border-radius: 9px; background: rgba(110,231,255,.12); color: var(--acc); font: 10px var(--x-mono); letter-spacing: .04em; white-space: nowrap; }
+  .pick-file b { display: block; font-size: 13.5px; font-weight: 500; color: var(--txt); word-break: break-all; }
+  .pick-file i { display: block; margin-top: 2px; font-style: normal; font-size: 11px; color: var(--meta); }
+  .pick-badge { margin-left: auto; flex: none; font-size: 10.5px; color: var(--acc); border: 1px solid rgba(110,231,255,.35); border-radius: 100px; padding: 3px 8px; }
+  /* 竖版长截图：限高 + 内部纵向滚动；左右各借 14px 卡片内边距，图更宽、字段名更清楚 */
+  .pick-win { max-height: 336px; margin: 0 -14px; overflow-y: auto; overflow-x: hidden; -webkit-overflow-scrolling: touch; border-radius: 8px; background: #fff; scrollbar-width: thin; }
+  .pick-win img { display: block; width: 100%; max-width: 100%; height: auto; }
+  .pick-hint { margin: 8px 0 0; font-size: 11px; letter-spacing: .04em; color: var(--dim); text-align: center; }
+  .pick-tip { margin: 12px 0 0; font-size: 11.5px; line-height: 1.7; color: var(--meta); }
+  .pick-back { align-self: flex-start; margin: 0 0 10px; padding: 0; border: 0; background: none; color: var(--meta); font: inherit; font-size: 12.5px; cursor: pointer; }
+  .pick-back:hover { color: var(--txt); }
+  .steps { display: none; }
+  /* 02 区 */
+  .chapter { margin-top: 40px; }
+  .ch-head { display: flex; align-items: baseline; gap: 8px; padding-bottom: 10px; }
+  .ch-n { font-family: var(--x-mono); font-size: 11.5px; letter-spacing: .14em; color: var(--acc); }
+  .ch-t { font-family: var(--x-serif); font-size: 19px; font-weight: 600; margin: 0; }
+  .ch-c { margin-left: auto; font-size: 11.5px; color: var(--meta); }
+  .rows { border-top: 1px solid var(--brd); }
+  .row {
+    display: grid; grid-template-columns: 30px 1fr 16px; column-gap: 10px; align-items: center;
+    min-height: 56px; padding: 9px 0; border-bottom: 1px solid var(--brd);
+    color: var(--txt); text-decoration: none;
+  }
+  .row .rn { font-family: var(--x-mono); font-size: 11.5px; letter-spacing: .1em; color: var(--meta); }
+  .row b { display: block; font-size: 15px; font-weight: 500; line-height: 1.5; }
+  .row small { display: block; font-size: 12px; line-height: 1.55; color: var(--meta); margin-top: 1px; }
+  .row .ar { color: var(--dim); font-size: 14px; }
+  .row:hover b { color: var(--acc); }
+  .row:hover .ar { color: var(--acc); }
+  .all {
+    display: flex; align-items: center; justify-content: space-between; min-height: 52px;
+    margin-top: 12px; padding: 0 2px; color: var(--sub); text-decoration: none; font-size: 14px;
+  }
+  .all span { color: var(--acc); }
+  .all:hover { color: var(--txt); }
+  .rule-entry {
+    border-radius: var(--r-lg); background: var(--glass); border: 1px solid var(--brd); box-shadow: none;
+    margin-top: 24px;
+  }
+  .rule-entry:active { transform: none; background: var(--glass2); }
+  a.rule-entry { text-decoration: none; }
+  .rules-howto { margin: 10px 0 0; border: 1px solid var(--brd); border-radius: var(--r-lg); background: var(--glass); }
+  .rules-howto > summary { list-style: none; cursor: pointer; min-height: 52px; display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 0 14px; font-size: 14px; color: var(--sub); }
+  .rules-howto > summary::-webkit-details-marker { display: none; }
+  .rules-howto > summary b { color: var(--txt); font-weight: 600; }
+  .rules-howto > summary .rh-s { font-size: 12px; color: var(--meta); }
+  .rules-howto[open] > summary { border-bottom: 1px solid var(--brd); }
+  .rules-howto .rh-body { padding: 12px 14px 14px; }
+  .rules-howto dt { font-size: 13px; font-weight: 600; color: var(--txt); margin: 12px 0 3px; }
+  .rules-howto dt:first-child { margin-top: 0; }
+  .rules-howto dd { margin: 0; font-size: 12.5px; line-height: 1.7; color: var(--sub); }
+  .rules-howto .rh-eg, .rules-howto .rh-bad { margin: 12px 0 0; padding: 10px 12px; border: 1px dashed var(--brd2); border-radius: 10px; font-size: 12.5px; line-height: 1.7; color: var(--sub); }
+  .rules-howto .rh-eg b, .rules-howto .rh-bad b { display: block; color: var(--txt); font-weight: 600; margin-bottom: 4px; }
+  .rules-howto .rh-warn { margin: 12px 0 0; font-size: 12px; line-height: 1.7; color: var(--meta); }
+  .demo-note { margin: 10px 0 0; font-size: 12px; line-height: 1.7; color: var(--meta); }
+  .home-note { margin: 10px 0 0; padding: 9px 12px; border: 1px solid rgba(240,190,120,.35); border-radius: 10px; background: rgba(240,190,120,.08); font-size: 12px; line-height: 1.7; color: #e8c99a; }
+  .case-no {
+    border-radius: 100px; font-family: var(--x-mono); font-weight: 400;
+    letter-spacing: .16em; background: transparent; border-color: var(--brd2); color: var(--acc);
+  }
+  .mode-tag { border-radius: 100px; font-weight: 400; letter-spacing: .14em; background: transparent; color: var(--meta); }
+  .done-box h2 { font-family: var(--x-serif); font-weight: 600; letter-spacing: .02em; }
+  .done-ico {
+    width: 76px; height: 76px; border-radius: 22px;
+    background: rgba(143,216,255,.08); border: 1px solid var(--brd2); box-shadow: none; animation: none;
+  }
+  .done-ico svg path { stroke: var(--acc); }
+  .done-stats .v { font-weight: 600; }
+  .quote { border-radius: var(--r-lg); font-weight: 600; }
+  /* 档案页双反馈 */
+  .dual {
+    display: grid; grid-template-columns: minmax(0,1fr) minmax(0,1.25fr); gap: 16px; align-items: start;
+    margin: 18px 0 4px; padding: 16px 18px; border: 1px solid var(--brd); border-radius: var(--r-lg);
+    background: rgba(8,16,32,.55); text-align: left;
+  }
+  .dual > span { min-width: 0; }
+  .dual .dl-k { display: block; font-size: 11.5px; letter-spacing: .1em; color: var(--meta); white-space: nowrap; }
+  .dual .dl-v { display: block; font-family: var(--x-mono); font-size: 20px; font-weight: 500; color: var(--acc); margin-top: 4px; }
+  .dual .dl-s { display: block; font-size: 12px; line-height: 1.6; color: var(--dim); margin-top: 4px; }
+  .mini-grid { display: grid; grid-template-columns: repeat(5,14px); gap: 4px; margin: 6px 0 6px; }
+  .mini-grid i { width: 14px; height: 14px; border-radius: 4px; border: 1px solid rgba(143,216,255,.26); background: transparent; display: block; }
+  .mini-grid i.on { background: linear-gradient(180deg,#bfeaff,#7dd4ff 60%,#9f8cff); border-color: transparent; }
+  .mini-grid i.locked { border-style: solid; background: repeating-linear-gradient(45deg,rgba(143,216,255,.14) 0 2px,transparent 2px 5px); opacity: .72; cursor: help; }
+  .dual .dl-s b { color: var(--sub); font-weight: 500; }
+  .done-cta { display: grid; gap: 8px; margin: 12px 0 4px; }
+  .done-cta a { text-decoration: none; }
+  .done-cta .btn { width: 100%; }
+  /* 导航/页脚 */
+  .site-nav {
+    margin: 28px 0 4px; display: flex; flex-wrap: wrap; gap: 6px; border-top: 1px solid var(--brd);
+    padding-top: 12px; font-size: 13px; line-height: 1.5;
+  }
+  .site-nav a {
+    display: inline-flex; align-items: center; min-height: 44px; padding: 0 12px;
+    color: var(--sub); text-decoration: none; border: 1px solid var(--brd); border-radius: 100px;
+    transition: color .18s ease, border-color .18s ease;
+  }
+  .site-nav a:hover { color: var(--txt); border-color: var(--brd2); }
+  .site-nav a.on { color: var(--txt); border-color: var(--brd2); background: rgba(143,216,255,.08); }
+  .site-nav a.on::after { content: ""; }
+  .site-nav i { display: none; }
+  .xj-guide { border: 1px solid var(--brd2); border-radius: var(--r-lg); background: var(--glass); }
+  .xj-guide .xj-kicker { color: var(--meta); }
+  .xj-guide h2 { font-family: var(--x-serif); color: var(--txt); }
+  .xj-guide .xj-sub { color: var(--sub); }
+  .xj-rows { border-top: 1px solid var(--brd); }
+  .xj-row { border-bottom: 1px solid var(--brd); color: var(--txt); }
+  .xj-row:hover { color: var(--acc); }
+  .xj-row .xj-no { color: var(--meta); }
+  .xj-row .xj-txt small { color: var(--meta); }
+  .xj-row .xj-ar { color: var(--dim); }
+  .xj-guide-x { color: var(--dim); }
+  .xj-guide-x:hover { color: var(--txt); }
+  .site-foot-sign { font-family: var(--x-serif); letter-spacing: .2em; font-size: 11px; color: var(--dim); }
+  .foot { color: var(--meta); }
+  .brandline { color: var(--sub); }
+  @media (min-width: 1024px) {
+    .wrap { max-width: 1180px; padding: 40px 72px 48px; }
+    .hero { display: grid; grid-template-columns: 1fr 420px; column-gap: 64px; align-items: center; }
+    .hero .side { grid-column: 2; align-self: center; }
+    .hero .steps { display: block; margin-top: 0; border-top: 0; padding-top: 0; }
+    .hero .steps > div { display: grid; grid-template-columns: 32px 1fr; column-gap: 8px; align-items: center; min-height: 44px; border-bottom: 1px solid var(--brd); color: var(--sub); font-size: 14px; }
+    .hero .steps > div:last-child { border-bottom: 0; }
+    .hero .steps .sn { font-family: var(--x-mono); font-size: 11px; letter-spacing: .08em; color: var(--meta); }
+    h1.title { font-size: 96px; line-height: 1.04; letter-spacing: -.02em; }
+    .brand .subtitle { font-size: 17px; line-height: 1.7; max-width: 560px; }
+    /* 桌面：整组同样在标题列中轴居中，字号按桌面比例放大 */
+    .sub-row .subtitle { font-size: 17px; line-height: 1.7; }
+    .hero-main > .upload-wrap { max-width: 520px; margin-left: auto; margin-right: auto; }
+    .hero-main > .sub-link { max-width: 520px; }
+    .hero-main > .btn { margin-top: 8px; }
+    .chapter { margin-top: 80px; }
+    .rows { display: grid; grid-template-columns: 1fr 1fr; column-gap: 64px; border-top: 0; }
+    .row { border-top: 1px solid var(--brd); }
+    .rule-entry { max-width: 520px; }
+    .dual { max-width: 560px; margin-left: auto; margin-right: auto; }
+  }
+  @media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
+
+  /* ===== 判定分步进度（真实阶段，非百分比假进度） ===== */
+  .phase-mask { position: fixed; inset: 0; z-index: 60; display: grid; place-items: center; padding: 20px; background: rgba(6, 10, 18, .72); backdrop-filter: blur(3px); }
+  .phase-mask[hidden] { display: none; }
+  .phase-card { width: min(420px, 100%); border: 1px solid var(--brd); border-radius: 16px; background: #0d1526; padding: 18px 18px 14px; box-shadow: 0 18px 50px rgba(0, 0, 0, .45); }
+  .phase-head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; font-size: 13px; letter-spacing: .06em; color: var(--sub); }
+  .phase-head b { font: 12px/1 var(--x-mono); color: var(--meta); font-weight: 500; }
+  .phase-list { list-style: none; margin: 14px 0 10px; padding: 0; display: grid; gap: 9px; }
+  .phase-list li { display: grid; grid-template-columns: 14px 1fr auto; align-items: center; gap: 9px; font-size: 13px; color: var(--dim); }
+  .phase-list li i { width: 9px; height: 9px; border-radius: 50%; border: 1px solid rgba(214, 226, 238, .28); }
+  .phase-list li[data-st="active"] { color: var(--txt); }
+  .phase-list li[data-st="active"] i { border-color: var(--acc); background: var(--acc); box-shadow: 0 0 0 3px rgba(110, 231, 255, .16); }
+  .phase-list li[data-st="done"] { color: var(--sub); }
+  .phase-list li[data-st="done"] i { border-color: transparent; background: rgba(110, 231, 255, .55); }
+  .phase-list li em { font-style: normal; font: 10px/1 var(--x-mono); color: var(--meta); }
+  .phase-list li[data-st="active"] em { color: var(--acc); }
+  .phase-note { margin: 4px 0 0; font-size: 11px; line-height: 1.6; color: var(--meta); min-height: 18px; }
+</style>
+<style id="skin-float-entry">
+  /* ===== 桌面悬浮入口（20261109）：放在首屏，不用翻到页面底部找 ===== */
+  .float-entry {
+    margin: 16px 0 0; padding: 16px 18px 14px;
+    border: 1px solid rgba(143,216,255,.34); border-radius: var(--r-lg);
+    background: linear-gradient(180deg, rgba(143,216,255,.10), rgba(15,32,58,.55));
+    box-shadow: 0 12px 34px rgba(0,0,0,.28);
+  }
+  .fe-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+  .fe-k { font: 11px/1 var(--x-mono); letter-spacing: .18em; color: var(--acc); }
+  .fe-tag { font: 10.5px/1 var(--x-mono); letter-spacing: .1em; color: var(--meta); border: 1px solid var(--brd2); border-radius: 100px; padding: 4px 8px; }
+  .fe-t { display: block; font-size: 17px; font-weight: 600; line-height: 1.45; margin: 8px 0 6px; }
+  .fe-s { font-size: 12.5px; line-height: 1.65; color: var(--sub); margin: 0 0 12px; }
+  .fe-s b { color: var(--acc); font-weight: 600; }
+  .fe-acts { display: flex; align-items: center; flex-wrap: wrap; gap: 10px; }
+  .fe-btn {
+    min-height: 46px; padding: 0 18px; border: 0; border-radius: 100px;
+    background: var(--grad); color: #071021; font: inherit; font-size: 14px; font-weight: 700; cursor: pointer;
+  }
+  .fe-btn[hidden] { display: none; }
+  .fe-btn:disabled { opacity: .6; }
+  .fe-more { font-size: 12.5px; color: var(--sub); text-decoration: none; min-height: 44px; display: inline-flex; align-items: center; }
+  .fe-more:hover { color: var(--txt); }
+</style>
+</head>
+<body>
+<!-- 旧链接兼容：仍指向旧锚点的页面不在本轮可改范围，这里转到说明书页；首页不再保留 #rules 锚点 -->
+<script>if (location.hash === '#rules') location.replace('guide.html');</script>
+<div class="aurora"><div class="orb a"></div><div class="orb b"></div><div class="orb c"></div></div>
+
+<div class="wrap">
+
+  <!-- ===== 首页 ===== -->
+  <section id="scr-home" class="screen active">
+    <div class="hero">
+      <div class="hero-main">
+        <div class="brand">
+          <div class="brand-row">
+            <span class="logo" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none"><path d="M7 11.5V6a1.5 1.5 0 0 1 3 0v4m0-5a1.5 1.5 0 0 1 3 0v5m0-4a1.5 1.5 0 0 1 3 0v5m0-2.5a1.5 1.5 0 0 1 3 0v6.5a6 6 0 0 1-6 6h-1.2a5 5 0 0 1-4.2-2.3L4.3 15.6a1.6 1.6 0 0 1 2.5-2L8 15.2V11.5" stroke="#071021" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </span>
+            <b class="brand-name">管住手了吗复盘</b>
+            <span class="brand-en">DISCIPLINE</span>
+          </div>
+          <p class="kicker">DISCIPLINE REVIEW · 纪律复盘</p>
+          <h1 class="title">传你的账，<em>看你的手</em></h1>
+          <!-- 首屏只做一件事：引导上传。结论、超额点数等统计一律不在首屏，改放在 guide.html「这些数字是怎么算出来的」一节。 -->
+        </div>
+
+        <!-- 副标题 + 入口同一行：副标题左、入口右，整行压在主按钮正上方 -->
+        <div class="sub-row">
+          <p class="subtitle">券商导出的成交明细，一张截图或 PDF 就够。</p>
+          <button class="help-btn" id="btn-help" type="button" aria-label="不知道传什么，看示例截图">不知道传什么 看这里</button>
+        </div>
+
+        <div class="upload-wrap">
+          <button class="btn" id="btn-upload" type="button">上传交割单 <span aria-hidden="true">→</span></button>
+        </div>
+        <button class="sub-link" id="btn-demo" type="button">先看示例 <span aria-hidden="true">→</span></button>
+        <p class="home-note" id="home-note" hidden></p>
+
+        <!-- 桌面悬浮入口：写卡之后最想用的那一件，放在首屏，不再让人翻到页面底部 -->
+        <div class="float-entry" id="float-entry">
+          <div class="fe-head">
+            <span class="fe-k">DESKTOP OVERLAY</span>
+            <span class="fe-tag" id="fe-tag">检测中</span>
+          </div>
+          <b class="fe-t">把你自己写的纪律，挂在看盘软件旁边</b>
+          <p class="fe-s" id="fe-st">正在读这台设备的权限状态…</p>
+          <div class="fe-acts">
+            <button class="fe-btn" type="button" id="fe-btn" hidden>查看</button>
+            <a class="fe-more" href="discipline.html#float" id="fe-more">去写卡 / 调设置 →</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="side">
+        <div class="steps" aria-label="三步流程">
+          <div><span class="sn">01</span><span>上传识别 · 原图立即丢弃，档案只存本机</span></div>
+          <div><span class="sn">02</span><span>复核越线 · 按你自己的规则</span></div>
+          <div><span class="sn">03</span><span>出编号 · 存 No.001，点亮 1 格</span></div>
+        </div>
+      </div>
+    </div>
+
+    <section class="chapter" id="features">
+      <div class="ch-head"><span class="ch-n">02</span><h2 class="ch-t">还能做什么</h2><span class="ch-c">7 个入口</span></div>
+      <div class="rows">
+        <a class="row" href="learn.html"><span class="rn">01</span><span><b>看一条动画</b><small>25 条，一条只讲一件事 · 不用上传</small></span><span class="ar">→</span></a>
+        <a class="row" href="replay_readonly.html"><span class="rn">02</span><span><b>历史回放</b><small>只读已收盘历史 · 不接实时行情</small></span><span class="ar">→</span></a>
+        <a class="row" href="collection.html"><span class="rn">03</span><span><b>图鉴 25 格</b><small>25 格 · 15 格现在可判定</small></span><span class="ar">→</span></a>
+        <a class="row" href="cases.html"><span class="rn">04</span><span><b>看之前的档案</b><small>本机从 0 份起，按编号排</small></span><span class="ar">→</span></a>
+        <a class="row" href="archive.html"><span class="rn">05</span><span><b>个股档案</b><small>一只票一个档案 · 同一只票按交易日倒序</small></span><span class="ar">→</span></a>
+        <a class="row" href="records.html"><span class="rn">06</span><span><b>我的记录</b><small>按日看记录 · 三条中性计数 · 到期回看</small></span><span class="ar">→</span></a>
+        <a class="row" href="price.html"><span class="rn">07</span><span><b>会员</b><small>五档解锁点 · 一次性购买不续费 · 单点成本逐档递减</small></span><span class="ar">→</span></a>
+      </div>
+      <a class="all" href="features.html">全部功能 · 共 30 项 <span>→</span></a>
+    </section>
+
+    <input type="file" id="file-input" accept="image/*" class="file-input-a11y">
+
+    <button class="rule-entry card" id="btn-rules">
+      <span class="re-ico">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M9 5h10M9 12h10M9 19h10" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="m4 5 1.2 1.2L7 4.5M4 12l1.2 1.2L7 11.5M4 19l1.2 1.2L7 18.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+      <span class="re-txt"><b>我的纪律规则</b><small id="rule-count">未设置 · 先定规则，再看复盘</small></span>
+      <span class="re-arrow">›</span>
+    </button>
+
+    <a class="rule-entry card" id="rules-guide-entry" href="guide.html">
+      <span class="re-ico">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M9 5h10M9 12h10M9 19h10" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="m4 5 1.2 1.2L7 4.5M4 12l1.2 1.2L7 11.5M4 19l1.2 1.2L7 18.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+      <span class="re-txt"><b>规则怎么写</b><small>完整说明书 · 七个槽位 / 能判的写法 / 悬浮窗 / 数据在哪</small></span>
+      <span class="re-arrow">→</span>
+    </a>
+
+    <details class="rules-howto" id="rules-howto">
+      <summary><span><b>四个字段速查</b> <span class="rh-s">折叠版</span></span><span class="rh-s">展开 / 收起</span></summary>
+      <div class="rh-body">
+        <dl>
+          <dt>对象</dt>
+          <dd>这条规则管的是你自己的哪个动作。写你做的事，不写某一类票。</dd>
+          <dt>时点</dt>
+          <dd>你会在什么时候回头看这条。时间由你自己定，产品不替你设。</dd>
+          <dt>判定条件</dt>
+          <dd>一句别人也能复核的话，要能回答「是 / 否」。「要小心」这种程度词判不了。</dd>
+          <dt>你自己的口径</dt>
+          <dd>同一条规则里，关键的那个词在你这里具体指什么。你自己定义，产品不替你定义。</dd>
+        </dl>
+        <div class="rh-eg"><b>一条写好的例子（占位，不是标准答案）</b>对象：我的每一次动手　｜　时点：收盘后　｜　判定条件：这次动手之前，我已经把自己定的理由写下来　｜　口径：「写下来」＝ 动手之前已经落过字。</div>
+        <div class="rh-bad"><b>这样写判不了</b>「不要太贪」——没有是 / 否，别人复核不了。改成「这次动手之前，我有没有先写下理由」，就能判了。</div>
+        <p class="rh-warn">产品不给阈值、不给参数、不替你写规则。四个字段都由你填。</p>
+      </div>
+    </details>
+
+    <div id="home-ext"></div>
+
+    <div class="xj-guide" id="xj-guide" hidden>
+      <button class="xj-guide-x" id="xj-guide-x" type="button" aria-label="关闭指引">×</button>
+      <p class="xj-kicker">START HERE · 三条去向</p>
+      <h2>第一次来，先选一条</h2>
+      <p class="xj-sub">三块各管一段：复盘看你的真实成交，动画讲清概念，回放对规则。都不需要开通任何东西。</p>
+      <div class="xj-rows">
+        <a class="xj-row" href="./"><span class="xj-no">01</span><span class="xj-txt"><b>交割单复盘</b><small>传一张截图，生成带编号的档案 · 本页</small></span><span class="xj-ar">→</span></a>
+        <a class="xj-row" href="learn.html"><span class="xj-no">02</span><span class="xj-txt"><b>科普动画</b><small>25 条，一条只讲一件事 · 不用上传</small></span><span class="xj-ar">→</span></a>
+        <a class="xj-row" href="replay_readonly.html"><span class="xj-no">03</span><span class="xj-txt"><b>历史回放</b><small>只读已收盘历史 · 不接实时行情</small></span><span class="xj-ar">→</span></a>
+      </div>
+    </div>
+
+    <nav class="site-nav" aria-label="七个容器">
+      <a href="discipline.html">纪律随身卡</a>
+      <a href="discipline.html#check">今日自查</a>
+      <a href="replay_readonly.html">历史回放</a>
+      <a href="records.html">我的记录</a>
+      <a href="archive.html">票档案与批注</a>
+      <a href="guide.html">规则怎么写</a>
+      <a href="price.html">会员</a>
+    </nav>
+
+    <!-- PJ-MEMBER-SKELETON BEGIN -->
+    <div id="pj-member-entry"></div>
+    <!-- PJ-MEMBER-SKELETON END -->
+
+    <div class="foot">
+      <p class="brandline">判定标准是<b style="color:var(--txt)">你自己的规则</b>——本工具只做纪律复盘，不构成任何投资建议。</p>
+      <p><a href="https://xuanshuangji.com/" target="_blank" rel="noopener">上海玄霜纪智能科技有限公司 · 官网</a>·<a href="about.html">关于我们</a><br><a href="privacy.html">隐私政策</a>·<a href="agreement.html">用户协议</a>·<a href="migrate.html?f=migrate">备份本机数据</a><br>管住手了吗复盘 · <span class="site-foot-sign">玄霜纪 出品</span><br>上海玄霜纪智能科技有限公司 · 91310115MAKQDXHU15 · <a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener">沪ICP备2026058085号-1</a></p>
+      <nav class="pj-shell-nav" aria-label="七个容器">
+        <a href="discipline.html">纪律随身卡</a>
+        <a href="discipline.html#check">今日自查</a>
+        <a href="replay_readonly.html">历史回放</a>
+        <a href="records.html">我的记录</a>
+        <a href="archive.html">票档案与批注</a>
+        <a href="guide.html">规则怎么写</a>
+        <a href="price.html">会员</a>
+      </nav>
+      <p class="pj-shell-line">只记录、只统计、只复盘 · 不构成投资建议 · 不展示实时行情</p>
+    </div>
+  </section>
+
+  <!-- ===== 示例预览（点「先看示例」进来的那一屏，也可由 demo.html 直接打开） ===== -->
+  <section id="scr-demo" class="screen">
+    <button class="pick-back" id="btn-demo-back" type="button">← 返回</button>
+    <div class="brand">
+      <p class="kicker">SAMPLE · 示例</p>
+      <h1 class="title" style="font-size:30px">文件已选好</h1>
+      <p class="subtitle">在券商 App 的「交易 → 历史成交」里选好日期区间，截图或导出 PDF 都行，要的就是这一页。</p>
+    </div>
+    <figure class="pick">
+      <div class="pick-file">
+        <span class="pick-ic">JPG</span>
+        <span><b>示例截图_合成历史成交.jpg</b><i>券商 App 交易页截图（合成样本，非真实交易）</i></span>
+        <span class="pick-badge">示例</span>
+      </div>
+      <div class="pick-win">
+        <img src="img/示例截图_合成历史成交.jpg" width="1080" height="2167" alt="示例截图：券商 App 交易页的「历史成交」列表，红框加「点这里」标签标出入口；本图为合成样本，不含真实账户或成交">
+      </div>
+      <p class="pick-hint">上下滑动看完整成交列表</p>
+    </figure>
+    <button class="btn" id="btn-demo-start" type="button">开始 <span aria-hidden="true">→</span></button>
+    <p class="pick-tip">以上为示例账户数据，示例档案固定编号 No.000，不占你的真实编号；不读取、不上传任何本机文件。</p>
+  </section>
+
+  <!-- ===== 识别中 ===== -->
+  <section id="scr-scan" class="screen">
+    <div class="brand"><h1 class="title" style="font-size:22px">正在识别</h1></div>
+    <div class="scan-box card">
+      <div class="ticket">
+        <div class="ln" style="top:18px;width:52%"></div>
+        <div class="ln" style="top:36px;width:70%"></div>
+        <div class="ln" style="top:54px;width:44%"></div>
+        <div class="ln" style="top:72px;width:62%"></div>
+        <div class="ln" style="top:90px;width:38%"></div>
+      </div>
+      <p class="scan-status" id="scan-status">上传中…</p>
+      <p class="scan-sub">正在逐行认字，提取你的成交记录</p>
+    </div>
+    <div class="foot"><p>原图识别后立即丢弃，绝不存储</p></div>
+  </section>
+
+  <!-- ===== 复核页 ===== -->
+  <section id="scr-review" class="screen">
+    <div class="rev-head">
+      <h2>请逐笔复核</h2>
+      <p class="hint">AI预填的数字可能有错——<b>黄框字段</b>是没认全的，只改错的，不用重输。</p>
+    </div>
+    <div class="chips" id="rev-chips"></div>
+    <div id="rev-ext-top"></div>
+    <button class="src-thumb" id="btn-src-thumb" type="button" hidden aria-label="对照原图">
+      <img id="src-thumb-img" alt="上传原图">
+      <span>对照原图</span>
+      <span class="arr">›</span>
+    </button>
+    <div class="scrub-note" id="scrub-note" hidden>
+      <svg viewBox="0 0 24 24" fill="none"><path d="M12 2 4 5.5v5.6c0 5 3.4 9.6 8 10.9 4.6-1.3 8-5.9 8-10.9V5.5L12 2Z" stroke="currentColor" stroke-width="2"/><path d="m8.8 12 2.2 2.2 4.4-4.4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      <span>已自动丢弃截图里的姓名/账号行（<b id="scrub-n">0</b>行）——它们只用于识别，不进档案、不留存。</span>
+    </div>
+    <div class="scrub-note" id="review-empty" hidden>
+      <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2"/><path d="M12 8v4M12 16h.01" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      <span>没认出成交记录——点下面「＋ 补一笔」手动录入。原图已丢弃，不改今天的判定口径。</span>
+    </div>
+    <div class="scrub-note" id="time-note" hidden>
+      <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2"/><path d="M12 7v5l3 2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <span>这张截图没有成交时间（券商“历史成交”页不含时间列）——已按日期识别，<b>开盘冷静期/收盘前禁买/追高</b>等时间类规则本次不参与判定。</span>
+    </div>
+    <div class="trade-list" id="trade-list"></div>
+    <div class="add-row"><button id="btn-add">＋ 补一笔（AI漏掉的）</button></div>
+    <p class="home-note" id="judge-note" hidden></p>
+    <div class="rev-foot">
+      <div class="btn-row">
+        <button class="btn ghost" id="btn-reupload">重新上传</button>
+        <button class="btn" id="btn-confirm">确认无误，生成档案</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 规则配置页（用户自定义纪律，V1 勾选式模板） ===== -->
+  <section id="scr-rules" class="screen">
+    <div class="rev-head">
+      <h2>我的纪律规则</h2>
+      <p class="hint">判定只对照你勾选的规则——没勾的条款，系统不会替你脑补。</p>
+    </div>
+    <div class="cap-box card">
+      <label for="capital">复盘账户资金（可选）</label>
+      <div class="cap-row">
+        <span>¥</span>
+        <input id="capital" type="number" min="0" step="1000" inputmode="numeric" placeholder="不填则涉及本金的规则暂不判定">
+      </div>
+      <p class="cap-tip">只用于仓位占比类规则，不影响其他判定；存在本机，不上传。</p>
+    </div>
+    <div class="rule-list" id="rule-list"></div>
+    <div id="rules-ext"></div>
+    <p class="cap-tip"><a href="migrate.html?f=migrate">备份本机数据（导出 JSON）</a> · 换机或清浏览器缓存前先导一份</p>
+    <div class="rev-foot">
+      <div class="btn-row">
+        <button class="btn ghost" id="btn-rules-back">返回</button>
+        <button class="btn" id="btn-rules-save">保存规则</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 复盘报告页（W2判定引擎已接入） ===== -->
+  <section id="scr-done" class="screen">
+    <div class="done-box">
+      <div class="done-ico">
+        <svg viewBox="0 0 24 24" fill="none"><path d="m5 13 4.5 4.5L19 7.5" stroke="#34d399" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <span class="case-no" id="case-no">冲动案例档案 No.001</span>
+      <span class="mode-tag" id="mode-tag">规则引擎判定</span>
+      <h2 id="rep-title">纪律复盘报告</h2>
+      <div class="warn-box" id="rep-warn" hidden></div>
+
+      <!-- L2 双反馈：编号 + 图鉴格同时点亮；次序固定 双反馈 → 主动作 → 规则明细 -->
+      <div class="dual">
+        <span>
+          <span class="dl-k">档案编号</span>
+          <b class="dl-v" id="rep-no">No.001</b>
+          <span class="dl-s">只在本机保存，按编号排</span>
+        </span>
+        <span>
+          <span class="dl-k">已点亮 <b id="rep-lit">0</b> / <b id="rep-judged">15</b></span>
+          <div class="mini-grid" id="rep-wall" aria-hidden="true"></div>
+          <span class="dl-s" id="rep-wall-note">15 格现在可判定 · 另有 10 格：8 格需先开启对应功能，2 格本版不可点亮（图鉴页可看逐格）</span>
+        </span>
+      </div>
+      <div class="done-cta">
+        <button class="btn" id="btn-again2" type="button">再传一张，点亮第 2 格</button>
+        <a class="btn ghost" id="btn-train2" href="replay.html?f=train&amp;tab=a">拿这一笔去对规则</a>
+      </div>
+      <p class="dl-s" id="rep-next" style="text-align:center;margin:2px 0 10px"></p>
+
+      <div class="done-stats" id="done-stats"></div>
+      <div class="ledger-note" id="ledger-note" hidden
+           style="margin:10px 0 2px;font-size:12px;line-height:1.6;color:#8b93a7;text-align:center"></div>
+      <div id="rep-ext-top"></div>
+      <div class="quote card" id="rep-oneliner"></div>
+      <div class="rep-block">
+        <h3>逐笔判定</h3>
+        <div id="rep-lines"></div>
+      </div>
+      <div class="rep-block" id="rep-day-block" hidden>
+        <h3>当日规则（按日判定，不污名化单笔）</h3>
+        <div id="rep-day"></div>
+      </div>
+      <div class="rep-block" id="rep-suspects-block" hidden>
+        <h3>存疑项（如实标注，不硬判）</h3>
+        <div id="rep-suspects"></div>
+      </div>
+      <div class="rep-block" id="rep-fixes-block" hidden>
+        <h3>可抄走的修正</h3>
+        <div id="rep-fixes"></div>
+      </div>
+      <div class="rep-block" id="rep-rules-block" hidden>
+        <h3>你今天用到的规则</h3>
+        <div id="rep-rules"></div>
+      </div>
+      <div id="rep-ext-bottom"></div>
+      <p class="ai-label" id="rep-ai-label"></p>
+      <p class="disclaimer" id="rep-disclaimer"></p>
+      <div class="rules-cta card" id="rules-cta" hidden>
+        <p><b>这次用的是默认规则</b><br>换成你自己勾的纪律，用同样这批交易再判一次。</p>
+        <button class="btn ghost" id="btn-rules-from-report">改成我的规则</button>
+      </div>
+      <div class="demo-cta card" id="demo-cta" hidden>
+        <p><b>这是示例账户</b>，不是你的数据。<br>用你自己的交割单，跑一份真的。</p>
+        <button class="btn" id="btn-demo-own">上传我的交割单</button>
+      </div>
+      <div class="btn-row">
+        <button class="btn" id="btn-share">生成分享卡</button>
+        <button class="btn ghost" id="btn-again">再来一份</button>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<!-- ===== 分享卡弹窗（内生分享=获客主引擎，零平台词） ===== -->
+<div class="modal-mask" id="share-mask">
+  <div class="modal">
+    <h3>纪律记分卡已生成</h3>
+    <p class="m-sub" id="share-tip">长按图片保存，发到你想发的地方</p>
+    <img id="share-img" alt="纪律记分卡">
+    <div class="btn-row">
+      <button class="btn ghost" id="btn-share-close">关闭</button>
+      <a class="btn" id="btn-share-dl" download="guanzhushou_card.png" href="#">下载图片</a>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 单独同意弹窗（PIPL：敏感个人信息须单独同意，不与协议捆绑勾选） ===== -->
+<div class="modal-mask" id="consent-mask">
+  <div class="modal">
+    <h3>上传前，请单独确认</h3>
+    <p class="m-sub">交割单截图属于<b style="color:var(--txt)">敏感个人信息</b>，需要你逐项明确同意</p>
+    <div class="m-body">
+      截图里的<b>姓名、股东账号、资金账号、成交记录</b>属金融敏感信息。处理方式：<span class="hl">仅用于生成本人的复盘报告</span>——
+      <span id="consent-dest">图片会先传到我们服务器，再转发给合合信息（TextIn，境内）做文字识别</span>，<b>原图识别后立即丢弃、绝不存储</b>；姓名与账号自动打码不进档案；
+      AI判定调用智谱GLM（境内），仅接收不含姓名账号的成交记录，不用于训练模型。
+    </div>
+    <div class="consent" id="c-privacy">
+      <div class="cbox"><svg viewBox="0 0 24 24" fill="none"><path d="m5 13 4.5 4.5L19 7.5" stroke="#071021" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <p>我已阅读并<b>单独同意</b><a class="a" href="privacy.html" target="_blank">《隐私政策》</a>处理我的敏感个人信息<br><span class="must">（此项与用户协议分开，需单独勾选）</span></p>
+    </div>
+    <div class="consent" id="c-agreement">
+      <div class="cbox"><svg viewBox="0 0 24 24" fill="none"><path d="m5 13 4.5 4.5L19 7.5" stroke="#071021" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <p>我已阅读并同意<a class="a" href="agreement.html" target="_blank">《用户协议》</a>：本工具为交易纪律复盘工具，不构成任何投资建议</p>
+    </div>
+    <div class="btn-row">
+      <button class="btn ghost" id="btn-cancel">取消</button>
+      <label class="btn" id="btn-consent-ok" for="file-input" role="button" tabindex="0" aria-disabled="true">确认并选择图片</label>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 原图对照（复核页缩略图点开） ===== -->
+<div class="img-viewer" id="img-viewer" hidden>
+  <div class="iv-bar">
+    <span>对照原图</span>
+    <button id="iv-close" type="button" aria-label="关闭">×</button>
+  </div>
+  <div class="iv-scroll" id="iv-scroll"><img id="iv-img" alt="上传原图"></div>
+  <div class="iv-zoom">
+    <button id="iv-minus" type="button" aria-label="缩小">−</button>
+    <span id="iv-scale">100%</span>
+    <button id="iv-plus" type="button" aria-label="放大">＋</button>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<!-- ===== 判定分步进度（读取 → 识别 → 逐笔比对 → 出结论；阶段由真实请求驱动） ===== -->
+<div class="phase-mask" id="phase-mask" hidden>
+  <div class="phase-card" role="status" aria-live="polite">
+    <div class="phase-head"><span>判定进行中</span><b id="phase-sec">0.0s</b></div>
+    <ol class="phase-list" id="phase-list">
+      <li data-i="0"><i></i><span>读取档案</span><em>等待</em></li>
+      <li data-i="1"><i></i><span>识别成交</span><em>等待</em></li>
+      <li data-i="2"><i></i><span>逐笔比对</span><em>等待</em></li>
+      <li data-i="3"><i></i><span>出结论</span><em>等待</em></li>
+    </ol>
+    <p class="phase-note" id="phase-note">大型交割单要逐笔比对，通常十几秒；请别关页面。</p>
+  </div>
+</div>
+<script src="compat.js"></script>
+<script src="ledger.js"></script>
+<script src="store.js"></script>
+<script src="recur.js"></script>
+<script src="ext.js"></script>
+<script src="features/recur_ui.js"></script>
+<script src="features/intent.js"></script>
+<script src="features/upload.js"></script>
+<script src="features/trust.js"></script>
+<script src="features/asset.js"></script>
+<script src="features/mask.js"></script>
+<script src="app.js"></script>
+<script src="features/discipline_card.js"></script>
+<script>
+/* 新手向导卡：首次访问显示一次；localStorage 只做「已见过」标记，不写入任何行为数据 */
+(function () {
+  var KEY = 'guanzhu_wizard_seen_v1';
+  var box = document.getElementById('xj-guide');
+  if (!box) return;
+  var seen = false;
+  try { seen = !!localStorage.getItem(KEY); } catch (e) { seen = false; }
+  if (seen) { box.hidden = true; return; }
+  box.hidden = false;
+  try { localStorage.setItem(KEY, '1'); } catch (e) { /* 存储被禁也不挡浏览 */ }
+  var x = document.getElementById('xj-guide-x');
+  if (x) x.addEventListener('click', function () { box.hidden = true; });
+})();
+</script>
+<script>
+/* ===== 桌面悬浮入口（20261109）：状态跟着原生权限走，最多两步就能开 =====
+   没权限 → 一键跳系统设置；授权回来 → 明确写「权限已就绪，再点一下就开」；
+   不自动弹窗是系统限制，文案里直说，不留空。 */
+(function () {
+  var box = document.getElementById('float-entry');
+  if (!box) return;
+  var stEl = document.getElementById('fe-st');
+  var btn = document.getElementById('fe-btn');
+  var tag = document.getElementById('fe-tag');
+  var more = document.getElementById('fe-more');
+  var plugin = (window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins.PanjiFloater) || null;
+  var FKEY = 'guanzhu_discipline_float_v1';
+  var busy = false;
+
+  function cardPayload() {
+    // 与纪律卡页、画中画共用同一份取数与字段清单
+    var p = window.PanjiDisciplineCard.payload();
+    return { empty: p.empty, json: p.json };
+  }
+
+  function prefs() {
+    var o = {};
+    try { o = JSON.parse(localStorage.getItem(FKEY) || '{}') || {}; } catch (e) { o = {}; }
+    return {
+      size: (o.size === 's' || o.size === 'l') ? o.size : 'm',
+      opacity: typeof o.opacity === 'number' ? o.opacity : 0.72,
+      locked: !!o.locked
+    };
+  }
+
+  function set(st, label, act) {
+    stEl.innerHTML = st;
+    if (label) {
+      btn.hidden = false;
+      btn.textContent = label;
+      btn.setAttribute('data-act', act || '');
+    } else {
+      btn.hidden = true;
+      btn.setAttribute('data-act', '');
+    }
+  }
+
+  function refresh() {
+    if (!plugin) return;
+    plugin.hasPermission().then(function (r) {
+      if (!r || !r.granted) {
+        set('还差系统权限这一步：先开「显示在其他应用上层」。<br>授权后回到 App，再点一次「开启悬浮窗」——系统不允许 App 自己把浮窗弹出来。', '去系统设置授权', 'grant');
+        return;
+      }
+      if (r.visible) {
+        set('悬浮窗正在显示，浮在你打开的看盘软件上面。', '关闭悬浮窗', 'hide');
+        return;
+      }
+      if (cardPayload().empty) {
+        set('<b>权限已就绪</b>，再点一下就开。不过卡里还没有字——先写两句，空卡不会浮出来。', '去写卡', 'write');
+        return;
+      }
+      set('<b>权限已就绪，再点一下就开。</b>', '开启悬浮窗', 'show');
+    }).catch(function () {
+      set('读不到权限状态，把 App 关掉重开一次。', '', '');
+    });
+  }
+
+  btn.addEventListener('click', function () {
+    if (busy) return;
+    var act = btn.getAttribute('data-act');
+    if (act === 'write') { location.href = 'discipline.html#float'; return; }
+    if (!plugin) return;
+    busy = true;
+    btn.disabled = true;
+    var done = function () { busy = false; btn.disabled = false; setTimeout(refresh, 200); };
+    if (act === 'grant') {
+      plugin.requestPermission().then(function () {
+        set('已打开系统设置页：找到本应用，打开「显示在其他应用上层」，然后按返回键回到 App，再点一下这个按钮。', '我授权了，检查一下', 'recheck');
+        busy = false;
+        btn.disabled = false;
+      }).catch(function () {
+        set('打不开系统设置页，请手动去「设置 → 应用 → 权限 → 显示在其他应用上层」开启。', '再试一次', 'grant');
+        busy = false;
+        btn.disabled = false;
+      });
+      return;
+    }
+    if (act === 'recheck') { done(); return; }
+    if (act === 'hide') { plugin.hide().then(done, done); return; }
+    var p = cardPayload();
+    if (p.empty) { done(); location.href = 'discipline.html#float'; return; }
+    var pr = prefs();
+    plugin.show({ payload: p.json, size: pr.size, opacity: pr.opacity, locked: pr.locked }).then(done, done);
+  });
+
+  if (plugin && typeof plugin.isSupported === 'function') {
+    plugin.isSupported().then(function (r) {
+      if (!r || !r.supported) {
+        tag.textContent = '不支持';
+        set('这台设备系统版本低于安卓 8.0，开不了这种悬浮窗。', '', '');
+        return;
+      }
+      tag.textContent = '安卓 App';
+      refresh();
+      document.addEventListener('visibilitychange', function () {
+        if (document.visibilityState === 'visible') refresh();
+      });
+      window.addEventListener('focus', refresh);
+      document.addEventListener('resume', refresh);
+      window.addEventListener('resume', refresh);
+      setInterval(function () {
+        if (document.visibilityState === 'visible') refresh();
+      }, 2000);
+    }).catch(function () {
+      tag.textContent = '未知';
+      set('读不到系统能力，把 App 关掉重开一次。', '', '');
+    });
+  } else if (window.documentPictureInPicture) {
+    tag.textContent = '网页';
+    set('浏览器里可以开画中画，但只浮在浏览器之上，盖不到同花顺、东方财富这类桌面软件。', '', '');
+    more.textContent = '去纪律卡开画中画 →';
+  } else {
+    tag.textContent = '不支持';
+    set('这个浏览器没有悬浮窗能力。安卓手机请用 App 里的「桌面悬浮」。', '', '');
+  }
+})();
+</script>
+<!-- PJ-MEMBER-SKELETON BEGIN -->
+<script src="features/registry.js"></script>
+<script src="features/membership.js"></script>
+<script>
+(function () {
+  if (!window.PanjiMembership) return;
+  PanjiMembership.decorateNav();
+  PanjiMembership.mountEntry('#pj-member-entry');
+})();
+</script>
+<!-- PJ-MEMBER-SKELETON END -->
+</body>
+</html>

@@ -1,0 +1,183 @@
+/* features/trust.css —— 批次 D：判定解释器 / 原图定位 / 计划内 / 规则冲突 / 版本 */
+
+.tr-extra {
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px solid rgba(255, 255, 255, .1);
+  font-size: 12.5px;
+  line-height: 1.6;
+}
+.tr-exp-title {
+  font-size: 11px;
+  color: #7d8699;
+  letter-spacing: .02em;
+  margin-bottom: 4px;
+}
+.tr-formula {
+  background: rgba(255, 255, 255, .035);
+  border: 1px solid rgba(255, 255, 255, .06);
+  border-radius: 8px;
+  padding: 6px 8px;
+  margin: 4px 0;
+  color: #c9d1e0;
+  word-break: break-word;
+}
+.tr-rule {
+  display: inline-block;
+  font-weight: 600;
+  color: #93c5fd;
+  margin-right: 4px;
+}
+.tr-var {
+  color: #7dd3fc;
+  border-bottom: 1px solid rgba(125, 211, 252, .6);
+  cursor: pointer;
+  padding: 0 1px;
+}
+.tr-var:hover { background: rgba(125, 211, 252, .12); }
+.tr-flash {
+  animation: trFlash 1.3s ease;
+}
+@keyframes trFlash {
+  0% { box-shadow: 0 0 0 2px rgba(125, 211, 252, .8); }
+  100% { box-shadow: 0 0 0 2px rgba(125, 211, 252, 0); }
+}
+
+.tr-actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 6px;
+}
+.tr-btn {
+  border: 1px solid rgba(125, 211, 252, .5);
+  background: rgba(125, 211, 252, .12);
+  color: #bfe8ff;
+  border-radius: 8px;
+  padding: 4px 10px;
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  font-size: 12px;
+  line-height: 1.4;
+  cursor: pointer;
+}
+.tr-btn.ghost {
+  border-color: rgba(255, 255, 255, .18);
+  background: transparent;
+  color: #aab4c6;
+}
+.tr-btn:hover { filter: brightness(1.15); }
+.tr-badge {
+  display: inline-block;
+  font-size: 11px;
+  color: #6ee7b7;
+  background: rgba(52, 211, 153, .12);
+  border: 1px solid rgba(52, 211, 153, .35);
+  border-radius: 999px;
+  padding: 2px 8px;
+}
+.tr-tip, .tr-hint {
+  font-size: 11px;
+  color: #7d8699;
+}
+.tr-partial {
+  display: inline-block;
+  font-size: 10.5px;
+  color: #fbbf24;
+  background: rgba(251, 191, 36, .1);
+  border: 1px solid rgba(251, 191, 36, .28);
+  border-radius: 6px;
+  padding: 2px 6px;
+}
+.tr-bbox-row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 6px;
+}
+.tr-bbox {
+  z-index: 2000;
+  border: 2px solid #38bdf8;
+  background: rgba(56, 189, 248, .2);
+  border-radius: 4px;
+  box-shadow: 0 0 0 9999px rgba(0, 0, 0, .18);
+  cursor: pointer;
+}
+.tr-bbox-tag {
+  position: absolute;
+  left: 0;
+  top: -22px;
+  white-space: nowrap;
+  background: #38bdf8;
+  color: #05121f;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 1px 6px;
+  border-radius: 4px;
+}
+
+.tr-bottom { margin-top: 10px; }
+.tr-panel {
+  margin-top: 10px;
+  padding: 12px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, .03);
+  border: 1px solid rgba(255, 255, 255, .08);
+}
+.tr-panel h4 {
+  margin: 0 0 6px;
+  font-size: 13px;
+  color: #e6edf7;
+  font-weight: 600;
+}
+.tr-exempt-note {
+  margin: 0 0 4px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #e6edf7;
+}
+.tr-conflict-item {
+  margin: 4px 0;
+  font-size: 12px;
+  color: #fbbf24;
+  line-height: 1.6;
+}
+.tr-conflict-item b { color: #fde68a; }
+.tr-version p { margin: 4px 0; font-size: 12px; color: #aab4c6; }
+.tr-warn { color: #fbbf24 !important; }
+.tr-seg-line { line-height: 1.9; }
+.tr-seg {
+  display: inline-block;
+  margin-right: 6px;
+  padding: 1px 8px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, .06);
+  color: #aab4c6;
+  font-size: 11px;
+}
+/* B 窗口越线：徽标钩在违规行上，点开只显示上一次越线日期 */
+.tr-win { margin: 6px 0 0; }
+.tr-win-btn {
+  border: 1px solid rgba(251, 191, 36, .45);
+  background: rgba(251, 191, 36, .10);
+  color: #fde68a;
+  border-radius: 8px;
+  padding: 6px 10px;
+  min-height: 44px;
+  font-size: 12px;
+  line-height: 1.4;
+  cursor: pointer;
+  text-align: left;
+}
+.tr-win-btn:hover { filter: brightness(1.15); }
+.tr-win-note {
+  display: block;
+  margin: 6px 0 0;
+  font-size: 12px;
+  color: #aab4c6;
+  line-height: 1.6;
+}
+

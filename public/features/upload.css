@@ -1,0 +1,294 @@
+/* features/upload.css —— 批次 C：粘贴回传 / 午间快检 / 缺口补录 / 重复提示 / 导入历史
+   统一前缀 c-，避免和其他批次/基础样式冲突；只复用 style.css 的变量。 */
+
+.c-ext { display: flex; flex-direction: column; gap: 10px; margin: 10px 0 2px; }
+
+.c-card {
+  background: var(--glass);
+  border: 1px solid var(--brd);
+  border-radius: var(--r-md);
+  padding: 12px 14px;
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+}
+.c-card h3 {
+  font-size: 14px;
+  font-weight: 650;
+  letter-spacing: .2px;
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+.c-card h3 small { font-size: 11px; font-weight: 400; color: var(--dim); }
+.c-note { font-size: 11.5px; line-height: 1.65; color: var(--sub); }
+.c-empty { font-size: 12px; line-height: 1.7; color: var(--dim); }
+
+/* ---- 12 粘贴回传 ---- */
+.c-paste .c-note { margin-bottom: 8px; }
+.c-paste-box {
+  min-height: 92px;
+  border: 1px dashed var(--brd2);
+  border-radius: var(--r-sm);
+  background: rgba(255, 255, 255, 0.025);
+  padding: 12px;
+  font-size: 12px;
+  color: var(--sub);
+  line-height: 1.6;
+  outline: none;
+  transition: border-color .2s ease, background .2s ease;
+  overflow: hidden;
+  -webkit-user-select: text;
+  user-select: text;
+}
+.c-paste-box:focus { border-color: var(--acc); background: rgba(110, 231, 255, 0.05); }
+.c-paste-box:empty::before {
+  content: attr(data-placeholder);
+  color: var(--dim);
+  pointer-events: none;
+}
+.c-paste-box img { max-width: 100%; border-radius: 8px; }
+
+/* 粘贴卡同意块：结构与文案克隆自主弹窗（#c-privacy / #c-agreement），只调卡片内间距 */
+.c-consents { margin-top: 8px; }
+.c-paste .consent { padding: 7px 2px; }
+.c-paste .consent + .consent { border-top: 1px solid var(--brd); }
+.c-paste .consent p { font-size: 12px; line-height: 1.6; color: var(--sub); }
+.c-paste .consent .must { font-size: 10.5px; }
+.c-dest {
+  margin-top: 6px;
+  padding: 8px 10px;
+  border-radius: var(--r-sm);
+  background: rgba(0, 0, 0, 0.25);
+  font-size: 11.5px;
+  line-height: 1.6;
+  color: var(--sub);
+}
+.c-dest b { color: var(--txt); }
+
+.c-consent {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  margin-top: 10px;
+  min-height: 44px;
+  font-size: 11.5px;
+  line-height: 1.6;
+  color: var(--sub);
+}
+/* FX-3：勾选框本体 15×15 太小，盒子放到 44×44，视觉方块仍 18×18 对齐原位 */
+.c-consent input {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 44px;
+  height: 44px;
+  margin: -12px -29px -12px 0;
+  background: none;
+  border: 0;
+  flex: none;
+  position: relative;
+}
+.c-consent input::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 13px;
+  width: 18px;
+  height: 18px;
+  box-sizing: border-box;
+  border-radius: 6px;
+  border: 1.5px solid var(--brd2);
+  background: rgba(0, 0, 0, 0.28);
+}
+.c-consent input:checked::before { background: var(--grad); border-color: transparent; }
+.c-consent input:checked::after {
+  content: "";
+  position: absolute;
+  left: 6px;
+  top: 16px;
+  width: 5px;
+  height: 9px;
+  border-right: 2px solid #071021;
+  border-bottom: 2px solid #071021;
+  transform: rotate(40deg);
+}
+
+.c-status { min-height: 16px; margin-top: 6px; font-size: 11.5px; color: var(--warn); }
+
+.c-paste-foot { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 6px; }
+.c-link {
+  background: none;
+  border: 0;
+  padding: 4px 0;
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  color: var(--acc);
+  font-size: 12px;
+  font-family: inherit;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+.c-link:active { opacity: .7; }
+
+.c-memo { margin-top: 8px; font-size: 11px; line-height: 1.6; color: var(--dim); }
+.c-memo b { color: var(--sub); font-weight: 600; }
+
+.c-degrade {
+  margin-top: 8px;
+  padding: 8px 10px;
+  border-radius: var(--r-sm);
+  border: 1px solid rgba(251, 191, 36, 0.22);
+  background: rgba(251, 191, 36, 0.07);
+  font-size: 11px;
+  line-height: 1.65;
+  color: #f5cf7a;
+}
+
+/* ---- 13 午间快检 ---- */
+.c-midday { border-color: rgba(110, 231, 255, 0.25); background: rgba(110, 231, 255, 0.05); }
+.c-midday-main {
+  font-size: 14px;
+  font-weight: 650;
+  line-height: 1.6;
+  letter-spacing: .2px;
+  color: var(--txt);
+}
+.c-midday .c-note { margin-top: 6px; }
+
+/* ---- 15 重复导入 ---- */
+.c-dup { border-color: rgba(251, 191, 36, 0.24); background: rgba(251, 191, 36, 0.06); }
+.c-dup b { font-size: 13px; font-weight: 650; color: #f5cf7a; }
+.c-dup .c-note { margin-top: 4px; }
+
+/* ---- 14 缺口补录 ---- */
+.c-gap-slot { min-height: 0; }
+.c-gap-list { list-style: none; display: flex; flex-direction: column; gap: 6px; margin: 8px 0 6px; }
+.c-gap-list li {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  font-size: 12.5px;
+  padding: 7px 10px;
+  border-radius: var(--r-sm);
+  background: rgba(255, 255, 255, 0.035);
+  border: 1px solid var(--brd);
+}
+.c-gap-list li b { color: var(--acc); font-weight: 650; font-variant-numeric: tabular-nums; }
+.c-gap-list li span { color: var(--sub); font-size: 11.5px; }
+
+/* ---- 16 导入历史 ---- */
+.c-imports h3 { margin-bottom: 4px; }
+.c-imp-list {
+  list-style: none;
+  margin-top: 8px;
+  max-height: 320px;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  border-top: 1px solid var(--brd);
+}
+.c-imp-list li {
+  display: grid;
+  grid-template-columns: 78px 1fr;
+  gap: 2px 10px;
+  padding: 8px 2px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  font-size: 11.5px;
+  color: var(--sub);
+}
+.c-imp-at { color: var(--txt); font-variant-numeric: tabular-nums; }
+.c-imp-num b { color: var(--acc); font-weight: 650; }
+.c-imp-cov { grid-column: 1 / -1; color: var(--dim); font-variant-numeric: tabular-nums; }
+
+/* ---- UP-1 日期推断 + 日期选择器 ---- */
+.c-date { border-color: rgba(110, 231, 255, 0.22); }
+.c-date-main {
+  font-size: 15px;
+  font-weight: 650;
+  line-height: 1.55;
+  letter-spacing: .2px;
+  color: var(--txt);
+  font-variant-numeric: tabular-nums;
+}
+.c-date-main.warn { color: #f5cf7a; }
+.c-date .c-note { margin-top: 4px; }
+.c-date .c-note + .c-note { margin-top: 2px; }
+.c-badge {
+  display: inline-block;
+  padding: 2px 7px;
+  border-radius: 999px;
+  border: 1px solid var(--brd);
+  background: rgba(255, 255, 255, 0.04);
+  font-size: 10.5px;
+  font-weight: 500;
+  line-height: 1.4;
+  color: var(--sub);
+  white-space: nowrap;
+}
+.c-badge.inf {
+  color: var(--acc);
+  border-color: rgba(110, 231, 255, 0.35);
+  background: rgba(110, 231, 255, 0.08);
+}
+.c-badge.warn {
+  color: #f5cf7a;
+  border-color: rgba(251, 191, 36, 0.35);
+  background: rgba(251, 191, 36, 0.08);
+}
+.c-date-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 10px 0 8px;
+}
+.c-date-chip {
+  min-height: 44px;
+  min-width: 56px;
+  padding: 0 14px;
+  border-radius: 999px;
+  border: 1px solid var(--brd2);
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--txt);
+  font-size: 12.5px;
+  line-height: 42px;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+.c-date-chip:active { background: rgba(110, 231, 255, 0.12); border-color: var(--acc); }
+.c-date-field {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 44px;
+  font-size: 11.5px;
+  color: var(--sub);
+}
+.c-date-field > span { flex: 0 0 auto; }
+.c-date-pick {
+  flex: 1 1 auto;
+  min-width: 0;
+  min-height: 44px;
+  padding: 0 10px;
+  border-radius: var(--r-sm);
+  border: 1px solid var(--brd2);
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--txt);
+  font-size: 13px;
+  font-variant-numeric: tabular-nums;
+  box-sizing: border-box;
+}
+.c-date-src {
+  margin-left: 6px;
+  font-size: 10.5px;
+  font-weight: 500;
+  color: var(--acc);
+}
+.c-date-src.warn { color: #f5cf7a; }
+
+/* app.js 复核页的每笔日期输入：升级为原生日期控件，保持 44px 触点 */
+#trade-list input[data-k="date"] {
+  min-height: 44px;
+  box-sizing: border-box;
+  font-variant-numeric: tabular-nums;
+}

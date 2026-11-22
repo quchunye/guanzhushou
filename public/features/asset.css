@@ -1,0 +1,191 @@
+/* features/asset.css —— 批次 E · 22 数据备份面板 / 23 多账户 */
+
+.asset-card {
+  margin-top: 16px;
+  padding: 16px 14px;
+  border-radius: var(--r-lg);
+  border: 1px solid var(--brd);
+  background: var(--glass);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+}
+.asset-card h4 {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--txt);
+  margin-bottom: 6px;
+}
+.asset-note {
+  font-size: 11.5px;
+  line-height: 1.7;
+  color: var(--dim);
+  margin-bottom: 12px;
+}
+.asset-row {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  margin-bottom: 8px;
+  flex-wrap: wrap;
+}
+.asset-input {
+  flex: 1 1 140px;
+  min-width: 0;
+  height: 44px;   /* FX-3：原 38px，低于 44 触控下限 */
+  padding: 0 10px;
+  border-radius: var(--r-sm);
+  border: 1px solid var(--brd);
+  background: var(--glass2);
+  color: var(--txt);
+  font-size: 13px;
+  outline: none;
+}
+.asset-input::placeholder { color: var(--dim); }
+.asset-row .btn { flex: 0 0 auto; height: 38px; padding: 0 12px; font-size: 13px; }
+.asset-row .btn:disabled { opacity: .6; }
+.asset-status {
+  min-height: 17px;
+  font-size: 11.5px;
+  line-height: 1.6;
+  color: var(--sub);
+  margin-top: 4px;
+  word-break: break-word;
+}
+.asset-status.asset-error { color: var(--bad); }
+
+/* ---------- E-23 多账户 ---------- */
+.acct-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 10px 0 12px;
+  padding: 9px 11px;
+  border-radius: var(--r-sm);
+  border: 1px solid var(--brd);
+  background: var(--glass2);
+  flex-wrap: wrap;
+}
+.acct-label {
+  font-size: 12px;
+  color: var(--sub);
+  flex: 0 0 auto;
+}
+.acct-select {
+  height: 44px;
+  min-width: 92px;
+  padding: 0 8px;
+  border-radius: var(--r-sm);
+  border: 1px solid var(--brd);
+  background: var(--glass);
+  color: var(--txt);
+  font-size: 13px;
+  outline: none;
+}
+.acct-hint {
+  font-size: 11.5px;
+  color: var(--dim);
+  line-height: 1.5;
+}
+.acct-card {
+  margin-top: 16px;
+  padding: 15px 14px;
+  border-radius: var(--r-lg);
+  border: 1px solid var(--brd);
+  background: var(--glass);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+}
+.acct-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 6px;
+}
+.acct-head h4 {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--txt);
+}
+.acct-own {
+  font-size: 11.5px;
+  line-height: 1.7;
+  color: var(--dim);
+  margin-bottom: 8px;
+}
+.acct-line-item {
+  font-size: 12.5px;
+  line-height: 1.8;
+  color: var(--sub);
+}
+.acct-line-item b { color: var(--txt); }
+.acct-dim { color: var(--dim); }
+.acct-rules {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 6px 0 2px;
+}
+.acct-chip {
+  font-size: 11.5px;
+  line-height: 1.5;
+  padding: 3px 8px;
+  border-radius: 999px;
+  border: 1px solid var(--brd);
+  color: var(--sub);
+  background: var(--glass2);
+}
+.acct-foot {
+  margin-top: 8px;
+  font-size: 11px;
+  line-height: 1.6;
+  color: var(--dim);
+}
+
+/* ---------- E-24 期初持仓 / E-25 出入金 ---------- */
+.asset-row-wrap { align-items: stretch; }
+.asset-row-wrap .asset-input { flex: 1 1 96px; }
+.asset-list { display: flex; flex-direction: column; gap: 6px; margin: 6px 0 2px; }
+.asset-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 8px 10px;
+  border-radius: var(--r-sm);
+  border: 1px solid var(--brd);
+  background: var(--glass2);
+  font-size: 12.5px;
+  color: var(--txt);
+}
+.asset-item-main { min-width: 0; word-break: break-word; }
+.asset-item-side {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 0 0 auto;
+  font-size: 11.5px;
+  color: var(--dim);
+}
+.asset-del {
+  border: 0;
+  background: transparent;
+  padding: 2px 4px;
+  font-size: 11.5px;
+  color: var(--bad);
+  cursor: pointer;
+}
+.asset-empty {
+  font-size: 12px;
+  line-height: 1.7;
+  color: var(--dim);
+  padding: 6px 0;
+}
+.asset-sum {
+  margin-top: 8px;
+  font-size: 12px;
+  line-height: 1.7;
+  color: var(--sub);
+  word-break: break-word;
+}
+.asset-sum b { color: var(--txt); }

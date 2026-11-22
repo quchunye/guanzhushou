@@ -1,0 +1,1002 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#04070e">
+<title>纪律随身卡 · 管住手了吗复盘</title>
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="site_shell.css">
+<style>
+  :root{--bg0:#04070e;--glass:rgba(11,24,44,.55);--brd:rgba(143,216,255,.14);--brd2:rgba(143,216,255,.28);--txt:#eaf4ff;--sub:#b7c9dd;--meta:rgba(214,233,252,.54);--acc:#8fd8ff;--serif:"Noto Serif SC","Songti SC",serif;--mono:ui-monospace,Consolas,monospace}
+  @font-face{font-family:"Noto Serif SC";src:url("fonts/noto-serif-sc-subset.woff2") format("woff2");font-weight:200 900;font-display:swap}
+  *{box-sizing:border-box}
+  body{background:var(--bg0);color:var(--txt);font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;font-variant-numeric:tabular-nums;margin:0}
+  .dw{max-width:880px;margin:0 auto;padding:28px 20px 56px}
+  .dw-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+  .dw-top a{color:var(--sub);text-decoration:none;font-size:13px;min-height:44px;display:inline-flex;align-items:center}
+  .dw-top .mono{font:11px/1 var(--mono);letter-spacing:.18em;color:var(--meta)}
+  .dw-nav{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 24px}
+  .dw-nav a{font-size:12.5px;color:var(--sub);text-decoration:none;border:1px solid var(--brd);border-radius:100px;padding:0 12px;min-height:34px;display:inline-flex;align-items:center;line-height:1}
+  .dw-nav a:hover{color:var(--txt);border-color:var(--brd2)}
+  .dw-nav a.on{color:var(--txt);border-color:var(--brd2);background:rgba(143,216,255,.08)}
+  h1{font-family:var(--serif);font-size:34px;font-weight:600;margin:0 0 8px}
+  .lede{font-size:14px;line-height:1.75;color:var(--sub);margin:0 0 14px}
+  .note{border:1px solid var(--brd2);border-radius:16px;background:rgba(143,216,255,.05);padding:14px 16px;margin:0 0 26px}
+  .note b{color:var(--txt);font-weight:600}
+  .note p{margin:0;font-size:13px;line-height:1.75;color:var(--sub)}
+  .note p+p{margin-top:6px}
+  /* 桌面悬浮快捷入口（20261109）：放在页面顶部，点一下就跳到 05 区块 */
+  .float-quick{display:flex;align-items:center;justify-content:space-between;gap:12px;border:1px solid var(--brd2);border-radius:16px;background:rgba(143,216,255,.08);padding:12px 14px;margin:0 0 20px}
+  .float-quick .fq-txt{min-width:0}
+  .float-quick b{display:block;font-size:13.5px;color:var(--txt);font-weight:600;line-height:1.5}
+  .float-quick .fq-st{display:block;font-size:12px;line-height:1.6;color:var(--sub);margin-top:2px}
+  .fq-go{flex:none;display:inline-flex;align-items:center;justify-content:center;min-height:40px;padding:0 14px;border:1px solid var(--brd2);border-radius:12px;background:rgba(143,216,255,.12);color:var(--txt);font-size:12.5px;text-decoration:none}
+  .fq-go:hover{background:rgba(143,216,255,.2)}
+  .grp{margin:0 0 30px}
+  .grp-h{display:flex;align-items:baseline;gap:10px;margin:0 0 4px}
+  .gn{font:11px/1.7 var(--mono);letter-spacing:.14em;color:var(--acc)}
+  .grp-h h2{font-family:var(--serif);font-size:19px;font-weight:600;margin:0}
+  .grp-d{font-size:12.5px;line-height:1.7;color:var(--meta);margin:0 0 12px}
+  .slot{border:1px solid var(--brd);border-radius:18px;background:var(--glass);padding:12px 14px;margin-bottom:10px}
+  .float-box{border:1px solid var(--brd);border-radius:18px;background:var(--glass);padding:12px 14px;margin-bottom:10px}
+  .slot:focus-within{border-color:var(--brd2);background:rgba(143,216,255,.06)}
+  .slot-t{display:block;width:100%;border:0;border-bottom:1px dashed var(--brd2);background:transparent;color:var(--txt);font:inherit;font-size:15px;font-weight:500;line-height:1.5;padding:6px 0 8px;min-height:44px;outline:none}
+  .slot-b{display:block;width:100%;border:0;background:transparent;color:var(--sub);font:inherit;font-size:13.5px;line-height:1.75;padding:10px 0 4px;min-height:64px;resize:vertical;outline:none}
+  .slot-t::placeholder,.slot-b::placeholder{color:var(--meta)}
+  .times{display:flex;flex-wrap:wrap;gap:10px}
+  .times label{flex:1 1 140px;font-size:12.5px;line-height:1.6;color:var(--meta)}
+  .times input{display:block;width:100%;margin-top:6px;min-height:44px;padding:0 12px;border:1px solid var(--brd);border-radius:12px;background:var(--glass);color:var(--txt);font:inherit;font-size:14px;outline:none}
+  .times input:focus{border-color:var(--brd2)}
+  .acts{display:flex;flex-wrap:wrap;gap:10px;margin-top:8px}
+  .btn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:0 20px;border-radius:16px;border:1px solid var(--brd2);background:transparent;color:var(--txt);font:inherit;font-size:14px;cursor:pointer}
+  .btn:hover{background:rgba(143,216,255,.08)}
+  .btn.warn{color:#f0c9a0;border-color:rgba(240,201,160,.34)}
+  .state{margin:14px 0 0;font:11.5px/1.6 var(--mono);letter-spacing:.06em;color:var(--meta)}
+  .state b{color:var(--acc);font-weight:400}
+  .float-row{font-size:13px;line-height:1.75;color:var(--sub);margin-bottom:10px}
+  .float-row b{color:var(--txt);font-weight:600}
+  .float-opts{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:10px 0 0;font-size:12.5px;color:var(--meta)}
+  .float-opts .opt-l{display:inline-flex;align-items:center;gap:8px;min-height:36px}
+  .chip{min-height:36px;padding:0 14px;border-radius:100px;border:1px solid var(--brd);background:transparent;color:var(--sub);font:inherit;font-size:12.5px;cursor:pointer}
+  .chip.on{color:var(--txt);border-color:var(--brd2);background:rgba(143,216,255,.1)}
+  .float-hint{font-size:12px;line-height:1.7;color:var(--meta);margin:10px 0 0}
+  .check{border:1px solid var(--brd);border-radius:18px;background:var(--glass);padding:14px}
+  .check-q{margin:0 0 12px;font-size:14.5px;line-height:1.7;color:var(--txt)}
+  .check-opts{display:flex;flex-wrap:wrap;gap:8px}
+  .check-opts .chip{flex:1 1 92px;min-height:46px}
+  .check-st{margin:12px 0 0;font-size:12px;line-height:1.7;color:var(--meta)}
+  input[type="checkbox"]{width:18px;height:18px;accent-color:#8fd8ff}
+  .sched-line{gap:10px}
+  .sched-line input[type="time"]{min-height:36px;padding:0 8px;border-radius:10px;border:1px solid var(--brd2);background:rgba(10,20,32,.6);color:var(--txt);font:inherit;font-size:13px}
+  .sched-warn{color:#ffd79a}
+  .foot{margin-top:26px;padding-top:14px;border-top:1px solid var(--brd);font-size:12px;line-height:1.75;color:var(--meta)}
+  /* 画中画精简卡（20261109）：只在小窗形态出现，页面其余部分整体隐藏，只留文本 */
+  #pip-card{--pk:1;display:none}
+  body.pip-mode{overflow:hidden;background:var(--bg0)}
+  body.pip-mode .dw{display:none!important}
+  body.pip-mode button,body.pip-mode input,body.pip-mode textarea,body.pip-mode .acts{display:none!important}
+  body.pip-mode #pip-card{display:flex;position:fixed;inset:0;flex-direction:column;padding:clamp(8px,3.4vmin,14px) clamp(10px,3.2vmin,16px);overflow:hidden;background:linear-gradient(180deg,#0b1830,#04070e);font-size:calc(12.5px * var(--pk))}
+  .pip-h{flex:none;font-family:var(--serif);font-size:calc(15px * var(--pk));font-weight:600;line-height:1.3;margin:0 0 calc(4px * var(--pk));color:var(--txt);overflow-wrap:anywhere;word-break:break-word}
+  .pip-body{flex:1 1 auto;min-height:0;min-width:0;overflow-y:auto;overflow-x:hidden;overscroll-behavior:contain;display:flex;flex-direction:column}
+  /* 内容比窗口短时上下均分留白；比窗口长时可滚，且不会裁掉顶部 */
+  .pip-inner{width:100%;margin:auto 0;min-height:0}
+  .pip-lb{font-family:var(--mono);font-size:max(10px,calc(10px * var(--pk)));line-height:1.5;letter-spacing:.14em;color:var(--acc);margin:calc(9px * var(--pk)) 0 2px}
+  .pip-inner > .pip-lb:first-child{margin-top:0}
+  .pip-it{margin:0 0 calc(4px * var(--pk));font-size:calc(12.5px * var(--pk));line-height:1.5;color:var(--txt);overflow-wrap:anywhere;word-break:break-word;max-width:100%}
+  .pip-it b{display:block;font-weight:600;font-size:calc(12.5px * var(--pk));line-height:1.45}
+  .pip-it span{display:block;color:var(--sub);font-size:max(10px,calc(12px * var(--pk)));line-height:1.5;white-space:pre-wrap}
+  .pip-empty{font-size:max(10px,calc(12px * var(--pk)));line-height:1.6;color:var(--sub);margin:auto 0}
+  .pip-ft{flex:none;margin-top:calc(5px * var(--pk));padding-top:calc(5px * var(--pk));border-top:1px solid var(--brd);font-size:max(10px,calc(10.5px * var(--pk)));line-height:1.4;color:var(--meta)}
+  /* 分屏 / 小高度（约 320×400）：压缩留白与字号，不塌、不横向溢出 */
+  @media (max-height:520px){
+    .dw{padding:12px 12px 24px}
+    .dw-top{margin-bottom:8px}
+    .dw-nav{margin-bottom:14px}
+    h1{font-size:24px;margin-bottom:4px}
+    .lede{font-size:12.5px;line-height:1.6;margin-bottom:8px}
+    .note{padding:10px 12px;margin-bottom:14px}
+    .float-quick{padding:10px 12px;margin-bottom:14px}
+    .grp{margin-bottom:18px}
+    .btn{min-height:42px;padding:0 14px;font-size:13px}
+    .slot-b{min-height:52px}
+    .foot{margin-top:16px}
+  }
+  @media (max-width:360px){
+    .dw{padding-left:12px;padding-right:12px}
+    .times label{flex:1 1 100%}
+    .fq-go{padding:0 10px}
+    .float-quick{gap:8px}
+    .sched-line{gap:6px}
+  }
+  @media(min-width:1024px){.dw{padding:44px 48px 64px}h1{font-size:40px}}
+</style>
+</head>
+<body>
+<div class="dw">
+  <div class="dw-top">
+    <a href="./">← 回首页</a>
+    <span class="mono">POCKET CARD</span>
+  </div>
+  <nav class="dw-nav" aria-label="七个容器">
+    <a class="on" href="discipline.html" aria-current="page">纪律随身卡</a>
+    <a href="discipline.html#check">今日自查</a>
+    <a href="replay_readonly.html">历史回放</a>
+    <a href="records.html">我的记录</a>
+    <a href="archive.html">票档案与批注</a>
+    <a href="guide.html">规则怎么写</a>
+    <a href="price.html">会员</a>
+  </nav>
+
+  <h1>纪律随身卡</h1>
+  <p class="lede">开盘前读一遍，读完就放下。卡上的字全是你自己写的，这里只负责把字放回你眼前。</p>
+
+  <div class="note">
+    <p><b>本卡内容全部由你本人填写，本产品不提供任何投资建议。</b></p>
+    <p>空的槽位就是空的，产品不会替你补一句。你说过什么，下次打开还是什么，只存在这台设备里。</p>
+  </div>
+
+  <!-- 桌面悬浮快捷入口：从首页带 #float 进来会直接落在 05；正常进来也能一点到底部 -->
+  <div class="float-quick" id="float-quick">
+    <span class="fq-txt">
+      <b>桌面悬浮 · 把这张卡挂到看盘软件旁边</b>
+      <span class="fq-st" id="fq-st">正在读取权限状态…</span>
+    </span>
+    <a class="fq-go" href="#float" id="fq-go">去开启 ↓</a>
+  </div>
+
+  <section class="grp" data-group="ban">
+    <div class="grp-h"><span class="gn">01</span><h2>三条禁止</h2></div>
+    <p class="grp-d">写你自己最想守的三条，标题也归你起。写不出三条就先空着。</p>
+    <div class="slot" data-slot="ban1">
+      <input class="slot-t" data-f="title" type="text" maxlength="24" aria-label="第一条禁止的标题" placeholder="标题（自己起）">
+      <textarea class="slot-b" data-f="body" rows="2" maxlength="200" aria-label="第一条禁止的内容" placeholder="写你自己的话"></textarea>
+    </div>
+    <div class="slot" data-slot="ban2">
+      <input class="slot-t" data-f="title" type="text" maxlength="24" aria-label="第二条禁止的标题" placeholder="标题（自己起）">
+      <textarea class="slot-b" data-f="body" rows="2" maxlength="200" aria-label="第二条禁止的内容" placeholder="写你自己的话"></textarea>
+    </div>
+    <div class="slot" data-slot="ban3">
+      <input class="slot-t" data-f="title" type="text" maxlength="24" aria-label="第三条禁止的标题" placeholder="标题（自己起）">
+      <textarea class="slot-b" data-f="body" rows="2" maxlength="200" aria-label="第三条禁止的内容" placeholder="写你自己的话"></textarea>
+    </div>
+  </section>
+
+  <section class="grp" data-group="ask">
+    <div class="grp-h"><span class="gn">02</span><h2>下单前三问</h2></div>
+    <p class="grp-d">点下去之前，先答完这三句。问什么由你决定，答不上来的时候怎么处理也由你决定。</p>
+    <div class="slot" data-slot="ask1">
+      <input class="slot-t" data-f="title" type="text" maxlength="24" aria-label="第一问的标题" placeholder="第 1 问（自己写）">
+      <textarea class="slot-b" data-f="body" rows="2" maxlength="200" aria-label="第一问的说明" placeholder="你希望自己在点下去之前答上什么"></textarea>
+    </div>
+    <div class="slot" data-slot="ask2">
+      <input class="slot-t" data-f="title" type="text" maxlength="24" aria-label="第二问的标题" placeholder="第 2 问（自己写）">
+      <textarea class="slot-b" data-f="body" rows="2" maxlength="200" aria-label="第二问的说明" placeholder="你希望自己在点下去之前答上什么"></textarea>
+    </div>
+    <div class="slot" data-slot="ask3">
+      <input class="slot-t" data-f="title" type="text" maxlength="24" aria-label="第三问的标题" placeholder="第 3 问（自己写）">
+      <textarea class="slot-b" data-f="body" rows="2" maxlength="200" aria-label="第三问的说明" placeholder="你希望自己在点下去之前答上什么"></textarea>
+    </div>
+  </section>
+
+  <section class="grp" data-group="edge">
+    <div class="grp-h"><span class="gn">03</span><h2>一句话边界</h2></div>
+    <p class="grp-d">一句话就够：什么情况算在你自己的规矩之外。</p>
+    <div class="slot" data-slot="edge1">
+      <input class="slot-t" data-f="title" type="text" maxlength="24" aria-label="边界这条的标题" placeholder="标题（自己起）">
+      <textarea class="slot-b" data-f="body" rows="2" maxlength="200" aria-label="边界这条的内容" placeholder="一句话，用你自己的说法"></textarea>
+    </div>
+  </section>
+
+  <section class="grp" data-group="time">
+    <div class="grp-h"><span class="gn">04</span><h2>我的检查时点</h2></div>
+    <p class="grp-d">可选。两个时间由你自己填；本产品不发通知，到点靠你自己点开。</p>
+    <div class="times">
+      <label>第一次<input type="time" data-time="t1" aria-label="第一次读卡的时间"></label>
+      <label>第二次<input type="time" data-time="t2" aria-label="第二次读卡的时间"></label>
+    </div>
+  </section>
+
+  <section class="grp" data-group="float" id="float">
+    <div class="grp-h"><span class="gn">05</span><h2>桌面悬浮</h2></div>
+    <p class="grp-d">把上面这些字挂到看盘软件旁边。悬浮窗里只有你自己写的内容，不接行情，也不显示任何标的。</p>
+
+    <div class="float-box" id="float-native" hidden>
+      <div class="float-row" id="float-status">正在读取权限状态…</div>
+      <div class="acts"><button class="btn" type="button" id="float-toggle">开启悬浮窗</button></div>
+      <div class="float-opts">
+        <span class="opt-l">尺寸</span>
+        <button class="chip" type="button" data-size="s">小</button>
+        <button class="chip on" type="button" data-size="m">中</button>
+        <button class="chip" type="button" data-size="l">大</button>
+      </div>
+      <div class="float-opts">
+        <span class="opt-l">透明度</span>
+        <button class="chip" type="button" data-opacity="0.55">浅</button>
+        <button class="chip on" type="button" data-opacity="0.72">中</button>
+        <button class="chip" type="button" data-opacity="0.9">深</button>
+      </div>
+      <div class="float-opts">
+        <label class="opt-l"><input type="checkbox" id="float-lock"> 锁定位置，防误拖</label>
+      </div>
+      <div class="float-opts sched-line">
+        <span class="opt-l">每天定时</span>
+        <input type="time" id="sched-time" value="09:15" step="60" aria-label="定时弹出的时间">
+        <button class="chip" type="button" id="sched-on" aria-pressed="false">关闭</button>
+      </div>
+      <p class="float-hint" id="sched-hint">默认关闭。打开后每天到这个点，把这张卡浮出来。</p>
+      <p class="float-hint sched-warn" id="sched-warn" hidden></p>
+      <button class="btn" type="button" id="sched-exact-btn" hidden>去开精确闹钟</button>
+      <p class="float-hint">悬浮窗里：拖顶部 ⋮⋮ 移动 · 「—」收成小圆点（圆点也能拖着走，点一下还原） · × 要按两次才关。位置和大小会记住（没拖过就默认贴右边），但 App 被系统清掉后不会自己回来，需要你重新开一次。</p>
+      <p class="float-hint">圆点在你自己的 App 页面里（纪律卡、录入、识别、复盘）会自动隐藏，不挡输入框；切到别的 App 再出现。</p>
+    </div>
+
+    <div class="float-box" id="float-pip" hidden>
+      <div class="float-row" id="pipn-status">正在读取画中画状态…</div>
+      <div class="acts"><button class="btn" type="button" id="pipn-btn">画中画小窗</button></div>
+      <p class="float-hint">画中画是系统级小窗：进小窗后切到看盘软件，小窗留在最上面。它和上面的悬浮窗是两种形态，互不影响——不屏蔽悬浮窗的 App 用悬浮窗，屏蔽的用画中画。</p>
+      <p class="float-hint">小米 / 红米要先允许：设置 → 应用 → 权限 → 画中画 → 找到本应用 → 打开。部分国产系统会限制画中画；被限制时回到上面的「悬浮窗」，或把看盘软件放进分屏。</p>
+      <p class="float-hint" id="pipn-warn" hidden></p>
+    </div>
+
+    <div class="float-box" id="float-web" hidden>
+      <div class="float-row" id="pip-status">可以用浏览器画中画，把卡浮在网页之上。</div>
+      <div class="acts"><button class="btn" type="button" id="pip-toggle">开启画中画</button></div>
+      <p class="float-hint">网页的画中画只能盖在浏览器上面，盖不到同花顺、东方财富这类桌面软件。要压在别的 App 上，请用安卓 App 里的悬浮窗。</p>
+    </div>
+
+    <div class="float-box" id="float-none" hidden>
+      <div class="float-row"><b>这个浏览器不支持悬浮窗</b></div>
+      <p class="float-hint">网页浮动需要 Chrome / Edge 116 及以上，并且是 https 地址。iPhone 和 iPad 没有系统级悬浮窗，这次先不做，退路是本地提醒；安卓手机请用 App 里的「桌面悬浮」。</p>
+    </div>
+  </section>
+
+  <!-- 06 今日自查：在原 05 浮块之后追加；05 的内容与结构未动 -->
+  <section class="grp" data-group="check" id="check">
+    <div class="grp-h"><span class="gn">06</span><h2>今日自查</h2></div>
+    <p class="grp-d">一天一条，只问这一句。</p>
+    <div class="check">
+      <p class="check-q">你写的这条规则今天守住了吗</p>
+      <div class="check-opts" role="group" aria-label="今日自查">
+        <button class="chip" type="button" data-check="kept" aria-pressed="false">守住了</button>
+        <button class="chip" type="button" data-check="broke" aria-pressed="false">没守住</button>
+        <button class="chip" type="button" data-check="none" aria-pressed="false">没记录</button>
+      </div>
+      <p class="check-st" id="check-st">今天还没记。点一档就行。</p>
+    </div>
+    <p class="float-hint">一天只记一条，改了就是改判，不留第二份。只存在这台设备里。</p>
+  </section>
+
+  <div class="acts">
+    <button class="btn" type="button" id="btn-export">导出这张卡（JSON）</button>
+    <button class="btn warn" type="button" id="btn-clear">清空这张卡</button>
+  </div>
+  <p class="state" id="state">已存在这台设备 · <b>未上传</b></p>
+
+  <p class="foot">清空没有挽回：本机没有第二份。换设备、清浏览器缓存前，先导出一份。产品不给这张卡打分，也不排先后。</p>
+  <footer class="pj-shell">
+    <nav class="pj-shell-nav" aria-label="七个容器">
+      <a href="discipline.html">纪律随身卡</a>
+      <a href="discipline.html#check">今日自查</a>
+      <a href="replay_readonly.html">历史回放</a>
+      <a href="records.html">我的记录</a>
+      <a href="archive.html">票档案与批注</a>
+      <a href="guide.html">规则怎么写</a>
+      <a href="price.html">会员</a>
+    </nav>
+    <p class="pj-shell-line">只记录、只统计、只复盘 · 不构成投资建议 · 不展示实时行情</p>
+  </footer>
+</div>
+
+<!-- 画中画精简卡：只在小窗形态显示，标题 + 三条禁止 + 一句话边界 + 底部固定一行 -->
+<div id="pip-card" aria-hidden="true">
+  <div class="pip-h">纪律随身卡</div>
+  <div class="pip-body" id="pip-body"></div>
+  <div class="pip-ft">不构成投资建议</div>
+</div>
+<script src="compat.js"></script>
+<script src="ext.js"></script>
+<script src="features/discipline_card.js"></script>
+<script>
+(function(){
+  var KEY = 'guanzhu_discipline_v1';
+  var root = document.querySelector('.dw');
+  var stateEl = document.getElementById('state');
+  var timer = null;
+  // 本机存储是否可用：file:// 或部分内嵌浏览器会禁用 localStorage，此时退化为「本次会话内可写」
+  var ok = (function(){
+    try { localStorage.setItem('__gc_probe', '1'); localStorage.removeItem('__gc_probe'); return true; } catch(e) { return false; }
+  })();
+  var mem = null;
+  // 悬浮窗/画中画内容跟随输入同步；未初始化时为空
+  var syncFloater = null;
+  // 顶部「桌面悬浮」快捷入口的状态行（20261109）：和 05 区块共用一份状态，不另记一套
+  var fxSt = document.getElementById('fq-st');
+  function fx(txt){ if (fxSt) fxSt.textContent = txt; }
+
+  function read(){
+    if (!ok) return { card: mem };
+    var o = {};
+    try { o = JSON.parse(localStorage.getItem(KEY) || '{}') || {}; } catch(e){ o = {}; }
+    return (o && typeof o === 'object') ? o : {};
+  }
+  function collect(){
+    var out = { slots:{}, times:{} };
+    root.querySelectorAll('.slot').forEach(function(s){
+      var id = s.getAttribute('data-slot');
+      out.slots[id] = {
+        title: s.querySelector('[data-f="title"]').value,
+        body: s.querySelector('[data-f="body"]').value
+      };
+    });
+    root.querySelectorAll('[data-time]').forEach(function(i){ out.times[i.getAttribute('data-time')] = i.value; });
+    return out;
+  }
+  function isEmpty(data){
+    if (!data) return true;
+    var s = data.slots || {}, t = data.times || {};
+    if (Object.keys(t).some(function(k){ return !!t[k]; })) return false;
+    return !Object.keys(s).some(function(k){ return (s[k].title || '').trim() || (s[k].body || '').trim(); });
+  }
+  function paintState(data){
+    if (!ok) { stateEl.innerHTML = '这台设备不允许本地存储 · 内容只留到关页面为止'; return; }
+    if (isEmpty(data)) { stateEl.innerHTML = '还没有内容 · <b>未上传</b>'; return; }
+    stateEl.innerHTML = '已存在这台设备 · <b>未上传</b>';
+  }
+  function save(){
+    var data = collect();
+    try {
+      if (!ok) throw new Error('no-storage');
+      localStorage.setItem(KEY, JSON.stringify({ v:1, saved_at:Date.now(), card:data }));
+      mem = null;
+    } catch(e) {
+      ok = false;
+      mem = data;
+    }
+    paintState(data);
+    if (syncFloater) syncFloater();
+  }
+  function saveSoon(){ clearTimeout(timer); timer = setTimeout(save, 300); }
+
+  function fill(data){
+    root.querySelectorAll('.slot').forEach(function(s){
+      var id = s.getAttribute('data-slot');
+      var v = (data && data.slots && data.slots[id]) || {};
+      s.querySelector('[data-f="title"]').value = v.title || '';
+      s.querySelector('[data-f="body"]').value = v.body || '';
+    });
+    root.querySelectorAll('[data-time]').forEach(function(i){
+      var k = i.getAttribute('data-time');
+      i.value = (data && data.times && data.times[k]) || '';
+    });
+  }
+
+  function ymd(){
+    var d = new Date();
+    return d.getFullYear() + String(d.getMonth()+1).padStart(2,'0') + String(d.getDate()).padStart(2,'0');
+  }
+
+  root.addEventListener('input', function(e){
+    if (e.target.matches('.slot-t,.slot-b,[data-time]')) saveSoon();
+  });
+
+  document.getElementById('btn-export').addEventListener('click', function(){
+    var data = collect();
+    var payload = JSON.stringify({ v:1, type:'discipline_card', exported_at:new Date().toISOString(), card:data }, null, 2);
+    var blob = new Blob([payload], { type:'application/json' });
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement('a');
+    a.href = url;
+    a.download = '纪律随身卡_' + ymd() + '.json';
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(function(){ URL.revokeObjectURL(url); }, 1000);
+  });
+
+  document.getElementById('btn-clear').addEventListener('click', function(){
+    if (!confirm('清空这张卡？本机只存这一份，清掉就没了。')) return;
+    try { localStorage.removeItem(KEY); } catch(e){}
+    mem = null;
+    fill(null);
+    save();
+    var first = root.querySelector('.slot-t');
+    if (first) first.focus();
+  });
+
+  /* ---------------- 06 今日自查（一天一条，只存本机） ---------------- */
+
+  var CHECK_KEY = 'guanzhu_discipline_check_v1';
+  var CHECK_LABEL = { kept:'守住了', broke:'没守住', none:'没记录' };
+  var checkBtns = Array.prototype.slice.call(root.querySelectorAll('[data-check]'));
+  var checkSt = document.getElementById('check-st');
+  var memCheck = {};
+
+  function checkDay(){
+    var d = new Date();
+    return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
+  }
+  function readCheck(){
+    if (!ok) return memCheck;
+    try {
+      var o = JSON.parse(localStorage.getItem(CHECK_KEY) || '{}') || {};
+      return (o && o.days && typeof o.days === 'object') ? o.days : {};
+    } catch(e) { return {}; }
+  }
+  function paintCheck(){
+    var v = readCheck()[checkDay()];
+    checkBtns.forEach(function(b){
+      var on = !!v && v.status === b.getAttribute('data-check');
+      b.classList.toggle('on', on);
+      b.setAttribute('aria-pressed', on ? 'true' : 'false');
+    });
+    checkSt.textContent = v
+      ? '今天记的是：' + (CHECK_LABEL[v.status] || '') + ' · 想改就点另一档'
+      : '今天还没记。点一档就行。';
+  }
+  checkBtns.forEach(function(b){
+    b.addEventListener('click', function(){
+      var days = readCheck();
+      days[checkDay()] = { status: b.getAttribute('data-check'), ts: Date.now() };
+      memCheck = days;
+      if (ok) {
+        try { localStorage.setItem(CHECK_KEY, JSON.stringify({ v:1, days: days })); }
+        catch(e) { ok = false; }
+      }
+      paintCheck();
+    });
+  });
+  paintCheck();
+
+  var saved = read();
+  fill(saved.card || null);
+  paintState(saved.card || null);
+
+  /* ---------------- 桌面悬浮（安卓原生）/ 画中画（网页兜底） ---------------- */
+
+  /* 悬浮窗与画中画共用 features/discipline_card.js 的同一份取数与字段清单 */
+  var CARD = window.PanjiDisciplineCard;
+
+  function buildPayload(){
+    return CARD.payload();
+  }
+
+  var FKEY = 'guanzhu_discipline_float_v1';
+  var fpref = (function(){
+    try { return JSON.parse(localStorage.getItem(FKEY) || '{}') || {}; } catch(e) { return {}; }
+  })();
+  var fsize = fpref.size || 'm';
+  var fopacity = Number(fpref.opacity) || 0.72;
+  var flocked = !!fpref.locked;
+  var fvisible = false;
+  var fGranted = false;
+
+  function prefSave(){
+    try {
+      localStorage.setItem(FKEY, JSON.stringify({ size:fsize, opacity:fopacity, locked:flocked }));
+    } catch(e) {}
+  }
+
+  var nativePlugin = (window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins.PanjiFloater) || null;
+
+  function esc(s){
+    return String(s).replace(/[&<>"]/g, function(c){
+      return { '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;' }[c];
+    });
+  }
+
+  /* ---- 网页：Document Picture-in-Picture ---- */
+  var PIP_CSS = [
+    'html,body{margin:0;height:100%}',
+    'body{background:#0a1420;color:#eaf4ff;font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;padding:10px;overflow:auto}',
+    '.pc{background:rgba(11,22,38,.86);border:1px solid rgba(143,216,255,.22);border-radius:14px;padding:12px}',
+    '.pc h1{font-size:14px;font-weight:600;margin:0 0 6px}',
+    '.pc .lb{font-size:11px;color:rgba(143,216,255,.7);margin:8px 0 2px}',
+    '.pc .t{font-size:12.5px;line-height:1.5}',
+    '.pc .b{font-size:12px;line-height:1.6;color:#b7c9dd;white-space:pre-wrap}',
+    '.pc .ft{font-size:11px;color:rgba(214,233,252,.5);margin-top:10px;padding-top:8px;border-top:1px solid rgba(143,216,255,.14)}',
+    '.pc .empty{font-size:12px;color:#b7c9dd}'
+  ].join('\n');
+
+  var pipWin = null;
+  var pipBtn = document.getElementById('pip-toggle');
+  var pipSt = document.getElementById('pip-status');
+
+  function pipBodyHTML(){
+    var its = CARD.items();
+    var out = '';
+    its.forEach(function(it){
+      if (it.label) out += '<div class="lb">' + esc(it.label) + '</div>';
+      if (it.title) out += '<div class="t">' + esc(it.title) + '</div>';
+      if (it.body) out += '<div class="b">' + esc(it.body) + '</div>';
+    });
+    if (!out) out = '<div class="empty">卡里还没有字。回到页面写两句，再开画中画。</div>';
+    return '<div class="pc"><h1>纪律随身卡</h1>' + out + '<div class="ft">不构成投资建议</div></div>';
+  }
+
+  function paintPip(){
+    if (!pipWin || pipWin.closed) return;
+    try { pipWin.document.body.innerHTML = pipBodyHTML(); } catch(e) {}
+  }
+
+  function initPip(){
+    document.getElementById('float-web').hidden = false;
+    fx('浏览器画中画只能浮在浏览器上，往下开');
+    if (!window.isSecureContext) {
+      pipSt.innerHTML = '当前不是 https 地址，浏览器不允许画中画。换成线上地址再试。';
+    }
+    pipBtn.addEventListener('click', function(){
+      if (pipWin && !pipWin.closed) {
+        paintPip();
+        return;
+      }
+      if (!window.documentPictureInPicture) {
+        pipSt.textContent = '这个浏览器不支持画中画（需要 Chrome / Edge 116 及以上）。';
+        return;
+      }
+      documentPictureInPicture.requestWindow({ width: 300, height: 430 }).then(function(w){
+        pipWin = w;
+        var st = w.document.createElement('style');
+        st.textContent = PIP_CSS;
+        w.document.head.appendChild(st);
+        paintPip();
+        pipBtn.textContent = '刷新画中画内容';
+        pipSt.innerHTML = '<b>画中画已开启</b> · 只浮在浏览器之上，关掉那个小窗就结束。';
+        w.addEventListener('pagehide', function(){
+          pipWin = null;
+          pipBtn.textContent = '开启画中画';
+          pipSt.textContent = '画中画已关闭。';
+        });
+      }).catch(function(e){
+        pipSt.textContent = '开画中画失败：' + ((e && e.message) || '浏览器拒绝了这个请求');
+      });
+    });
+  }
+
+  /* ---- 安卓原生悬浮窗 ---- */
+  function initNative(){
+    var box = document.getElementById('float-native');
+    var st = document.getElementById('float-status');
+    var btn = document.getElementById('float-toggle');
+    var lock = document.getElementById('float-lock');
+    box.hidden = false;
+
+    box.querySelectorAll('[data-size]').forEach(function(b){
+      if (b.getAttribute('data-size') === fsize) { box.querySelectorAll('[data-size]').forEach(function(x){ x.classList.remove('on'); }); b.classList.add('on'); }
+      b.addEventListener('click', function(){
+        box.querySelectorAll('[data-size]').forEach(function(x){ x.classList.remove('on'); });
+        b.classList.add('on');
+        fsize = b.getAttribute('data-size');
+        prefSave();
+        if (fvisible) pushNative(true);
+      });
+    });
+    box.querySelectorAll('[data-opacity]').forEach(function(b){
+      if (Number(b.getAttribute('data-opacity')) === fopacity) { box.querySelectorAll('[data-opacity]').forEach(function(x){ x.classList.remove('on'); }); b.classList.add('on'); }
+      b.addEventListener('click', function(){
+        box.querySelectorAll('[data-opacity]').forEach(function(x){ x.classList.remove('on'); });
+        b.classList.add('on');
+        fopacity = Number(b.getAttribute('data-opacity'));
+        prefSave();
+        if (fvisible) pushNative(true);
+      });
+    });
+    lock.checked = flocked;
+    lock.addEventListener('change', function(){
+      flocked = lock.checked;
+      prefSave();
+      if (fvisible) pushNative(true);
+    });
+
+    /* ---- 每天定时弹出（安卓原生；设置只存本机，不联网） ---- */
+    var schedTime = document.getElementById('sched-time');
+    var schedOn = document.getElementById('sched-on');
+    var schedHint = document.getElementById('sched-hint');
+    var schedWarn = document.getElementById('sched-warn');
+    var schedExactBtn = document.getElementById('sched-exact-btn');
+    var schedEnabled = false;
+    var schedExact = true;
+
+    function schedText(r){
+      if (!r) return;
+      schedEnabled = !!r.enabled;
+      schedExact = !!r.exact;
+      schedOn.textContent = schedEnabled ? '开启中' : '关闭';
+      schedOn.classList.toggle('on', schedEnabled);
+      schedOn.setAttribute('aria-pressed', schedEnabled ? 'true' : 'false');
+      schedExactBtn.hidden = schedExact;
+      schedHint.textContent = schedEnabled
+        ? '每天到这个点，把这张卡浮出来。只存本机，不联网。这一档要靠 App 活着：被系统清掉或强行停止时不会响，重新打开 App 会再排上；重启手机后设置会保留并自动排上。'
+        : '默认关闭。打开后每天到这个点，把这张卡浮出来。';
+      var warn = '';
+      if (schedEnabled && !schedExact) warn += '这台设备没允许精确闹钟：只能做到大致准点，可能差几分钟。点下面按钮去开。';
+      if (schedEnabled && !fvisible && !fGranted) warn += (warn ? ' ' : '') + '悬浮权限没开，到点也浮不出来，先在上面授权。';
+      schedWarn.textContent = warn;
+      schedWarn.hidden = !warn;
+    }
+
+    function schedRefresh(){
+      if (!nativePlugin || typeof nativePlugin.getSchedule !== 'function') return;
+      nativePlugin.getSchedule().then(schedText).catch(function(){});
+    }
+
+    function schedSet(on){
+      var v = (schedTime.value || '09:15').split(':');
+      var hh = Number(v[0]);
+      var mm = Number(v[1]);
+      if (!(hh >= 0 && hh <= 23)) hh = 9;
+      if (!(mm >= 0 && mm <= 59)) mm = 15;
+      nativePlugin.setSchedule({ enabled: on, hour: hh, minute: mm }).then(schedText).catch(function(){
+        schedWarn.hidden = false;
+        schedWarn.textContent = '没写进系统。把 App 关掉重开一次再试。';
+      });
+    }
+
+    schedOn.addEventListener('click', function(){ schedSet(!schedEnabled); });
+    schedTime.addEventListener('change', function(){ if (schedEnabled) schedSet(true); });
+    schedExactBtn.addEventListener('click', function(){
+      nativePlugin.openExactAlarmSettings().then(function(r){
+        if (r && r.opened) {
+          schedWarn.hidden = false;
+          schedWarn.textContent = '已打开系统设置页。允许「设置精确闹钟」后按返回键回来。';
+        } else {
+          schedWarn.hidden = false;
+          schedWarn.textContent = '这台设备没有这一项，或用不了这个设置页。';
+        }
+      }).catch(function(){});
+    });
+
+    function pushNative(useSync){
+      var p = buildPayload();
+      // 开窗仍要求有内容；已经浮在屏幕上时，允许把空内容同步过去，避免卡被清空后仍挂着旧字
+      if (!p.count && !useSync) return Promise.resolve();
+      var args = { payload: p.json, size: fsize, opacity: fopacity, locked: flocked };
+      return (useSync ? nativePlugin.sync(args) : nativePlugin.show(args)).catch(function(){});
+    }
+
+    var lastKey = '';
+    var prefsSynced = false;
+    function syncPrefsFromNative(r){
+      if (prefsSynced || !r) return;
+      prefsSynced = true;
+      if (r.size === 's' || r.size === 'm' || r.size === 'l') fsize = r.size;
+      if (typeof r.opacity === 'number') fopacity = r.opacity;
+      flocked = !!r.locked;
+      prefSave();
+      box.querySelectorAll('[data-size]').forEach(function(x){ x.classList.toggle('on', x.getAttribute('data-size') === fsize); });
+      box.querySelectorAll('[data-opacity]').forEach(function(x){ x.classList.toggle('on', Number(x.getAttribute('data-opacity')) === fopacity); });
+      lock.checked = flocked;
+    }
+    function refresh(){
+      return nativePlugin.hasPermission().then(function(r){
+        syncPrefsFromNative(r);
+        fGranted = !!(r && r.granted);
+        fvisible = !!(r && r.visible);
+        if (!r || !r.granted) {
+          fx('还差系统权限这一步：往下到 05 开权限，回来再点一次');
+          if (lastKey === 'denied') return;
+          lastKey = 'denied';
+          btn.textContent = '去系统设置授权';
+          st.innerHTML = '<b>还差系统权限这一步</b>：系统还没允许「显示在其他应用上层」。点下面按钮去系统设置打开；<b>授权后回到本页，再点一次「开启悬浮窗」</b>——系统不允许 App 自己把浮窗弹出来，不是你开失败了。';
+          return;
+        }
+        if (fvisible) {
+          fx('悬浮窗已开着，浮在看盘软件上面');
+          if (lastKey === 'on') return;
+          lastKey = 'on';
+          btn.textContent = '关闭悬浮窗';
+          st.innerHTML = '<b>悬浮窗已开启</b> · 现在浮在其他 App 上面，内容跟着你上面的输入走。';
+        } else {
+          fx('权限已就绪，往下到 05 点一下「开启悬浮窗」');
+          if (lastKey === 'off') return;
+          lastKey = 'off';
+          btn.textContent = '开启悬浮窗';
+          st.innerHTML = '<b>权限已就绪，再点一下「开启悬浮窗」就开。</b>空卡不会浮出来。';
+        }
+      }).catch(function(){
+        st.textContent = '读不到权限状态，请把 App 关掉重开一次。';
+      });
+    }
+
+    btn.addEventListener('click', function(){
+      nativePlugin.hasPermission().then(function(r){
+        if (!r || !r.granted) {
+          nativePlugin.requestPermission().then(function(){
+            // 用户在系统设置里授权后返回，靠下面的 visibilitychange / focus 复核
+            st.innerHTML = '已打开系统设置页。找到本应用，打开「显示在其他应用上层」，然后按返回键回来，再点一次这个按钮。';
+            fx('已打开系统设置页，授权后回来再点一次');
+          }).catch(function(){
+            st.textContent = '打不开系统设置页，请手动去「设置 → 应用 → 权限 → 显示在其他应用上层」里开启。';
+          });
+          return;
+        }
+        if (fvisible) {
+          nativePlugin.hide().then(function(){ fvisible = false; refresh(); }).catch(function(){ refresh(); });
+          return;
+        }
+        var p = buildPayload();
+        if (!p.count) {
+          st.innerHTML = '<b>卡里还是空的</b>，先在上面写一两句，再开悬浮窗。';
+          return;
+        }
+        pushNative(false).then(function(){
+          setTimeout(refresh, 250);
+        });
+      });
+    });
+
+    function recheck(){
+      if (document.visibilityState === 'visible') { refresh(); schedRefresh(); pipRefreshStatus(); }
+    }
+    document.addEventListener('visibilitychange', recheck);
+    window.addEventListener('focus', recheck);
+    // 悬浮窗上的「确认」关闭是在原生层发生的，页面上靠轮询把状态追平
+    setInterval(function(){
+      if (document.visibilityState === 'visible') refresh();
+    }, 2000);
+
+    refresh();
+    schedRefresh();
+    syncFloater = function(){
+      if (fvisible) pushNative(true);
+      if (document.body.classList.contains('pip-mode')) pipRenderCard();
+    };
+  }
+
+  /* ---- 安卓原生画中画（20261109）：系统级小窗，盖在全屏看盘软件上面 ---- */
+
+  var pipnBox = document.getElementById('float-pip');
+  var pipnBtn = document.getElementById('pipn-btn');
+  var pipnSt = document.getElementById('pipn-status');
+  var pipnWarn = document.getElementById('pipn-warn');
+  var pipBodyEl = document.getElementById('pip-body');
+  var pipnSupported = false;
+  var pipnAllowed = false;
+  var pipnBusy = false;
+
+  function pipRenderCard(){
+    var p = buildPayload();
+    if (!p.count) {
+      pipBodyEl.innerHTML = '<div class="pip-empty">卡里还没有字。回到页面写两句，再进小窗。</div>';
+      var c0 = document.getElementById('pip-card');
+      if (c0) c0.style.setProperty('--pk', '1');
+      return;
+    }
+    var html = '<div class="pip-inner">';
+    p.items.forEach(function(it){
+      if (it.label) html += '<div class="pip-lb">' + esc(it.label) + '</div>';
+      if (it.title || it.body) {
+        html += '<div class="pip-it">'
+          + (it.title ? '<b>' + esc(it.title) + '</b>' : '')
+          + (it.body ? '<span>' + esc(it.body) + '</span>' : '')
+          + '</div>';
+      }
+    });
+    html += '</div>';
+    pipBodyEl.innerHTML = html;
+    fitPip();
+  }
+
+  /* 按小窗实际尺寸等比缩放：字随窗口长，窗口再大也不摊成一小坨；塞不下就滚，不裁顶。
+     --pk 下限 0.8（正文 12.5×0.8=10px，辅助字用 max(10px,…) 兜住 10px 下限），上限 1.9。 */
+  var PIP_MIN = 0.8, PIP_MAX = 1.9, PIP_FILL = 0.86;
+
+  function pipTextHeight(){
+    var card = document.getElementById('pip-card');
+    if (!card) return null;
+    var h = card.querySelector('.pip-h');
+    var ft = card.querySelector('.pip-ft');
+    if (!h || !ft) return null;
+    var hr = h.getBoundingClientRect();
+    var fr = ft.getBoundingClientRect();
+    var br = pipBodyEl.getBoundingClientRect();
+    var kids = Array.prototype.filter.call(pipBodyEl.querySelectorAll('.pip-lb,.pip-it,.pip-empty'),
+      function(e){ return e.getClientRects().length > 0; });
+    var bodyText = 0;
+    if (kids.length) {
+      bodyText = Math.max.apply(null, kids.map(function(e){ return e.getBoundingClientRect().bottom; }))
+        - Math.min.apply(null, kids.map(function(e){ return e.getBoundingClientRect().top; }));
+    }
+    return {
+      cardH: card.getBoundingClientRect().height,
+      bodyText: bodyText,
+      chrome: hr.height + fr.height + Math.max(0, br.top - hr.bottom) + Math.max(0, fr.top - br.bottom)
+    };
+  }
+
+  function fitPip(){
+    if (!document.body.classList.contains('pip-mode')) return;
+    var card = document.getElementById('pip-card');
+    if (!card) return;
+    var s = 1;
+    card.style.setProperty('--pk', '1');
+    for (var i = 0; i < 5; i++) {
+      var m = pipTextHeight();
+      if (!m || !m.bodyText || !m.cardH) break;
+      var target = m.cardH * PIP_FILL - m.chrome;
+      if (target <= 0) break;
+      var next = Math.max(PIP_MIN, Math.min(PIP_MAX, s * (target / m.bodyText)));
+      if (Math.abs(next - s) < 0.02) break;
+      s = next;
+      card.style.setProperty('--pk', String(s));
+    }
+  }
+
+  function pipEnterMode(){
+    // 先切形态再渲染：小窗样式生效后量出来的尺寸才是真实窗口
+    document.body.classList.add('pip-mode');
+    pipRenderCard();
+    // 系统把窗口切成画中画尺寸有延迟，补两次重排，避免按全屏尺寸算缩放
+    setTimeout(fitPip, 80);
+    setTimeout(fitPip, 260);
+    // 小窗里没有按钮和输入框：焦点先撤掉，避免小窗状态还挂着键盘
+    try { if (document.activeElement && document.activeElement.blur) document.activeElement.blur(); } catch(e) {}
+  }
+  function pipExitMode(){
+    document.body.classList.remove('pip-mode');
+    var card = document.getElementById('pip-card');
+    if (card) card.style.setProperty('--pk', '1');
+  }
+  window.addEventListener('resize', function(){
+    if (document.body.classList.contains('pip-mode')) fitPip();
+  });
+  window.__panjiPipEnter = pipEnterMode;
+  window.__panjiPipExit = pipExitMode;
+
+  function pipReasonText(code){
+    var c = String(code || '');
+    if (c === 'not-supported') return '这台设备没有画中画（系统低于安卓 8.0，或厂商去掉了这个功能）。用上面的悬浮窗。';
+    if (c === 'denied') return '系统还没允许本应用画中画。点按钮去设置里打开：设置 → 应用 → 权限 → 画中画。';
+    if (c === 'not-foreground') return 'App 不在前台，先回到 App 再点一次。';
+    if (c === 'failed') return '系统拒绝了这次小窗请求（可能刚切出应用）。再点一次，或改用悬浮窗。';
+    return '没能进小窗：' + (c || '未知原因');
+  }
+
+  function pipPaintStatus(){
+    if (!pipnSupported) {
+      pipnSt.innerHTML = '<b>这台设备不支持画中画</b> · 用上面的悬浮窗。';
+      pipnBtn.textContent = '这台设备没有画中画';
+      pipnBtn.disabled = true;
+      return;
+    }
+    pipnBtn.disabled = false;
+    if (!pipnAllowed) {
+      pipnSt.innerHTML = '<b>还差系统权限这一步</b>：系统 / 厂商还没允许本应用「画中画」。';
+      pipnBtn.textContent = '去系统设置开画中画';
+      return;
+    }
+    pipnSt.innerHTML = '<b>可以进小窗</b> · 进小窗后再打开看盘软件，小窗留在最上面。';
+    pipnBtn.textContent = '画中画小窗';
+  }
+
+  function pipRefreshStatus(){
+    if (!nativePlugin || typeof nativePlugin.pipStatus !== 'function') { pipnBox.hidden = true; return; }
+    nativePlugin.pipStatus().then(function(r){
+      pipnBox.hidden = false;
+      pipnSupported = !!(r && r.supported);
+      pipnAllowed = !!(r && r.allowed);
+      var mf = (r && r.manufacturer) || '';
+      var isMi = /xiaomi|redmi|poco/i.test(mf);
+      pipnWarn.hidden = false;
+      pipnWarn.textContent = isMi
+        ? '这台是小米 / 红米：开关在「设置 → 应用 → 权限 → 画中画」，找不到就在设置里搜「画中画」。'
+        : '画中画在部分国产系统上会被限制；被限制时回到上面的悬浮窗，或把看盘软件放进分屏。';
+      if (!(r && r.inPip)) pipPaintStatus();
+    }).catch(function(){
+      pipnBox.hidden = true;
+    });
+  }
+
+  function pipEnterFlow(){
+    if (!nativePlugin || typeof nativePlugin.enterPip !== 'function' || pipnBusy) return;
+    if (!pipnSupported) {
+      pipnSt.textContent = pipReasonText('not-supported');
+      return;
+    }
+    if (!pipnAllowed) {
+      nativePlugin.openPipSettings().then(function(r){
+        pipnSt.innerHTML = '已打开' + ((r && r.path) || '系统设置') + '。允许「画中画」后按返回键回来，再点一次这个按钮。';
+      }).catch(function(){
+        pipnSt.textContent = '去「设置 → 应用 → 权限 → 画中画」里打开，再回来点一次。';
+      });
+      return;
+    }
+    var rect = { x:0, y:0, w:window.innerWidth, h:window.innerHeight };
+    var anchor = document.getElementById('float');
+    if (anchor && anchor.getBoundingClientRect) {
+      var rc = anchor.getBoundingClientRect();
+      rect = { x:rc.left, y:rc.top, w:rc.width, h:rc.height };
+    }
+    pipnBusy = true;
+    // 先把页面切成精简卡，再让原生进小窗：系统抓过渡快照时看到的就是小窗形态
+    pipEnterMode();
+    requestAnimationFrame(function(){
+      requestAnimationFrame(function(){
+        nativePlugin.enterPip({ rect:rect }).then(function(r){
+          pipnBusy = false;
+          if (r && r.entered) {
+            pipnSt.innerHTML = '<b>已进小窗</b> · 现在切到看盘软件，小窗留在最上面。点小窗右上角的放大键回到全屏。';
+            pipRefreshStatus();
+            return;
+          }
+          pipExitMode();
+          var code = (r && r.reason) || 'failed';
+          pipnSt.textContent = pipReasonText(code);
+          if (code === 'denied') { pipnAllowed = false; pipPaintStatus(); }
+        }).catch(function(e){
+          pipnBusy = false;
+          pipExitMode();
+          pipnSt.textContent = '没能进小窗：' + ((e && e.message) || '页面与原生没连上');
+        });
+      });
+    });
+  }
+
+  function initNativePip(){
+    if (!nativePlugin || typeof nativePlugin.pipStatus !== 'function') return;
+    pipnBox.hidden = false;
+    pipnBtn.addEventListener('click', pipEnterFlow);
+    // 小窗里点一下 = 展开回全屏（系统的小窗按钮很小，点整块更稳）
+    var pipCardEl = document.getElementById('pip-card');
+    if (pipCardEl) {
+      pipCardEl.addEventListener('click', function(){
+        if (!document.body.classList.contains('pip-mode')) return;
+        if (!nativePlugin || typeof nativePlugin.expandPip !== 'function') return;
+        nativePlugin.expandPip().catch(function(){});
+      });
+    }
+    try {
+      nativePlugin.addListener('pipModeChanged', function(d){
+        if (d && d.inPip) {
+          pipEnterMode();
+        } else {
+          pipExitMode();
+          pipRefreshStatus();
+        }
+      });
+    } catch(e) {}
+    pipRefreshStatus();
+  }
+
+  function showNone(diag){
+    fx('这台设备不支持悬浮窗，往下看说明');
+    var el = document.getElementById('float-none');
+    if (diag) {
+      var p = document.createElement('p');
+      p.className = 'float-hint';
+      p.textContent = '（诊断：' + diag + '）';
+      el.appendChild(p);
+    }
+    el.hidden = false;
+  }
+
+  try {
+    if (nativePlugin && typeof nativePlugin.isSupported === 'function') {
+      nativePlugin.isSupported().then(function(r){
+        if (r && r.supported) { initNative(); initNativePip(); }
+        else showNone('系统版本低于安卓 8.0，不支持这种悬浮窗');
+      }).catch(function(){
+        showNone('读取系统能力失败，把 App 关掉重开一次');
+      });
+    } else if (window.documentPictureInPicture) {
+      initPip();
+    } else {
+      showNone('');
+    }
+  } catch (e) {
+    showNone('悬浮窗没能启动，把 App 关掉重开一次');
+  }
+
+  // 首页入口带 #float 进来：直接落到 05，省掉从页面顶部往下滚的那几屏
+  function jumpFloat(){
+    var f = document.getElementById('float');
+    if (f && f.scrollIntoView) f.scrollIntoView({ block:'start' });
+  }
+  if (location.hash === '#float') setTimeout(jumpFloat, 120);
+  window.addEventListener('hashchange', function(){
+    if (location.hash === '#float') jumpFloat();
+  });
+})();
+</script>
+</body>
+</html>

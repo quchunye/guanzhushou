@@ -1,0 +1,100 @@
+/* 看不了三态 —— A 锁档（深底）/ B 无数据 / C 读取失败（浅底）
+   共同参数：线宽 3 / 2 / 1.5 / 1，圆角 16 / 8，三色制（面 / 边线 / 主色 + 1 处暖色）。
+   基础样式 = 末帧；动画只在 @media (prefers-reduced-motion: no-preference) 里注册，
+   场景层不做 opacity 动画：动画被冻在 0% 时仍是「完整场景 + 缺一件」。
+   时长/缓动走 token 名 + 字面量兜底（archive.html / replay.html 都不引 token 层）。 */
+
+.uv-art{display:block;max-width:100%;height:auto;margin:0 auto}
+
+/* 深底（档案页 #070b16）：只重算 3 个值 + 地影，色相不动 */
+.uv-a{
+  --uv-accent:#1f9aad;              /* 墨青 H189 · 5.88:1 */
+  --uv-rim:#5c6b82;                 /* 锁体边线 3.63:1 —— 图形与底的可辨边界 */
+  --uv-body:#121a2b;                /* 锁体面 1.13:1，不承担辨识 */
+  --uv-warm:#e0602a;                /* 赭橙 H20 · 5.50:1 */
+  --uv-seam:rgba(124,136,159,.30);
+  --uv-ground:rgba(232,236,246,.12);/* 深底上黑影不可见，翻成地面光斑 */
+}
+
+/* 浅底（回放页白卡）：原型取值 */
+.uv-b,.uv-c{
+  --uv-accent:#0a6b7c;
+  --uv-rim:#d6d6d6;
+  --uv-body:#e8e8e8;
+  --uv-warm:#b23e07;
+  --uv-frame:#fafafa;
+  --uv-grid:#e3e3e3;
+}
+
+/* ---- A：倾斜的锁，锁扣像一顶帽子落下来扣好 ---- */
+.uv-ground{fill:var(--uv-ground)}
+.uv-shackle{stroke:var(--uv-accent);stroke-width:3;stroke-linecap:round;fill:none}
+.uv-body{fill:var(--uv-body);stroke:var(--uv-rim);stroke-width:1.5}
+.uv-seam{stroke:var(--uv-seam);stroke-width:1}
+.uv-warm{fill:var(--uv-warm)}
+.uv-lock{transform:rotate(-6deg)}
+.uv-shackle-g{transform:translateY(0)}
+
+/* ---- B：走势画到断点，旗子插在那里 ---- */
+.uv-frame{fill:var(--uv-frame);stroke:var(--uv-grid);stroke-width:1.5}
+.uv-line{stroke:var(--uv-accent);stroke-width:2;stroke-linecap:round;fill:none}
+/* 唯一一处虚线：只表达「本该继续但没了」，在图形里 */
+.uv-gap{stroke:var(--uv-rim);stroke-width:2;stroke-dasharray:3 4}
+.uv-pole{stroke:var(--uv-accent);stroke-width:2;stroke-linecap:round}
+.uv-flag-s{fill:var(--uv-warm)}
+.uv-flag{transform:translateY(0)}
+
+/* ---- C：线还在，插头从接口里被拔了出来，还歪了一点 ---- */
+.uv-socket{fill:var(--uv-body);stroke:var(--uv-rim);stroke-width:1.5}
+.uv-hole{fill:var(--uv-rim)}
+.uv-cord{stroke:var(--uv-accent);stroke-width:2;stroke-linecap:round;fill:none}
+.uv-pin{fill:var(--uv-rim)}
+.uv-plug-body{fill:var(--uv-frame);stroke:var(--uv-rim);stroke-width:1.5}
+.uv-led{fill:var(--uv-warm)}
+.uv-plug{transform:translateX(-16px) rotate(-9deg);transform-origin:104px 50px}
+
+@media (prefers-reduced-motion: no-preference){
+  .uv-anim .uv-lock{animation:uvLockIn var(--dur-enter,520ms) var(--ease-enter,cubic-bezier(.2,.7,.2,1)) both}
+  .uv-anim .uv-shackle-g{animation:uvShackleDrop var(--dur-enter,520ms) var(--ease-enter,cubic-bezier(.2,.7,.2,1)) var(--dur-instant,120ms) both}
+  .uv-anim .uv-flag{animation:uvFlagDown var(--dur-enter,520ms) var(--ease-enter,cubic-bezier(.2,.7,.2,1)) var(--dur-instant,120ms) both}
+  .uv-anim .uv-plug{animation:uvPlugOut var(--dur-base,320ms) var(--ease-exit,cubic-bezier(.4,0,1,1)) both}
+}
+@keyframes uvLockIn{
+  from{transform:translateY(12px) rotate(-6deg) scale(.96)}
+  to{transform:translateY(0) rotate(-6deg) scale(1)}
+}
+@keyframes uvShackleDrop{
+  0%{transform:translateY(-15px)}
+  64%{transform:translateY(2px)}
+  100%{transform:translateY(0)}
+}
+@keyframes uvFlagDown{
+  0%{transform:translateY(-16px)}
+  68%{transform:translateY(2px)}
+  100%{transform:translateY(0)}
+}
+@keyframes uvPlugOut{
+  0%{transform:translateX(-6px) rotate(-3deg)}
+  70%{transform:translateX(-16.4px) rotate(-9.3deg)}
+  100%{transform:translateX(-16px) rotate(-9deg)}
+}
+
+/* ---- A 在档案页：整块落在 #070b16 页底上（不放进 --card2 的 padding 区） ---- */
+.ac-lock.ac-lock-art{
+  background:var(--bg);border:1px solid var(--line);border-radius:12px;
+  padding:14px 12px 13px;margin-top:8px;text-align:center
+}
+.ac-lock-art .uv-art{margin-bottom:4px}
+.ac-lock-art b{color:var(--warn);font-size:12px;margin:2px 0 4px}
+.ac-lock-art span{display:block;color:var(--dim);font-size:11px;line-height:1.6}
+
+/* ---- B/C 在回放页：独立提示卡，接在 stage 上方 ---- */
+#uv-note[hidden]{display:none}
+.uv-note{
+  background:var(--card,#fff);border:1px solid var(--line,#d6d6d6);border-radius:16px;
+  padding:16px 18px 16px;margin:0 0 12px;text-align:center;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,1),inset 0 -1px 0 rgba(0,0,0,.06)
+}
+.uv-note b{display:block;color:var(--txt,#141414);font-size:14px;margin:8px 0 4px}
+.uv-note p{margin:0;font-size:12px;line-height:1.6;color:var(--dim,#666)}
+.uv-note p+p{margin-top:3px}

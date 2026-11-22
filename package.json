@@ -1,0 +1,14 @@
+{
+  "name": "guanzhushou",
+  "version": "0.1.0",
+  "private": false,
+  "license": "AGPL-3.0-or-later",
+  "description": "管住手了吗（Panji）—— 把交割单变成你自己的纪律自查记录。开源自托管版。",
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "start": "node server/server.js",
+    "test": "node test/run_all.js"
+  }
+}

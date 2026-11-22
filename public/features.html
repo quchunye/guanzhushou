@@ -1,0 +1,246 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#04070e">
+<title>全部功能 · 管住手了吗复盘</title>
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="site_shell.css">
+<style>
+  :root{--bg0:#04070e;--glass:rgba(11,24,44,.55);--brd:rgba(143,216,255,.14);--brd2:rgba(143,216,255,.28);--txt:#eaf4ff;--sub:#b7c9dd;--meta:rgba(214,233,252,.54);--acc:#8fd8ff;--grad:linear-gradient(180deg,#bfeaff,#7dd4ff 52%,#9f8cff);--serif:"Noto Serif SC","Songti SC",serif;--mono:ui-monospace,Consolas,monospace}
+  @font-face{font-family:"Noto Serif SC";src:url("fonts/noto-serif-sc-subset.woff2") format("woff2");font-weight:200 900;font-display:swap}
+  body{background:var(--bg0);color:var(--txt);font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;font-variant-numeric:tabular-nums;margin:0}
+  .fw{max-width:880px;margin:0 auto;padding:28px 20px 48px}
+  .fw-top{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px}
+  .fw-top a{color:var(--sub);text-decoration:none;font-size:13px;min-height:44px;display:inline-flex;align-items:center}
+  .fw-top .mono{font:11px/1 var(--mono);letter-spacing:.18em;color:var(--meta)}
+  .fw-nav{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 24px}
+  .fw-nav a{font-size:12.5px;color:var(--sub);text-decoration:none;border:1px solid var(--brd);border-radius:100px;padding:0 12px;min-height:34px;display:inline-flex;align-items:center;line-height:1}
+  .fw-nav a:hover{color:var(--txt);border-color:var(--brd2)}
+  .fw-nav a.on{color:var(--txt);border-color:var(--brd2);background:rgba(143,216,255,.08)}
+  h1{font-family:var(--serif);font-size:34px;font-weight:600;letter-spacing:.01em;margin:0 0 8px}
+  .lede{font-size:14px;line-height:1.75;color:var(--sub);margin:0 0 8px}
+  .count{font:12px/1.6 var(--mono);color:var(--acc);letter-spacing:.08em}
+  /* 桌面悬浮入口（20261109）：30 项列表里没有它，单独给一条，别让人以为不存在 */
+  .float-line{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:12px 0 0;padding:12px 14px;border:1px solid var(--brd2);border-radius:14px;background:rgba(143,216,255,.08);text-decoration:none}
+  .float-line b{display:block;font-size:14px;color:var(--txt);font-weight:600;line-height:1.5}
+  .float-line em{display:block;font-style:normal;font-size:12px;color:var(--sub);line-height:1.6;margin-top:2px}
+  .float-line .fl-ar{color:var(--acc);font-size:18px;flex:none}
+  .bar{display:flex;flex-wrap:wrap;gap:6px;margin:18px 0 8px}
+  .bar button{min-height:44px;padding:0 14px;border-radius:100px;border:1px solid var(--brd);background:transparent;color:var(--sub);font:inherit;font-size:13px;cursor:pointer}
+  .bar button[aria-pressed="true"]{color:var(--txt);border-color:var(--brd2);background:rgba(143,216,255,.08)}
+  .list{border-top:1px solid var(--brd);margin-top:10px}
+  .item{display:grid;grid-template-columns:34px 1fr auto;column-gap:10px;align-items:start;padding:14px 0;border-bottom:1px solid var(--brd)}
+  .no{font:11px/1.7 var(--mono);color:var(--meta);letter-spacing:.08em}
+  .name{display:block;font-size:15px;font-weight:500;line-height:1.5}
+  .desc{display:block;font-size:12.5px;line-height:1.6;color:var(--sub);margin-top:2px}
+  .when{display:block;font-size:11.5px;line-height:1.6;color:var(--meta);margin-top:4px}
+  .acts{display:flex;flex-direction:column;align-items:flex-end;gap:4px}
+  .badge{font:11px/1.4 var(--mono);letter-spacing:.06em}
+  .badge.on{color:var(--acc)}.badge.off{color:var(--meta)}.badge.cfg{color:#e3c58f}
+  .st{align-self:center;justify-self:end;display:inline-flex;align-items:center;min-height:44px;padding:0 12px;border-radius:100px;border:1px solid var(--brd);font-size:12px;white-space:nowrap;color:var(--sub);text-decoration:none;background:transparent;font:inherit;cursor:pointer}
+  .st.on{color:var(--acc);border-color:var(--brd2)}
+  .st.off{color:var(--meta)}
+  .st.cfg{color:#e3c58f;border-color:rgba(227,197,143,.32)}
+  .foot{margin-top:24px;font-size:12px;line-height:1.7;color:var(--meta)}
+  .foot a{color:var(--sub);text-decoration:none}
+  .foot a:hover{color:var(--txt)}
+  .foot .site-foot-sign{font-family:var(--serif);letter-spacing:.26em;font-size:11px;color:var(--meta)}
+  .cfgpanel{margin:0 0 14px;padding:12px 14px;border:1px solid rgba(227,197,143,.26);border-radius:12px;background:rgba(227,197,143,.05)}
+  .cfgpanel dl{margin:0;display:grid;grid-template-columns:64px 1fr;gap:6px 10px;font-size:12px;line-height:1.65}
+  .cfgpanel dt{color:#e3c58f;font:11px/1.9 var(--mono);letter-spacing:.04em}
+  .cfgpanel dd{margin:0;color:var(--sub)}
+  .cfgpanel .cfgnow{margin:10px 0 0;padding-top:8px;border-top:1px solid rgba(227,197,143,.22);font-size:11.5px;line-height:1.65;color:var(--meta)}
+  @media(min-width:1024px){.fw{padding:48px 48px 64px}h1{font-size:40px}}
+</style>
+</head>
+<body>
+<div class="fw">
+  <div class="fw-top">
+    <a href="./">← 回首页</a>
+    <span class="mono">ALL FEATURES</span>
+  </div>
+  <nav class="fw-nav" aria-label="七个容器">
+    <a href="discipline.html">纪律随身卡</a>
+    <a href="discipline.html#check">今日自查</a>
+    <a href="replay_readonly.html">历史回放</a>
+    <a href="records.html">我的记录</a>
+    <a href="archive.html">票档案与批注</a>
+    <a href="guide.html">规则怎么写</a>
+    <a href="price.html">会员</a>
+  </nav>
+  <h1>全部功能</h1>
+  <p class="lede">30 项都在这里，不用记隐藏入口。打开页面时读取本机状态。</p>
+  <p class="count" id="count">已开启 0 · 未开启 0 · 需配置 0</p>
+  <a class="float-line" href="discipline.html#float">
+    <span><b>桌面悬浮 · 纪律随身卡</b><em>把你自己写的纪律挂到看盘软件旁边 · 安卓 App 里开，网页只能画中画</em></span>
+    <span class="fl-ar" aria-hidden="true">→</span>
+  </a>
+  <!-- PJ-MEMBER-SKELETON BEGIN -->
+  <div id="pj-member-entry"></div>
+  <!-- PJ-MEMBER-SKELETON END -->
+  <div class="bar" role="group" aria-label="按状态筛选">
+    <button data-f="all" aria-pressed="true">全部 30</button>
+    <button data-f="on" aria-pressed="false">已开启</button>
+    <button data-f="off" aria-pressed="false">未开启</button>
+    <button data-f="cfg" aria-pressed="false">需配置</button>
+  </div>
+  <div class="list" id="list"></div>
+  <p class="foot">开关只影响本机展示，不改你的档案；「需配置」表示要填密钥或渠道后才会亮。不预测涨跌、不构成投资建议。<br>
+    <span class="pj-shell-nav" aria-label="七个容器">
+      <a href="discipline.html">纪律随身卡</a>
+      <a href="discipline.html#check">今日自查</a>
+      <a href="replay_readonly.html">历史回放</a>
+      <a href="records.html">我的记录</a>
+      <a href="archive.html">票档案与批注</a>
+      <a href="guide.html">规则怎么写</a>
+      <a href="price.html">会员</a>
+    </span><br>
+    只记录、只统计、只复盘 · 不构成投资建议 · 不展示实时行情<br>
+    价格与解锁点：<a href="price.html">价格页</a><br>
+    管住手了吗复盘 · <span class="site-foot-sign">玄霜纪 出品</span> · <a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener">沪ICP备2026058085号-1</a></p>
+</div>
+<script src="compat.js"></script>
+<script src="ext.js"></script>
+<script>
+(function(){
+  var ITEMS = [
+    ['第 N 次 + 明细','每条规则第几次被破，附具体成交行','recur','第一次想看「原来我第 5 次才破」时','./'],
+    ['连续合规','连续多少笔/多少天没越线','recur','开始有稳定记录后','./'],
+    ['30/90 天首次破戒','长周期里第一次破线的时间','recur','复盘满一个月后','./'],
+    ['一行摘要','整份档案压成一句话','','每次都看','./'],
+    ['规则体检','规则是否互相冲突、是否可判定','recur','写规则前先跑一遍','?f=rules'],
+    ['一句话结论','报告顶部只留一句最该看的','','每次都看','./'],
+    ['明日一规','每天只改一条，不贪多','recur','破线超过 3 条时','./'],
+    ['盘前一句话','开盘前提醒今天最该守的一条','recur','有早盘习惯时','./'],
+    ['买入理由','下单时写一句为什么买','recur','追高反复出现时','?f=rules'],
+    ['止损价','每笔带上止损价，越线自动标','recur','止损靠感觉时','?f=rules'],
+    ['情绪标记','给每笔标急/贪/怕','recur','想知道越线时的情绪','./'],
+    ['粘贴 / 多图识别','截图直接粘贴，多张一起传','upload','不想一张张选图时','?f=upload'],
+    ['同日二次上传合并','同一天再传，自动并进已有档案','upload','一天分两次成交时','?f=upload'],
+    ['交易日历','按交易日排，跳过休市','','档案按日期排时','./'],
+    ['新增 / 重复提示','导入时提示哪几笔是新的','recur','从券商历史导入时','./'],
+    ['导入历史','一次导入过去的成交','recur','想把老账也复盘时','./'],
+    ['公式展开','规则里的公式能点开看算法','recur','不放心判定口径时','?f=rules'],
+    ['原图定位','点明细跳到截图里的那一行','config','要核对 OCR 识别时','./'],
+    ['计划内标记','这笔是不是按计划做的','recur','想区分计划内/临场','./'],
+    ['配置冲突提示','两条规则打架时给出提示','recur','规则越写越多时','?f=rules'],
+    ['规则版本','改规则留版本，旧档案按旧版判','recur','规则经常改时','?f=rules'],
+    ['导出 / 导入','档案打包带走，换设备能恢复','recur','要备份或换手机时','./'],
+    ['多账户','融资户、普通户分开算','config','有两个以上账户时','./'],
+    ['期初持仓','建账前已有的仓位','recur','第一次建账时','./'],
+    ['出入金','出入金不影响纪律计数','recur','有银证转账时','./'],
+    ['.ics 导出','把复盘日导进手机日历','recur','想把复盘排进日程时','./'],
+    ['断更提醒','几天没复盘，服务号提醒一次','config','容易忘的时候','./'],
+    ['回归礼包','断更回来先看一条旧结论','','停了很久再回来','./'],
+    ['分享卡','把记分卡存成图发出去','','想发给朋友时','./'],
+    ['示例账户','不传自己的，先走一遍 No.000','','第一次来','?demo']
+  ];
+  var S = { on:'已开启', off:'未开启', cfg:'需配置' };
+  // 「需配置」不能只写三个字：点开必须能看到 需要什么 / 去哪儿配 / 大概几步。
+  // 三条都是本版真实状态，没有入口的直接写「没有入口」，不拿「敬请期待」糊过去。
+  var CFG = {
+    '原图定位': {
+      need: 'OCR 返回的每行坐标（服务端识别时已经给出）+ 截图留在本机做对照。',
+      where: '没有设置页入口。它由 trust 开关控制：地址后面加 ?f=trust，报告明细里才会出现「原图定位」；不加就一直不显示。',
+      steps: '1）地址加 ?f=trust；2）传一张截图、出报告；3）点某笔的「原图定位」，跳到截图对应行。共 3 步。',
+      now: '现状：开关默认关。关着时报告只给「打开原图 · partial」，不假装能定位。'
+    },
+    '多账户': {
+      need: '2 个以上券商账户；复核页每笔能选账户（asset 开关打开后才有这个下拉）。',
+      where: '没有单独设置页。地址加 ?f=asset 打开资产面板，复核页顶部就会出现「账户」下拉。',
+      steps: '1）地址加 ?f=asset；2）复核页给每笔选账户；3）存档案后，报告与图鉴按账户分开统计。共 3 步。',
+      now: '现状：默认关。关着时复核页没有账户下拉，账本按一本算。'
+    },
+    '断更提醒': {
+      need: '已认证的微信服务号 + 模板消息（或订阅消息）权限 + 你本人关注并绑定；服务端要能拿到 OpenID。',
+      where: '服务端可在 server/features/ 下自建一个提醒路由（本仓不含这段代码）；前端没有「绑定提醒」入口，所以只加 ?f=recall 也收不到提醒。',
+      steps: '1）认证服务号并开模板消息；2）做「绑定提醒」页，让用户授权手机号 / OpenID；3）服务端按断更天数发一次；4）收到第一条测试提醒。共 4 步。',
+      now: '现状：本仓不含提醒发送代码；绑定页与服务号配置也都没有，所以这条现在配不起来；不是你没找到入口。'
+    }
+  };
+  function flags(){
+    // 状态读 ext.js 的 PanjiFlag(name)（含 ?f= 与 guanzhu_flags_v1 合并），这里不再重写一份默认值
+    if (typeof window.PanjiFlag === 'function') {
+      var f = { recur: window.PanjiFlag('recur'), train: window.PanjiFlag('train') };
+      var names = {};
+      try { (new URLSearchParams(location.search).get('f') || '').split(',').forEach(function(n){ n = n.trim(); if (n) names[n.replace(/^-/, '')] = 1; }); } catch (e) {}
+      try { Object.keys(JSON.parse(localStorage.getItem('guanzhu_flags_v1') || '{}') || {}).forEach(function(k){ names[k] = 1; }); } catch (e) {}
+      Object.keys(names).forEach(function(k){ f[k] = window.PanjiFlag(k); });
+      return f;
+    }
+    var fb = { recur:true, train:false };
+    try{ var q=new URLSearchParams(location.search).get('f'); if(q) q.split(',').forEach(function(n){ if(n){ if(n[0]==='-')fb[n.slice(1)]=false; else fb[n]=true; } }); }catch(e){}
+    try{ var raw=localStorage.getItem('guanzhu_flags_v1'); if(raw){ var o=JSON.parse(raw); if(o&&typeof o==='object') Object.assign(fb,o); } }catch(e){}
+    return fb;
+  }
+  function stateOf(it,fl){
+    // it = [名称, 一句话, flag, 什么时候该开, link]；flag 为 config 的是配置项，不是开关
+    if(it[2]==='config') return 'cfg';
+    if(!it[2]) return 'on';
+    return fl[it[2]] ? 'on' : 'off';
+  }
+  var OPEN = {};   // 哪几条「需配置」的说明展开着，重渲染时保留
+  function cfgPanel(name){
+    var c = CFG[name]; if (!c) return '';
+    return '<div class="cfgpanel" role="region" aria-label="'+name+' 怎么配"><dl>'+
+      '<dt>需要什么</dt><dd>'+c.need+'</dd>'+
+      '<dt>去哪儿配</dt><dd>'+c.where+'</dd>'+
+      '<dt>大概几步</dt><dd>'+c.steps+'</dd>'+
+      '</dl><p class="cfgnow">'+c.now+'</p></div>';
+  }
+  function render(filter){
+    var fl=flags(), host=document.getElementById('list'), n={on:0,off:0,cfg:0}, html='';
+    ITEMS.forEach(function(it,i){
+      var st=stateOf(it,fl); n[st]++;
+      if(filter!=='all' && filter!==st) return;
+      var label = st==='on' ? '已开启' : st==='off' ? '未开启' : '需配置';
+      var open = !!OPEN[it[0]];
+      var act = '<span class="acts"><span class="badge '+st+'">'+label+'</span>' + (st==='off'
+        ? '<button class="st off" data-flag="'+it[2]+'">开启</button>'
+        : st==='cfg'
+          ? '<button class="st cfg" type="button" data-cfg="'+i+'" aria-expanded="'+(open?'true':'false')+'">'+(open?'收起说明':'看说明')+'</button>'
+          : '<a class="st on" href="'+it[4]+'">打开 →</a>') + '</span>';
+      var when = '什么时候该开：' + it[3] + (st === 'cfg' ? ' · 需填密钥或渠道，不是开关，点「看说明」看怎么配' : '');
+      html += '<div class="item"><span class="no">'+String(i+1).padStart(2,'0')+'</span><span><b class="name">'+it[0]+'</b><span class="desc">'+it[1]+'</span><span class="when">'+when+'</span></span>'+act+'</div>';
+      if (st === 'cfg' && open) html += cfgPanel(it[0]);
+    });
+    host.innerHTML = html;
+    document.getElementById('count').textContent = '已开启 '+n.on+' · 未开启 '+n.off+' · 需配置 '+n.cfg;
+  }
+  document.querySelectorAll('.bar button').forEach(function(b){
+    b.addEventListener('click', function(){
+      document.querySelectorAll('.bar button').forEach(function(x){ x.setAttribute('aria-pressed','false'); });
+      b.setAttribute('aria-pressed','true'); render(b.dataset.f);
+    });
+  });
+  document.getElementById('list').addEventListener('click', function(e){
+    var c=e.target.closest('[data-cfg]');
+    if (c) {
+      var name = ITEMS[+c.dataset.cfg][0];
+      OPEN[name] = !OPEN[name];
+      render(document.querySelector('.bar button[aria-pressed="true"]').dataset.f);
+      return;
+    }
+    var b=e.target.closest('[data-flag]'); if(!b) return;
+    var fl=flags(); fl[b.dataset.flag]=true;
+    try{ localStorage.setItem('guanzhu_flags_v1', JSON.stringify(fl)); }catch(err){}
+    render(document.querySelector('.bar button[aria-pressed="true"]').dataset.f);
+  });
+  render('all');
+})();
+</script>
+<!-- PJ-MEMBER-SKELETON BEGIN -->
+<script src="features/registry.js"></script>
+<script src="features/membership.js"></script>
+<script>
+(function () {
+  if (!window.PanjiMembership) return;
+  PanjiMembership.decorateNav();
+  PanjiMembership.mountEntry('#pj-member-entry');
+})();
+</script>
+<!-- PJ-MEMBER-SKELETON END -->
+</body>
+</html>

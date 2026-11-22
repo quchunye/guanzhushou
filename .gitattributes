@@ -1,0 +1,24 @@
+# 统一换行与文本识别
+* text=auto eol=lf
+
+*.js    text eol=lf
+*.json  text eol=lf
+*.html  text eol=lf
+*.css   text eol=lf
+*.md    text eol=lf
+*.py    text eol=lf
+*.sh    text eol=lf
+
+# 二进制资源：不做文本转换、不做 diff
+*.png   binary
+*.jpg   binary
+*.jpeg  binary
+*.webp  binary
+*.ico   binary
+*.woff  binary
+*.woff2 binary
+*.ttf   binary
+*.gz    binary
+
+# 生成物不参与语言统计
+public/symbols.json linguist-generated=true

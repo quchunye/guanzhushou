@@ -1,0 +1,241 @@
+/* ==========================================================================
+   盘纪 · K 线复盘渲染配色规范 v1
+   日期：2026-11-07
+   基线：玄霜纪官网视觉（https://xuanshuangji.com，采集于 2026-11-05）
+   气质：深色、冷蓝、扁平；无渐变、无发光、无模糊、无投影。
+   用途：K 线复盘页 / 回放页 / 训练页的图表与规则标注。
+   ==========================================================================
+
+   与官网 token 的对应关系（只继承语言，不继承装饰）：
+     官网 --bg0  #04070e → --color-bg-page
+     官网 --bg1  #081020 → 图表区与面板的中间层
+     官网 --ink  #eaf4ff → --color-text-strong
+     官网 --frost #8fd8ff → --color-accent
+     官网 --line rgba(150,210,255,.14) → --color-panel-border（实色化）
+   官网的玻璃拟态、极光、噪点、渐变按钮一律不进入本规范。
+
+   使用约束（硬）：
+   1. 涨 = 红、跌 = 绿（A 股习惯），不因主题改语义。
+   2. 状态不能只靠色相：规则三态同时用「亮度 + 线型 + 图标」三重冗余；
+      涨跌同时用「亮度 + 蜡烛形态（空心/实心）」双重冗余。
+   3. 网格线永远弱于蜡烛：主网格对比度 1.32:1，次网格 1.13:1，仅作参考刻度。
+   4. 禁止在本规范色值上再叠加 gradient / box-shadow / filter: blur / text-shadow。
+   5. 图表区不用纯黑（#000），避免与页面底色粘连、丢失层次。
+   6. 全部文字对底色的对比度 ≥ 4.5:1（弱文字最低 6.27:1，见文末实测表）。
+   ========================================================================== */
+
+:root {
+  /* ---------- 1. 背景 ---------- */
+  --color-bg-page: #04070e;          /* 页面最底：与官网一致 */
+  --color-bg-chart: #060b16;         /* 图形区底色：比页面抬 1 级，边界可辨 */
+  --color-bg-inset: #080e1b;         /* 图表内嵌槽位 / 指标副图底 */
+  --color-bg-panel: #0c1322;         /* 面板、卡片、抽屉 */
+  --color-bg-panel-alt: #111a2c;     /* 面板内行条纹 / hover 行 */
+  --color-bg-overlay: #050912;       /* 弹层遮罩（不透明，避免透出蜡烛） */
+
+  /* ---------- 2. 面板 / 卡片 ---------- */
+  --color-panel-bg: var(--color-bg-panel);
+  --color-panel-header: #0a1120;     /* 卡片标题条 / 表头 */
+  --color-panel-border: #1c2b3f;     /* 卡片 1px 边框 */
+  --color-panel-border-strong: #2a3d58; /* 选中卡片 / 聚焦容器 */
+  --color-panel-divider: #223249;    /* 卡片内部分隔线（比网格重） */
+
+  /* ---------- 3. 分隔线与网格 ---------- */
+  --color-divider: #223249;          /* 区块之间的实线分隔 */
+  --color-grid-major: #1a2740;       /* 主网格：整点/整日刻度 */
+  --color-grid-minor: #101a2b;       /* 次网格：细分刻度 */
+  --color-grid-axis: #2c405d;        /* 坐标轴 / 零轴 / 边框线 */
+  --grid-major-width: 1px;
+  --grid-minor-width: 1px;
+  --grid-axis-width: 1.5px;
+
+  /* ---------- 4. 文字三级 ---------- */
+  --color-text-strong: #e6f1ff;      /* 一级：K 线价格、标题、关键数值 */
+  --color-text: #b9cadc;             /* 二级：正文、指标读数、轴标签 */
+  --color-text-weak: #8598ad;        /* 三级：单位、时间戳、注脚 */
+  --color-text-inverse: #04121f;     /* 浅色底上的文字（强调按钮/徽标） */
+
+  /* ---------- 5. 强调 ---------- */
+  --color-accent: #8fd8ff;           /* 主强调：链接、选中、关键描边 */
+  --color-accent-strong: #6ee0ff;    /* 强强调：当前标的、主操作 */
+  --color-accent-weak: #5c9fe0;      /* 弱强调：次级链接、历史对比 */
+  --color-accent-bg: #0b2333;        /* 强调底色：选中行、当前项 */
+  --color-focus: #d6f1ff;            /* 键盘聚焦环 */
+
+  /* ---------- 6. 涨 / 跌（A 股：红涨绿跌） ---------- */
+  --color-up: #ff6b5e;               /* 涨：亮暖红，L=0.326 */
+  --color-up-dim: #b85048;           /* 涨的次级用量：成交量柱、辅助标记 */
+  --color-up-bg: #2a1516;            /* 涨的块状底：标签/区间高亮 */
+  --color-down: #1c8f6a;             /* 跌：深绿，L=0.209（比涨暗 1.56 倍） */
+  --color-down-dim: #177a5b;         /* 跌的次级用量：成交量柱、辅助标记 */
+  --color-down-bg: #0f2119;          /* 跌的块状底 */
+
+  /* 蜡烛形态（形态差，不只靠颜色） */
+  --color-candle-up-border: var(--color-up);
+  --color-candle-up-body: transparent;   /* 阳线空心：底图透出 */
+  --color-candle-down-border: var(--color-down);
+  --color-candle-down-body: var(--color-down); /* 阴线实心 */
+  --color-candle-wick-up: var(--color-up);
+  --color-candle-wick-down: var(--color-down);
+  --candle-up-body-style: hollow;        /* 语义标记：阳线空心 */
+  --candle-down-body-style: solid;       /* 语义标记：阴线实心 */
+
+  /* 成交量柱（弱于蜡烛，避免抢读图视线） */
+  --color-volume-up: var(--color-up-dim);
+  --color-volume-down: var(--color-down-dim);
+
+  /* ---------- 7. 规则三态：一致 / 不一致 / 未判定 ---------- */
+  /* 亮度阶梯：一致 L=0.638 > 不一致 L=0.428 > 未判定 L=0.304 */
+  --color-rule-consistent: #6ee0ff;       /* 一致：品牌青（与强调同源） */
+  --color-rule-consistent-bg: #0d2433;
+  --color-rule-consistent-border: #2a5f7d;
+  --color-rule-inconsistent: #f59a3c;     /* 不一致：琥珀 */
+  --color-rule-inconsistent-bg: #2a2011;
+  --color-rule-inconsistent-border: #6b4a1c;
+  --color-rule-undetermined: #8a97a9;     /* 未判定：中性灰蓝 */
+  --color-rule-undetermined-bg: #161c26;
+  --color-rule-undetermined-border: #38424f;
+
+  /* 形态冗余：线型 + 线宽 + 图标，确保灰度/色盲下仍可分 */
+  --rule-consistent-border-style: solid;
+  --rule-inconsistent-border-style: dashed;
+  --rule-undetermined-border-style: dotted;
+  --rule-consistent-border-width: 2px;
+  --rule-inconsistent-border-width: 2px;
+  --rule-undetermined-border-width: 1px;
+  --rule-consistent-icon: "✓";
+  --rule-inconsistent-icon: "✕";
+  --rule-undetermined-icon: "?";
+
+  /* ---------- 8. 交互与图表辅助 ---------- */
+  --color-hover-bg: #16233a;         /* 行/柱 hover 底 */
+  --color-selected-bg: #0b2333;      /* 选中行底（与 accent-bg 同值） */
+  --color-crosshair: #3a4e6b;        /* 十字光标线：可见但不抢蜡烛 */
+  --color-tooltip-bg: #101a2c;
+  --color-tooltip-border: #2a3d58;
+  --color-scrollbar: #26374d;
+  --color-scrollbar-hover: #35506f;
+
+  /* ---------- 9. 禁用 ---------- */
+  --color-disabled-text: #5d6e83;
+  --color-disabled-bg: #0a101c;
+  --color-disabled-border: #182233;
+}
+
+/* ==========================================================================
+   实测对比度（WCAG 2.1，sRGB）
+   一级文字 / 页面底  #e6f1ff on #04070e   17.65:1
+   一级文字 / 图形底  #e6f1ff on #060b16   17.23:1
+   二级文字 / 图形底  #b9cadc on #060b16   11.75:1
+   三级文字 / 图形底  #8598ad on #060b16    6.65:1
+   三级文字 / 面板底  #8598ad on #0c1322    6.27:1
+   强调    / 图形底  #8fd8ff on #060b16   12.59:1
+   涨      / 图形底  #ff6b5e on #060b16    7.04:1
+   跌      / 图形底  #1c8f6a on #060b16    4.86:1
+   一致    / 徽标底  #6ee0ff on #0d2433   10.45:1
+   不一致  / 徽标底  #f59a3c on #2a2011    7.29:1
+   未判定  / 徽标底  #8a97a9 on #161c26    5.76:1
+   主网格  / 图形底  #1a2740 on #060b16    1.32:1（参考线，不承载信息）
+   次网格  / 图形底  #101a2b on #060b16    1.13:1（参考线，不承载信息）
+   ==========================================================================
+
+   状态冗余示例（三选一，不允许只用颜色）：
+     一致   → 2px 实线边框 + ✓ + 最亮青  #6ee0ff
+     不一致 → 2px 虚线边框 + ✕ + 中亮琥珀 #f59a3c
+     未判定 → 1px 点线边框 + ? + 最暗灰蓝 #8a97a9
+
+   涨跌冗余示例：
+     涨 → 空心蜡烛（--color-candle-up-body: transparent）+ 亮红 #ff6b5e
+     跌 → 实心蜡烛（body = #1c8f6a）+ 深绿 #1c8f6a
+     灰度模式下仍可凭「空心/实心 + 亮度差 1.56 倍」区分。
+   ========================================================================== */
+
+/* ==========================================================================
+   H+ 换肤桥（2026-11-07）
+   <html data-theme="hplus"> 时，把 H+ 调色层（--pal-*）映射回本文件的
+   --color-* 语义层。页面与绘制代码不写任何 if/else，只认 --color-*。
+   结构灰全部来自 --pal-* 的中性灰（chroma = 0）；有色只留主色/远配/涨跌。
+   桥本身加在文件末尾：与 :root 同特异性，靠顺序覆盖。
+   ========================================================================== */
+[data-theme="hplus"] {
+  /* 底色四层（全部中性灰） */
+  --color-bg-page: var(--pal-bg-page);
+  --color-bg-chart: var(--pal-bg-chart);
+  --color-bg-inset: var(--pal-bg-inset);
+  --color-bg-panel: var(--pal-bg-panel);
+  --color-bg-panel-alt: #f2f2f2;
+  --color-bg-overlay: #111111;
+
+  /* 面板 */
+  --color-panel-bg: var(--pal-bg-panel);
+  --color-panel-header: #fafafa;
+  --color-panel-border: var(--pal-rule);
+  --color-panel-border-strong: var(--pal-rule);
+  --color-panel-divider: var(--pal-rule);
+
+  /* 线与网格 */
+  --color-divider: var(--pal-rule);
+  --color-grid-major: var(--pal-grid-major);
+  --color-grid-minor: var(--pal-grid-minor);
+  --color-grid-axis: #c4c4c4;
+
+  /* 文字 */
+  --color-text-hero: var(--pal-text-hero);
+  --color-text-strong: var(--pal-text-strong);
+  --color-text: var(--pal-text-secondary);
+  --color-text-weak: var(--pal-text-weak);
+  --color-text-inverse: #ffffff;
+
+  /* 主色与远配：唯一两个有色 UI token */
+  --color-accent: var(--pal-accent);
+  --color-accent-strong: var(--pal-accent);
+  --color-accent-weak: var(--pal-accent);
+  --color-accent-bg: rgba(10, 107, 124, .08);
+  --color-accent-2: var(--pal-accent-2);
+  --color-focus: var(--pal-accent);
+
+  /* 涨跌：文字/描边档 = 历史蜡烛线；solid = 唯一满彩度（最新一根） */
+  --color-up: var(--pal-up);
+  --color-up-dim: var(--pal-up);
+  --color-up-bg: rgba(164, 20, 47, .10);
+  --color-down: var(--pal-down);
+  --color-down-dim: var(--pal-down);
+  --color-down-bg: rgba(29, 107, 53, .10);
+  --color-candle-up-border: var(--pal-up);
+  --color-candle-up-body: var(--pal-up);
+  --color-candle-down-border: var(--pal-down);
+  --color-candle-down-body: var(--pal-down);
+  --color-candle-up-solid: var(--pal-up-solid);
+  --color-candle-down-solid: var(--pal-down-solid);
+  --color-candle-rest-opacity: var(--pal-candle-rest-opacity);
+  --color-candle-wick-up: var(--pal-up);
+  --color-candle-wick-down: var(--pal-down);
+  --color-volume-up: var(--pal-up);
+  --color-volume-down: var(--pal-down);
+
+  /* 规则三态：一致走主色；不一致只给「超阈值/超限徽标」用远配；
+     未判定/不适用一律中性灰（不再带蓝偏） */
+  --color-rule-consistent: var(--pal-accent);
+  --color-rule-consistent-bg: rgba(10, 107, 124, .08);
+  --color-rule-consistent-border: var(--pal-accent);
+  --color-rule-inconsistent: var(--pal-accent-2);
+  --color-rule-inconsistent-bg: rgba(178, 62, 7, .10);
+  --color-rule-inconsistent-border: var(--pal-accent-2);
+  --color-rule-undetermined: var(--pal-text-weak);
+  --color-rule-undetermined-bg: #f0f0f0;
+  --color-rule-undetermined-border: #b8b8b8;
+
+  /* 交互 */
+  --color-hover-bg: var(--pal-hover);
+  --color-selected-bg: var(--pal-active);
+  --color-crosshair: #8a8a8a;
+  --color-tooltip-bg: var(--pal-bg-panel);
+  --color-tooltip-border: var(--pal-rule);
+  --color-scrollbar: #c2c2c2;
+  --color-scrollbar-hover: #a8a8a8;
+
+  /* 禁用 */
+  --color-disabled-text: #666666;
+  --color-disabled-bg: #f2f2f2;
+  --color-disabled-border: #dcdcdc;
+}

@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#070b16">
+<title>管住手了吗复盘是什么 · 产品事实页</title>
+<meta name="description" content="管住手了吗复盘产品事实页：能做什么、判定规则从哪里来、边界在哪里、数据存在哪里。判定标准是用户自己勾选的规则，不构成任何投资建议。">
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="site_shell.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://h5.xuanshuangji.com/#org",
+      "name": "管住手了吗复盘",
+      "url": "https://h5.xuanshuangji.com/",
+      "email": "contact@xuanshuangji.com",
+      "parentOrganization": {
+        "@type": "Organization",
+        "name": "上海玄霜纪智能科技有限公司",
+        "url": "https://xuanshuangji.com/"
+      }
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://h5.xuanshuangji.com/about.html#faq",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "管住手了吗复盘是什么？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "管住手了吗复盘是一个网页工具，把交割单里的成交逐笔列出来，对照你勾选的纪律规则做复盘，输出触发笔数与连续合规天数。它是交易纪律复盘工具。"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "需要上传交割单吗？截图会被保存吗？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "需要上传一张截图用于文字识别。识别完成后原图立即丢弃，姓名与账号自动打码，账本只存在你自己的浏览器里。"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "它会给我买卖建议吗？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "不会。管住手了吗复盘不预测涨跌，不给买卖建议，不构成任何投资建议；判定标准是你自己勾的规则。"
+          }
+        }
+      ]
+    }
+  ]
+}
+</script>
+</head>
+<body>
+<div class="aurora"><div class="orb a"></div><div class="orb b"></div><div class="orb c"></div></div>
+<div class="wrap">
+  <div class="doc">
+    <a class="back" href="index.html">← 返回</a>
+    <h1>管住手了吗复盘是什么</h1>
+    <p class="upd">产品事实页 · 更新 2026年11月4日</p>
+
+    <section>
+      <p>管住手了吗复盘是一个移动端的交易纪律复盘工具。你把券商导出的交割单截图传进来，它把每一笔成交识别出来，再按你自己勾选的纪律规则逐笔对照，最后给出一份纪律记分卡：这一天触发了几条、一共触发了多少笔、连续合规了几天。它不统计账户资金的变化，也不评价选股的好坏。</p>
+    </section>
+
+    <section>
+      <h2>一、它怎么判</h2>
+      <p>判定只对照你勾选的规则，没勾的不参与。当前可选规则里最常被用到的有四条：</p>
+      <ul>
+        <li><b>T01 开盘冷静期不下单</b>：开盘后一段时间内新增的买入，属于计划外动作。冷静期多长由你自己设。</li>
+        <li><b>T04 不越跌越补</b>：同一标的当天的成交价低于当天首笔成交价，就属于下跌中摊低。系统把这类成交标出来。</li>
+        <li><b>T05 单笔买入占比上限</b>：单笔买入金额占账户资金（没填资金时按当日该标的买入总额）的比例，超过你设的上限就记一笔。</li>
+        <li><b>T12 买入前必须有止损预案</b>：只统计你在存档后被问过的那几笔——登记了止损价算「已记录」，明确跳过算「未记录」；从没被问过的成交（含历史导入）不进统计，也不标不一致。</li>
+      </ul>
+      <p>具体阈值由你在规则页自己填，本页不写死的数值。规则可以随时改，改完能对同一批交易重判一次，历史计数不会被撤销。</p>
+    </section>
+
+    <section>
+      <h2>二、边界</h2>
+      <p>管住手了吗复盘只按你自己勾的规则对照。本页内容<b>不构成任何投资建议</b>。</p>
+      <ul>
+        <li>不统计账户资金的变化，不做用户排序，也不做用户之间的比较；</li>
+        <li>不接券商账户，不托管资金，也不代替你下单；</li>
+        <li>不替你决定规则。你没勾的条款，系统不会替你脑补；</li>
+        <li>不会因为你连续合规就提示你加大仓位，也不会因为触发次数多就给你打分或排序。所有记录只按发生时间排列，每条只显示你勾中了哪几条规则、命中几条。</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>三、数据怎么存</h2>
+      <ul>
+        <li>你上传的交割单截图，只用于文字识别；识别完成后原图立即丢弃，不存储、不落盘；</li>
+        <li>识别出的姓名、股东账号、资金账号自动打码丢弃，只有成交记录进入下一步；</li>
+        <li>识别结果先给你逐笔复核，你确认之后才算数；</li>
+        <li>确认后的账本与判定结果，保存在你浏览器的本地存储里；生成判定时需要联网，截图与识别出的成交记录会经我们的服务器送去做识别与判定，服务器不保存原图，也不长期保存成交记录；</li>
+        <li>你可以自己导出一份本地备份文件（JSON），存在自己的设备上；换设备时用它导入即可；</li>
+        <li>分享卡与图鉴页含本机数据，已标记 noindex，不作为对外可检索内容。</li>
+      </ul>
+      <p>完整的处理方式见 <a href="privacy.html">隐私政策</a>。</p>
+    </section>
+
+    <section>
+      <h2>四、常见问题</h2>
+
+      <h3>1. 管住手了吗复盘是什么？</h3>
+      <p>管住手了吗复盘是一个网页工具，把交割单里的成交逐笔列出来，对照你勾选的纪律规则做复盘，输出触发笔数与连续合规天数。它是交易纪律复盘工具。</p>
+
+      <h3>2. 需要上传交割单吗？截图会被保存吗？</h3>
+      <p>需要上传一张截图用于文字识别。识别完成后原图立即丢弃，姓名与账号自动打码，账本只存在你自己的浏览器里。</p>
+
+      <h3>3. 它会给我买卖建议吗？</h3>
+      <p>不会。管住手了吗复盘不预测涨跌，不给买卖建议，不构成任何投资建议；判定标准是你自己勾的规则。</p>
+
+      <h3>4. 判定标准是谁定的？</h3>
+      <p>你自己。规则页里逐条勾选，阈值自己填。系统只按勾选项对照，未勾选的不参与判定。</p>
+
+      <h3>5. 换手机或换浏览器还能看到账本吗？</h3>
+      <p>默认看不到。账本在你本机浏览器里。换设备前，先打开「备份本机数据」页导出 JSON 文件，再到新设备导入。</p>
+
+      <h3>6. 收费吗？谁提供的？</h3>
+      <p>当前版本免费使用。由上海玄霜纪智能科技有限公司提供，备案号沪ICP备2026058085号-1，联系邮箱 contact@xuanshuangji.com。</p>
+    </section>
+
+    <div class="foot"><p><a href="index.html">开始复盘</a> · <a href="migrate.html?f=migrate">备份本机数据</a> · <a href="privacy.html">隐私政策</a> · <a href="agreement.html">用户协议</a><br><a href="https://xuanshuangji.com/" target="_blank" rel="noopener">上海玄霜纪智能科技有限公司 · 官网</a><br>上海玄霜纪智能科技 · 管住手了吗复盘<br>上海玄霜纪智能科技有限公司 · 91310115MAKQDXHU15 · <a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener">沪ICP备2026058085号-1</a></p></div>
+    <footer class="pj-shell">
+      <nav class="pj-shell-nav" aria-label="七个容器">
+        <a href="discipline.html">纪律随身卡</a>
+        <a href="discipline.html#check">今日自查</a>
+        <a href="replay_readonly.html">历史回放</a>
+        <a href="records.html">我的记录</a>
+        <a href="archive.html">票档案与批注</a>
+        <a href="guide.html">规则怎么写</a>
+        <a href="price.html">会员</a>
+      </nav>
+      <p class="pj-shell-line">只记录、只统计、只复盘 · 不构成投资建议 · 不展示实时行情</p>
+    </footer>
+  </div>
+</div>
+</body>
+</html>

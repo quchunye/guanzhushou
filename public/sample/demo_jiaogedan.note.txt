@@ -1,0 +1,8 @@
+合成样本 · 非真实交易
+
+本图由 tools/fixtures/gen_ticket.py 生成（seed=20261115），用于首屏示例与测试。
+图中资金账号固定为 9999****，户名为「示例用户」，股票名为「示例甲/乙/丙……」，
+不包含任何真实账户、真实成交或真实姓名。
+
+重新生成：
+    python tools/fixtures/gen_ticket.py --out public/sample/demo_jiaogedan.jpg

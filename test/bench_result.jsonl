@@ -1,0 +1,5 @@
+{"i":1,"ms":1996,"mode":"glm","model":"deepseek:deepseek-flash","usage":{"vendor":"deepseek","model":"deepseek-flash","prompt_tokens":1362,"completion_tokens":342,"total_tokens":1704},"violations":4,"ok":true}
+{"i":2,"ms":1786,"mode":"glm","model":"deepseek:deepseek-flash","usage":{"vendor":"deepseek","model":"deepseek-flash","prompt_tokens":1362,"completion_tokens":326,"total_tokens":1688},"violations":4,"ok":true}
+{"i":3,"ms":2203,"mode":"glm","model":"deepseek:deepseek-flash","usage":{"vendor":"deepseek","model":"deepseek-flash","prompt_tokens":1362,"completion_tokens":331,"total_tokens":1693},"violations":4,"ok":true}
+{"i":4,"ms":2178,"mode":"glm","model":"deepseek:deepseek-flash","usage":{"vendor":"deepseek","model":"deepseek-flash","prompt_tokens":1362,"completion_tokens":340,"total_tokens":1702},"violations":4,"ok":true}
+{"i":5,"ms":2090,"mode":"glm","model":"deepseek:deepseek-flash","usage":{"vendor":"deepseek","model":"deepseek-flash","prompt_tokens":1362,"completion_tokens":313,"total_tokens":1675},"violations":4,"ok":true}

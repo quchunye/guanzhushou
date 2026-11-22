@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#04070e">
+<title>之前的档案 · 管住手了吗复盘</title>
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="site_shell.css">
+<style>
+  :root{--bg0:#04070e;--glass:rgba(11,24,44,.55);--brd:rgba(143,216,255,.14);--brd2:rgba(143,216,255,.28);--txt:#eaf4ff;--sub:#b7c9dd;--meta:rgba(214,233,252,.54);--acc:#8fd8ff;--serif:"Noto Serif SC","Songti SC",serif;--mono:ui-monospace,Consolas,monospace}
+  @font-face{font-family:"Noto Serif SC";src:url("fonts/noto-serif-sc-subset.woff2") format("woff2");font-weight:200 900;font-display:swap}
+  body{background:var(--bg0);color:var(--txt);font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;font-variant-numeric:tabular-nums;margin:0}
+  .cw{max-width:880px;margin:0 auto;padding:28px 20px 48px}
+  .cw-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+  .cw-top a{color:var(--sub);text-decoration:none;font-size:13px;min-height:44px;display:inline-flex;align-items:center}
+  .cw-top .mono{font:11px/1 var(--mono);letter-spacing:.18em;color:var(--meta)}
+  .cw-nav{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 24px}
+  .cw-nav a{font-size:12.5px;color:var(--sub);text-decoration:none;border:1px solid var(--brd);border-radius:100px;padding:0 12px;min-height:34px;display:inline-flex;align-items:center;line-height:1}
+  .cw-nav a:hover{color:var(--txt);border-color:var(--brd2)}
+  .cw-nav a.on{color:var(--txt);border-color:var(--brd2);background:rgba(143,216,255,.08)}
+  h1{font-family:var(--serif);font-size:34px;font-weight:600;margin:0 0 8px}
+  .lede{font-size:14px;line-height:1.75;color:var(--sub);margin:0 0 4px}
+  .hint{font-size:12px;line-height:1.7;color:var(--meta);margin:0 0 18px}
+  .case{display:block;padding:16px 18px;margin-bottom:10px;border:1px solid var(--brd);border-radius:18px;background:var(--glass);text-decoration:none;color:var(--txt)}
+  .case-h{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap}
+  .case-no{font-family:var(--mono);font-size:11px;letter-spacing:.14em;color:var(--acc)}
+  .case-t{font-size:14px;color:var(--meta);margin-left:auto}
+  .case-line{font-size:14px;line-height:1.7;color:var(--sub);margin-top:6px}
+  .case-m{font-size:12px;color:var(--meta);margin-top:4px}
+  .empty{padding:36px 18px;border:1px solid var(--brd2);border-radius:18px;color:var(--meta);font-size:13px;line-height:1.8;text-align:center}
+  .empty a{color:var(--acc)}
+  .btn{display:inline-flex;align-items:center;justify-content:center;min-height:52px;padding:0 22px;margin-top:18px;border:0;border-radius:22px;background:linear-gradient(180deg,#bfeaff,#7dd4ff 52%,#9f8cff);color:#071021;font:inherit;font-size:16px;font-weight:700;text-decoration:none}
+</style>
+</head>
+<body>
+<div class="cw">
+  <div class="cw-top"><a href="./">← 回首页</a><span class="mono">CASE ARCHIVE</span></div>
+  <nav class="cw-nav" aria-label="七个容器">
+    <a href="discipline.html">纪律随身卡</a>
+    <a href="discipline.html#check">今日自查</a>
+    <a href="replay_readonly.html">历史回放</a>
+    <a href="records.html">我的记录</a>
+    <a href="archive.html">票档案与批注</a>
+    <a href="guide.html">规则怎么写</a>
+    <a href="price.html">会员</a>
+  </nav>
+  <h1>之前的档案</h1>
+  <p class="lede">只在本机，按编号排；换设备不会带走。</p>
+  <p class="hint">这里读的是本机存档，共 <b id="n">0</b> 份。点开只读，不改判定。</p>
+  <div id="pjl-slot"></div>
+  <div id="list"></div>
+  <div id="empty" class="empty" hidden>本机还没有档案。<a href="./?demo">点这里直接看示例档案 No.000</a>（一次点击就出报告，不用先确认）；想存自己的第一份，回 <a href="./">首页</a> 点「上传交割单」，会存成 No.001。</div>
+  <div id="more"></div>
+  <footer class="pj-shell">
+    <nav class="pj-shell-nav" aria-label="七个容器">
+      <a href="discipline.html">纪律随身卡</a>
+      <a href="discipline.html#check">今日自查</a>
+      <a href="replay_readonly.html">历史回放</a>
+      <a href="records.html">我的记录</a>
+      <a href="archive.html">票档案与批注</a>
+      <a href="guide.html">规则怎么写</a>
+      <a href="price.html">会员</a>
+    </nav>
+    <p class="pj-shell-line">只记录、只统计、只复盘 · 不构成投资建议 · 不展示实时行情</p>
+    <p class="pj-shell-line">价格与解锁点：<a href="price.html">价格页</a></p>
+    <p class="pj-shell-line">管住手了吗复盘 · 玄霜纪 出品 · <a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener">沪ICP备2026058085号-1</a></p>
+  </footer>
+</div>
+<script src="compat.js"></script>
+<script src="ext.js"></script>
+<script>
+(function(){
+  function esc(s){ return String(s==null?'':s).replace(/[&<>"]/g,function(m){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m];}); }
+  var seq = 0;
+  try{ seq = Number(localStorage.getItem('guanzhu_case_seq')||0); }catch(e){}
+  var rows = [];
+  for(var i=1;i<=seq;i++){
+    var k='case_'+String(i).padStart(3,'0');
+    var raw=null;
+    try{ raw=localStorage.getItem('guanzhu_case_'+String(i).padStart(3,'0')); }catch(e){}
+    if(!raw) continue;
+    try{
+      var o=JSON.parse(raw), v=o.verdict||{}, s=v.summary||{};
+      rows.push({no:v.case_no||('No.'+String(i).padStart(3,'0')), ts:o.ts||'',
+        line:(v.one_liner||v.oneliner||s.one_liner||('越线 '+(s.violations||0)+' 笔')), v:s.violations||0, n:(o.trades||[]).length});
+    }catch(e){}
+  }
+  var list=document.getElementById('list');
+  list.innerHTML = rows.slice().reverse().map(function(r){
+    var d=r.ts?new Date(r.ts):null;
+    var t=d&&!isNaN(d)?(d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')):'';
+    return '<a class="case" href="./?case='+encodeURIComponent(r.no)+'"><div class="case-h"><span class="case-no">'+esc(r.no)+'</span><span class="case-t">'+t+'</span></div>'+
+      '<div class="case-line">'+esc(r.line)+'</div><div class="case-m">'+r.n+' 笔成交 · 越线 '+r.v+' 笔</div></a>';
+  }).join('');
+  document.getElementById('n').textContent=rows.length;
+  if(!rows.length){ document.getElementById('empty').hidden=false; }
+  document.getElementById('more').innerHTML = rows.length ? '<a class="btn" href="./">再传一张</a>' : '';
+})();
+</script>
+<script>
+(function(){
+  // B3a：闸门关（GATE_MODE=off）时这段什么也不做，与上线前完全一致
+  var slot = document.getElementById('pjl-slot');
+  if (!slot || !window.PanjiLicenseUI) return;
+  try { PanjiLicenseUI.mountNotice(slot); } catch (e) { return; }
+  PanjiLicenseUI.ready().then(function(){
+    if (!PanjiLicenseUI.gateActive()) return;
+    if (PanjiLicenseUI.canPersist()) return;
+    var em = document.getElementById('empty');
+    if (em && !em.hidden) {
+      em.innerHTML = em.innerHTML + '<br>免费档不写本机档案：报告可以看、可以分享，激活后才会按编号存下来。';
+    }
+  });
+})();
+</script>
+</body>
+</html>
