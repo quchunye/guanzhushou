@@ -146,7 +146,7 @@ docker run -p 8080:8080 panji-ocr
 
 - Issue 优先收「券商版式适配」类问题：附一张**合成或已彻底遮挡**的样本图。**不要发真实交割单**——本项目的样本约定见 `test/fixtures/`，真实截图既无法合规保存也无法入库。
 - 提交 PR 前请跑 `npm test`。
-- 提交即同意以 AGPL-3.0-or-later 授权；本项目暂不引入 CLA。
+- 提交即同意以 AGPL-3.0-or-later 分发，并授予官方在闭源商业版本中使用该贡献的再许可权，详见 [CONTRIBUTING.md](CONTRIBUTING.md)。
 
 ## 引用
 
